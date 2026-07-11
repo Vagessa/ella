@@ -352,6 +352,23 @@ content: '';
         margin-bottom: 16px;
     }
 }
+
+        /* Forces emojis inside the speech balloon to scale perfectly with the text height */
+.bubble-emoji {
+    font-family: Arial, sans-serif; /* Switches font style locally so emojis render correctly */
+    font-size: 16px;                /* Upscales them beautifully past the 11px pixel font limit */
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;        /* Keeps them vertically balanced with your text lines */
+    margin: 0 2px;                 /* Adds a tiny bit of horizontal breathing room */
+}
+
+/* Slightly smaller adjustment for mobile screen dimensions */
+@media (max-width: 740px), (max-height: 700px) {
+    .bubble-emoji {
+        font-size: 14px;
+    }
+}
     </style>
 </head>
 <body>
@@ -467,14 +484,27 @@ clickArea.addEventListener('click', (e) => {
         }
     });
 
-        function triggerNewMessage() {
+function triggerNewMessage() {
             let randomIndex = lastMessageIndex;
             while (randomIndex === lastMessageIndex) {
                 randomIndex = Math.floor(Math.random() * messages.length);
             }
             lastMessageIndex = randomIndex; 
 
-            messageBox.textContent = messages[randomIndex];
+            let rawMessage = messages[randomIndex];
+
+            /* 
+               REGULAR EXPRESSION ENGINE: 
+               Scans the selected text string for all standard, complex, 
+               and compound skin-tone/handshake emojis, then isolates them inside spans.
+            */
+            let formattedMessage = rawMessage.replace(
+                /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF])/g, 
+                '<span class="bubble-emoji">$1</span>'
+            );
+
+            // Print the newly formatted layout string safely as HTML markup
+            messageBox.innerHTML = formattedMessage;
             messageBox.classList.add('show');
 
             messageTimer = setTimeout(() => {
