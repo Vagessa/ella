@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             
-            /* Crosshatch background remains */
+            /* Core crosshatch background */
             background-color: #f0e6ef; 
             background-image: 
                 linear-gradient(to right, rgba(255, 255, 255, 0.4) 4px, transparent 4px),
@@ -24,66 +24,69 @@
             font-family: 'Press Start 2P', monospace; 
             overflow: hidden;
             user-select: none;
-            transition: opacity 0.5s ease; /* For smooth page fade transition */
         }
 
-        /* NEW: Main Frame Encasing Sprite and Bubble */
+        /* SCREEN 1: Main Sprite Window Frame Layout */
         .window-frame {
-background: #fff8fc; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px;
-    box-sizing: border-box;
-    position: relative;
-    
-    /* Retain retro pixel border */
-    border: 6px solid #1a1a1a;
-    border-radius: 4px;
-    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+            background: #fff8fc; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+            
+            border: 6px solid #1a1a1a;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
 
-    /* NEW SIZE RATIOS */
-    width: 500px;         /* Widened to create a solid rectangular look */
-    min-height: 600px;    /* Taller to support the larger elements comfortably */
-}
+            width: 500px;         /* Rectangular proportions */
+            min-height: 600px;    
+            transition: opacity 0.5s ease;
         }
 
-        /* Container sets up bounds inside the frame */
         .interactive-container {
-display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-    justify-content: flex-end;
-    
-    /* NEW SIZES */
-    width: 100%;          /* Fills the new width of the window frame */
-    height: 540px;        /* Lifted from 440px to give elements breathing room */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            justify-content: flex-end;
+            width: 100%;          
+            height: 540px;        
         }
 
         /* TRUE RETRO PIXEL ART SPEECH BUBBLE */
         .message-box {
-position: absolute;
-    bottom: 390px;        /* Pushed higher up to clear the new 360px sprite head */
-    
-    background: #ffffff;
-    /* ... keep your existing box-shadow rules exactly the same ... */
+            position: absolute;
+            bottom: 390px;        /* Clears the upscaled 360px sprite head */
+            
+            background: #ffffff;
+            box-shadow: 
+                0 -4px 0 -4px #1a1a1a, 0 4px 0 -4px #1a1a1a,
+                0 -8px 0 -4px #ffffff, 0 8px 0 -4px #ffffff,
+                -4px 0 0 -4px #1a1a1a, 4px 0 0 -4px #1a1a1a,
+                -8px 0 0 -4px #ffffff, 8px 0 0 -4px #ffffff,
+                4px 4px 0 0 #1a1a1a, 4px -4px 0 0 #1a1a1a,
+                -4px 4px 0 0 #1a1a1a, -4px -4px 0 0 #1a1a1a,
+                8px 0 0 0 #1a1a1a, -8px 0 0 0 #1a1a1a,
+                0 8px 0 0 #1a1a1a, 0 -8px 0 0 #1a1a1a,
+                8px 8px 0 0 rgba(0,0,0,0.1);
 
-    padding: 20px;        /* Slightly roomier padding for text */
-    width: 360px;         /* Matches the exact 360px width of your sprite */
-    min-height: 60px;     
-    box-sizing: border-box;
-    text-align: center;
-    color: #1a1a1a;
-    font-size: 11px;
-    line-height: 1.6;
-    
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.2s steps(4), transform 0.2s steps(4);
-    pointer-events: none;
-    z-index: 999;
+            padding: 20px;
+            width: 360px;         /* Matches sprite width */
+            min-height: 60px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #1a1a1a;
+            font-size: 11px;
+            line-height: 1.6;
+            
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s steps(4), transform 0.2s steps(4);
+            pointer-events: none;
+            z-index: 999;
         }
 
         /* Pixel Art Tail Pointer */
@@ -110,36 +113,36 @@ position: absolute;
 
         /* DYNAMIC GROUND SHADOW */
         .sprite-shadow {
-position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 180px;         /* Widened from 120px to match the scale */
-    height: 20px;
-    background-color: rgba(0, 0, 0, 0.12); 
-    border-radius: 50%;
-    animation: shadowPulse 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-    z-index: 1;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;         /* Proportional to 360px width */
+            height: 20px;
+            background-color: rgba(0, 0, 0, 0.12); 
+            border-radius: 50%;
+            animation: shadowPulse 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            z-index: 1;
         }
 
         /* MAIN SPRITE */
         .pixel-art {
-width: 360px !important;  /* Scaled up to your requested size */
-    height: auto !important;
-    display: block;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    will-change: transform;
-    animation: naturalBobbing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-    position: relative;
-    z-index: 2; 
-    margin-bottom: 8px;
+            width: 360px !important;  /* Upscaled sprite size */
+            height: auto !important;
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            will-change: transform;
+            animation: naturalBobbing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            position: relative;
+            z-index: 2; 
+            margin-bottom: 8px; 
         }
 
-        /* NEW: FOR ELLA RETRO BUTTON STYLING */
+        /* FOR ELLA PIXEL BUTTON */
         .ella-btn {
             margin-top: 30px;
-            background-color: #ffb3c6; /* Pastel pink button color */
+            background-color: #ffb3c6; 
             color: #1a1a1a;
             font-family: 'Press Start 2P', monospace;
             font-size: 12px;
@@ -148,7 +151,6 @@ width: 360px !important;  /* Scaled up to your requested size */
             text-decoration: none;
             display: inline-block;
             
-            /* Clean pixel art border style mapping */
             border: none;
             box-shadow: 
                 0 -4px 0 0 #1a1a1a, 0 4px 0 0 #1a1a1a,
@@ -159,13 +161,51 @@ width: 360px !important;  /* Scaled up to your requested size */
         }
 
         .ella-btn:hover {
-            background-color: #ffc2d1; /* Slight hover highlight tint */
+            background-color: #ffc2d1; 
         }
 
-        /* Mechanical visual press state */
         .ella-btn:active {
             transform: translate(2px, 2px);
             box-shadow: 0 0 0 0 transparent;
+        }
+
+        /* SCREEN 2: Seamless Letter Card Frame Layout */
+        .letter-card {
+            background: white;
+            border: 6px solid #1a1a1a;
+            border-radius: 4px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-sizing: border-box;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+            color: #1a1a1a;
+            transition: opacity 0.5s ease;
+        }
+
+        .letter-card h1 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: #ff7aa2; 
+            text-align: center;
+        }
+
+        .letter-card p {
+            font-size: 11px;
+            line-height: 2;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 10px;
+            color: #8a7b8c;
+            text-decoration: underline;
+            cursor: pointer;
         }
 
         /* Floating Particles */
@@ -178,7 +218,7 @@ width: 360px !important;  /* Scaled up to your requested size */
             animation: floatUp 2s ease-out forwards;
         }
 
-        /* Animation Keyframes loops */
+        /* Keyframes loops */
         @keyframes naturalBobbing {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-16px); }
@@ -198,19 +238,27 @@ width: 360px !important;  /* Scaled up to your requested size */
 </head>
 <body>
 
-    <!-- NEW: Main framing box around your elements -->
-    <div class="window-frame">
+    <!-- SCREEN 1: Main Sprite Frame -->
+    <div class="window-frame" id="spriteFrame">
         <div class="interactive-container" id="clickArea">
             <div class="message-box" id="messageBox"></div>
             <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
             <div class="sprite-shadow"></div>
         </div>
-
-        <!-- NEW: "For Ella" Button Component -->
         <button class="ella-btn" id="ellaButton">FOR ELLA</button>
     </div>
 
-    <!-- Hidden audio asset tags -->
+    <!-- SCREEN 2: Hidden Letter Card Frame (Fades in dynamically) -->
+    <div class="letter-card" id="letterCard" style="display: none; opacity: 0;">
+        <h1>DEAR ELLA,</h1>
+        
+        <p>WRITE YOUR BEAUTIFUL CUSTOM LETTER TEXT PARAGRAPHS RIGHT HERE...</p>
+        <p>YOU CAN ADD AS MANY EXTRA PARAGRAPH TAGS AS YOU WANT, AND THE CONTAINER BOX WILL SCALE TO FIT THEM ALL COMFORTABLY.</p>
+        
+        <span class="back-btn" id="backButton">GO BACK</span>
+    </div>
+
+    <!-- Audio pipelines -->
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
     <audio id="bgMusic" src="background-music.mp3" preload="auto" loop></audio>
     <audio id="transitionSound" src="transition.mp3" preload="auto"></audio>
@@ -235,16 +283,19 @@ width: 360px !important;  /* Scaled up to your requested size */
         const ellaButton = document.getElementById('ellaButton');
         const transitionSound = document.getElementById('transitionSound');
         
+        const spriteFrame = document.getElementById('spriteFrame');
+        const letterCard = document.getElementById('letterCard');
+        const backButton = document.getElementById('backButton');
+        
         let messageTimer = null;
         let lastMessageIndex = -1; 
         let musicStarted = false;
 
-        // Modern browsers block background music until a user clicks *anything* on the page.
-        // Clicking the main sprite or the button will instantly unlock and start the loop music.
+        // Unlocks background audio loop context on first interaction
         function startMusic() {
             if (!musicStarted) {
-                bgMusic.volume = 0.3; // Set loop track slightly lower so it doesn't overpower sounds
-                bgMusic.play().catch(err => console.log("Music setup pending interaction"));
+                bgMusic.volume = 0.3; 
+                bgMusic.play().catch(err => console.log("Audio pipeline initialized"));
                 musicStarted = true;
             }
         }
@@ -288,7 +339,6 @@ width: 360px !important;  /* Scaled up to your requested size */
             const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
             particle.textContent = choice;
 
-            // Compute relative positioning if within frame windows
             particle.style.left = `${clickX - 16}px`;
             particle.style.top = `${clickY - 16}px`;
 
@@ -304,21 +354,40 @@ width: 360px !important;  /* Scaled up to your requested size */
             particle.addEventListener('animationend', () => { particle.remove(); });
         }
 
-        // NEW: Transition routing logic for "For Ella" link execution
+        // METHOD A: Crossfading view states so music never stops
         ellaButton.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents triggering normal sprite pop-ups
+            e.stopPropagation(); 
             startMusic();
             
-            // Play the unique transition sequence audio snippet
+            transitionSound.currentTime = 0;
             transitionSound.play().catch(err => {});
             
-            // Fade out page body smoothly
-            document.body.style.opacity = '0';
+            // Fade out the main sprite window frame
+            spriteFrame.style.opacity = '0';
             
-            // Delay navigation slightly so the player hears the sound and sees the fade out
             setTimeout(() => {
-                window.location.href = 'letter.html';
-            }, 600);
+                spriteFrame.style.display = 'none'; 
+                letterCard.style.display = 'block'; 
+                
+                // Smoothly fade in the letter card structure
+                setTimeout(() => {
+                    letterCard.style.opacity = '1';
+                }, 50);
+            }, 500);
+        });
+
+        // Handle going back to the main room screen
+        backButton.addEventListener('click', () => {
+            letterCard.style.opacity = '0';
+            
+            setTimeout(() => {
+                letterCard.style.display = 'none';
+                spriteFrame.style.display = 'flex';
+                
+                setTimeout(() => {
+                    spriteFrame.style.opacity = '1';
+                }, 50);
+            }, 500);
         });
     </script>
 </body>
