@@ -610,19 +610,19 @@
     100% { transform: translateY(0) scale(1) rotate(0deg); }
 }
 
-        /* --- RARE FLIP ANIMATION ENGINE --- */
+/* --- SOFT RARE FLIP ANIMATION ENGINE --- */
         .rare-backflip {
-            /* Uses your exact signature steps configuration to keep the retro 8-bit vibe! */
-            animation: retroFlip 0.6s steps(6) forwards;
+            /* Keeps your clean retro step count but stretches it for a smoother, relaxed roll */
+            animation: retroFlip 0.7s steps(8) forwards;
         }
 
         @keyframes retroFlip {
             0% {
                 transform: scale(1) rotate(0deg);
             }
-            50% {
-                /* Pulls upward slightly at the peak of the jump flight path */
-                transform: scale(1.15) translateY(-30px) rotate(180deg);
+            40% {
+                /* Reduced jump height from -30px down to a gentle -12px peak bounce */
+                transform: scale(1.05) translateY(-12px) rotate(140deg);
             }
             100% {
                 transform: scale(1) translateY(0) rotate(360deg);
@@ -750,15 +750,15 @@
             mainSprite.classList.remove('squishing', 'rare-backflip'); 
             void mainSprite.offsetWidth; // Force layout reflow
 
-            // ROLL THE DICE: 5% chance to do a rare backflip (0.05)
-            if (Math.random() < 0.05) {
+// ROLL THE DICE: 2% chance to do a rare backflip (0.02)
+            if (Math.random() < 0.02) {
                 mainSprite.classList.add('rare-backflip');
                 
                 mainSprite.addEventListener('animationend', () => {
                     mainSprite.classList.remove('rare-backflip');
                 }, { once: true });
             } else {
-                // Default 95% chance: Standard Squish Feedback Animation
+                // Default 98% chance: Standard Squish Feedback Animation
                 mainSprite.classList.add('squishing');
 
                 mainSprite.addEventListener('animationend', () => {
