@@ -6,137 +6,189 @@
     <title>Comfort Corner</title>
     <!-- Import authentic retro pixel art font -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0e6ef;
-            /* Apply pixel font globally */
-            font-family: 'Press Start 2P', monospace; 
-            overflow: hidden;
-            user-select: none;
-        }
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        /* RETRO CROSSHATCH BACKGROUND PATTERN */
+        background-color: #f0e6ef; /* Pastel base */
+        background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.4) 4px, transparent 4px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 4px, transparent 4px);
+        background-size: 64px 64px; /* Controls the size of the crosshatch grid squares */
+        
+        font-family: 'Press Start 2P', monospace; 
+        overflow: hidden;
+        user-select: none;
+    }
 
-        /* Flex column layout naturally pushes the bubble ABOVE the sprite 
-           without relying on absolute coordinates that clip headers */
-        .interactive-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-        }
+    /* Container handles the stack alignment */
+    .interactive-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        height: 420px;
+        justify-content: flex-end;
+    }
 
-        /* TRUE RETRO PIXEL ART SPEECH BUBBLE (Stair-stepped styling) */
-        .message-box {
-            position: relative;
-            background: #ffffff;
-            
-            /* Multi-layered box-shadow generates a clean blocky 4px pixel outline 
-               instead of smooth anti-aliased browser vectors */
-            box-shadow: 
-                0 -4px 0 -4px #1a1a1a,
-                0 4px 0 -4px #1a1a1a,
-                0 -8px 0 -4px #ffffff,
-                0 8px 0 -4px #ffffff,
-                -4px 0 0 -4px #1a1a1a,
-                4px 0 0 -4px #1a1a1a,
-                -8px 0 0 -4px #ffffff,
-                8px 0 0 -4px #ffffff,
-                4px 4px 0 0 #1a1a1a,
-                4px -4px 0 0 #1a1a1a,
-                -4px 4px 0 0 #1a1a1a,
-                -4px -4px 0 0 #1a1a1a,
-                8px 0 0 0 #1a1a1a,
-                -8px 0 0 0 #1a1a1a,
-                0 8px 0 0 #1a1a1a,
-                0 -8px 0 0 #1a1a1a,
-                8px 8px 0 0 rgba(0,0,0,0.15); /* Retro block shadow */
+    /* TRUE RETRO PIXEL ART SPEECH BUBBLE */
+    .message-box {
+        position: absolute;
+        bottom: 290px; /* Tweak this if it clips into your specific sprite head */
+        
+        background: #ffffff;
+        box-shadow: 
+            0 -4px 0 -4px #1a1a1a,
+            0 4px 0 -4px #1a1a1a,
+            0 -8px 0 -4px #ffffff,
+            0 8px 0 -4px #ffffff,
+            -4px 0 0 -4px #1a1a1a,
+            4px 0 0 -4px #1a1a1a,
+            -8px 0 0 -4px #ffffff,
+            8px 0 0 -4px #ffffff,
+            4px 4px 0 0 #1a1a1a,
+            4px -4px 0 0 #1a1a1a,
+            -4px 4px 0 0 #1a1a1a,
+            -4px -4px 0 0 #1a1a1a,
+            8px 0 0 0 #1a1a1a,
+            -8px 0 0 0 #1a1a1a,
+            0 8px 0 0 #1a1a1a,
+            0 -8px 0 0 #1a1a1a,
+            8px 8px 0 0 rgba(0,0,0,0.15);
 
-            padding: 16px;
-            width: 280px;
-            min-height: 50px;
-            box-sizing: border-box;
-            text-align: center;
-            color: #1a1a1a;
-            font-size: 11px; /* Small size fits the crisp retro typography best */
-            line-height: 1.6;
-            
-            /* Safe gap between text box bottom and sprite head top */
-            margin-bottom: 40px; 
-            
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.2s steps(4), transform 0.2s steps(4);
-            pointer-events: none;
-        }
+        padding: 16px;
+        width: 280px;
+        min-height: 50px;
+        box-sizing: border-box;
+        text-align: center;
+        color: #1a1a1a;
+        font-size: 11px;
+        line-height: 1.6;
+        
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.2s steps(4), transform 0.2s steps(4);
+        pointer-events: none;
+        z-index: 999;
+    }
 
-        /* Pixel Art Tail Pointer (Stair-stepped block boxes) */
-        .message-box::after {
-            content: '';
-            position: absolute;
-            bottom: -16px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 8px;
-            background: white;
-            box-shadow: 
-                -4px 0 0 0 #1a1a1a, 
-                4px 0 0 0 #1a1a1a,
-                0 4px 0 0 #1a1a1a,
-                -4px 4px 0 -4px #1a1a1a,
-                4px 4px 0 -4px #1a1a1a,
-                -4px 8px 0 -4px #1a1a1a,
-                0 8px 0 -4px #1a1a1a;
-        }
+    /* Pixel Art Tail Pointer */
+    .message-box::after {
+        content: '';
+        position: absolute;
+        bottom: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 8px;
+        background: white;
+        box-shadow: 
+            -4px 0 0 0 #1a1a1a, 
+            4px 0 0 0 #1a1a1a,
+            0 4px 0 0 #1a1a1a,
+            -4px 4px 0 -4px #1a1a1a,
+            4px 4px 0 -4px #1a1a1a,
+            -4px 8px 0 -4px #1a1a1a,
+            0 8px 0 -4px #1a1a1a;
+    }
 
-        .message-box.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .message-box.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-        /* FORCE UPSCALED SPRITE */
-        .pixel-art {
-            width: 256px !important;
-            height: auto !important;
-            display: block;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-            
-            /* Rigorous up-and-down bobbing loop without compression deforms */
-            animation: naturalBobbing 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        }
+    /* PIXEL DROP SHADOW UNDERNEATH */
+    .sprite-shadow {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        /* Adjust width to roughly match the width of your sprite baseline */
+        width: 120px; 
+        height: 16px;
+        
+        /* Dark transparent tint */
+        background-color: rgba(0, 0, 0, 0.12); 
+        border-radius: 50%;
+        
+        /* Synchronized inversely with the character's bobbing loop */
+        animation: shadowPulse 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        z-index: 1;
+    }
 
-        /* Floating Particles */
-        .floating-particle {
-            position: absolute;
-            pointer-events: none;
-            font-family: Arial, sans-serif; /* Fallback to keep emojis uniform */
-            font-size: 32px;
-            z-index: 1000;
-            animation: floatUp 2s ease-out forwards;
-        }
+    /* FORCED UPSCALED SPRITE */
+    .pixel-art {
+        width: 256px !important;
+        height: auto !important;
+        display: block;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+        will-change: transform;
+        
+        animation: naturalBobbing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        position: relative;
+        z-index: 2; /* Sits cleanly directly over the ground shadow layer */
+        
+        /* Pushes the baseline up slightly so the ground shadow has a place to exist */
+        margin-bottom: 8px; 
+    }
 
-        /* Rigid Up-And-Down Physics Translation Loop */
-        @keyframes naturalBobbing {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-16px); } /* Safe clearance ceiling */
-        }
+    /* Floating Particles */
+    .floating-particle {
+        position: absolute;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 32px;
+        z-index: 1000;
+        animation: floatUp 2s ease-out forwards;
+    }
 
-        @keyframes floatUp {
-            0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
-            15% { opacity: 1; }
-            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.1) rotate(var(--r)); }
+    /* Synced Animation Timings */
+    @keyframes naturalBobbing {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-16px); }
+    }
+
+    @keyframes shadowPulse {
+        /* When character is on the ground, shadow is at its darkest and widest */
+        0%, 100% { 
+            transform: translateX(-50%) scale(1);
+            background-color: rgba(0, 0, 0, 0.15);
         }
-    </style>
+        /* When character floats up, shadow shrinks and diffuses lighter */
+        50% { 
+            transform: translateX(-50%) scale(0.75);
+            background-color: rgba(0, 0, 0, 0.06);
+        }
+    }
+
+    @keyframes floatUp {
+        0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+        15% { opacity: 1; }
+        100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.1) rotate(var(--r)); }
+    }
+</style>
 </head>
 <body>
 
+    <div class="interactive-container" id="clickArea">
+    <!-- Pixel Speech Bubble -->
+    <div class="message-box" id="messageBox"></div>
+    
+    <!-- Main Character Sprite -->
+    <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
+
+    <!-- NEW: The Dynamic Ground Shadow -->
+    <div class="sprite-shadow"></div>
+</div>
     <div class="interactive-container" id="clickArea">
         <!-- Pixel Speech Bubble -->
         <div class="message-box" id="messageBox"></div>
