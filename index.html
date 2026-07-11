@@ -659,6 +659,7 @@
         const bgMusic = document.getElementById('bgMusic');
         const ellaButton = document.getElementById('ellaButton');
         const transitionSound = document.getElementById('transitionSound');
+        const holdSound = document.getElementById('holdSound');
         const mainSprite = document.getElementById('mainSprite');
         
         const spriteFrame = document.getElementById('spriteFrame');
@@ -683,7 +684,9 @@
 
         // 2. MAIN CLICK AND TAP INTERACTIONS
         clickArea.addEventListener('click', (e) => {
+            // Prevent regular click popup if we are currently performing or processing a long-press
             if (isHolding) return; 
+            
             startMusic();
             clickSound.currentTime = 0; 
             clickSound.play().catch(err => {});
@@ -712,21 +715,38 @@
 
         // 3. SECRETS ENGINE: HOLD TRACKER GESTURES
         function startHold(e) {
-            if (e.type === 'touchstart') e.preventDefault();
-            
+            if (isHolding) return;
             isHolding = true;
             mainSprite.classList.add('charging-shake');
 
+            // Play custom charging loop audio
+            if (holdSound) {
+                holdSound.currentTime = 0;
+                holdSound.volume = 0.4;
+                holdSound.play().catch(err => {});
+            }
+
             holdTimer = setTimeout(() => {
                 triggerHeartExplosion();
-                cancelHold(); 
+                // We keep isHolding true briefly during the explosion to stop instant normal clicks
+                setTimeout(() => { isHolding = false; }, 300); 
+                cancelHoldEngine();
             }, 2000);
         }
 
         function cancelHold() {
+            if (!isHolding) return;
             isHolding = false;
+            cancelHoldEngine();
+        }
+
+        function cancelHoldEngine() {
             if (holdTimer) clearTimeout(holdTimer);
             if (mainSprite) mainSprite.classList.remove('charging-shake');
+            if (holdSound) {
+                holdSound.pause();
+                holdSound.currentTime = 0;
+            }
         }
 
         function triggerHeartExplosion() {
@@ -829,12 +849,36 @@
             particle.addEventListener('animationend', () => { particle.remove(); });
         }
 
-        // 5. WINDOW GESTURE LISTENERS
+        // 5. EVENT GESTURE TRACKING (Cleaned & Scoped)
         clickArea.addEventListener('mousedown', startHold);
-        clickArea.addEventListener('touchstart', startHold, { passive: false });
-        window.addEventListener('mouseup', cancelHold);
-        window.addEventListener('touchend', cancelHold);
+        clickArea.addEventListener('touchstart', startHold);
+        
+        clickArea.addEventListener('mouseup', cancelHold);
+        clickArea.addEventListener('touchend', cancelHold);
         clickArea.addEventListener('mouseleave', cancelHold);
+
+        // 6. PHOTO MODAL FUNCTIONS
+        function openPhotoModal(event) {
+            event.stopPropagation(); 
+            const modal = document.getElementById('photo-modal');
+            const sound = document.getElementById('photoSound');
+            
+            if (sound) {
+                sound.currentTime = 0;
+                sound.volume = 0.5;
+                sound.play().catch(err => console.log("Sound error handled"));
+            }
+            if (modal) {
+                modal.classList.add('modal-show');
+            }
+        }
+
+        function closePhotoModal() {
+            const modal = document.getElementById('photo-modal');
+            if (modal) {
+                modal.classList.remove('modal-show');
+            }
+        }
 
         // Crossfading view states so music never stops
         ellaButton.addEventListener('click', (e) => {
