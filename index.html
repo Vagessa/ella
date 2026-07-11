@@ -621,6 +621,7 @@
     <audio id="bgMusic" src="background-music.mp3" preload="auto" loop></audio>
     <audio id="transitionSound" src="transition.mp3" preload="auto"></audio>
     <audio id="photoSound" src="sfx.mp3" preload="auto"></audio>
+    <audio id="holdSound" src="hold-loop.mp3" loop preload="auto"></audio>
 
 <script>
         // 1. GLOBAL STATE & CONFIGURATION
@@ -713,22 +714,28 @@
             }
         });
 
-        // 3. SECRETS ENGINE: HOLD TRACKER GESTURES
+// 3. SECRETS ENGINE: HOLD TRACKER GESTURES WITH INITIAL DELAY
+        let animationDelayTimer = null; // Tracks the half-second delay before shaking starts
+
         function startHold(e) {
             if (isHolding) return;
             isHolding = true;
-            mainSprite.classList.add('charging-shake');
 
-            // Play custom charging loop audio
-            if (holdSound) {
-                holdSound.currentTime = 0;
-                holdSound.volume = 0.4;
-                holdSound.play().catch(err => {});
-            }
+            // 1. Wait 500ms before starting the visual/audio effects
+            animationDelayTimer = setTimeout(() => {
+                if (mainSprite) mainSprite.classList.add('charging-shake');
+                
+                // Play custom charging loop audio
+                if (holdSound) {
+                    holdSound.currentTime = 0;
+                    holdSound.volume = 0.4;
+                    holdSound.play().catch(err => {});
+                }
+            }, 500); // 500ms delay. You can increase this to 1000 (1 second) if you want it even more hidden!
 
+            // 2. Keep the full 2-second timer running for the final explosion
             holdTimer = setTimeout(() => {
                 triggerHeartExplosion();
-                // We keep isHolding true briefly during the explosion to stop instant normal clicks
                 setTimeout(() => { isHolding = false; }, 300); 
                 cancelHoldEngine();
             }, 2000);
@@ -742,6 +749,8 @@
 
         function cancelHoldEngine() {
             if (holdTimer) clearTimeout(holdTimer);
+            if (animationDelayTimer) clearTimeout(animationDelayTimer); // Clear the delay clock
+            
             if (mainSprite) mainSprite.classList.remove('charging-shake');
             if (holdSound) {
                 holdSound.pause();
