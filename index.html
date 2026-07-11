@@ -495,9 +495,9 @@
     <audio id="bgMusic" src="background-music.mp3" preload="auto" loop></audio>
     <audio id="transitionSound" src="transition.mp3" preload="auto"></audio>
 
-    <script>
+<script>
         const messages = [
-"YOU ARE LOVED 💖",
+            "YOU ARE LOVED 💖",
             "YOU ARE CARED FOR 🫂",
             "SENDING LOTS OF HUGS!! 🫂",
             "I'M THINKING OF YOU RIGHT NOW!!!",
@@ -537,6 +537,7 @@
         
         let messageTimer = null;
         let musicStarted = false;
+        let messageDeck = [];
 
         // Unlocks background audio loop context on first interaction
         function startMusic() {
@@ -547,45 +548,42 @@
             }
         }
 
-clickArea.addEventListener('click', (e) => {
-        startMusic();
-        clickSound.currentTime = 0; 
-        clickSound.play().catch(err => {});
+        clickArea.addEventListener('click', (e) => {
+            startMusic();
+            clickSound.currentTime = 0; 
+            clickSound.play().catch(err => {});
 
-        // NEW: Squish Feedback Animation
-        const mainSprite = document.getElementById('mainSprite');
-        
-        // Remove the class first just in case it's already there from a rapid double-click
-        mainSprite.classList.remove('squishing'); 
-        
-        // Force a quick browser reflow to reset the animation timeline safely
-        void mainSprite.offsetWidth; 
-        
-        // Apply the squish effect
-        mainSprite.classList.add('squishing');
+            // Squish Feedback Animation
+            const mainSprite = document.getElementById('mainSprite');
+            
+            // Remove the class first just in case it's already there from a rapid double-click
+            mainSprite.classList.remove('squishing'); 
+            
+            // Force a quick browser reflow to reset the animation timeline safely
+            void mainSprite.offsetWidth; 
+            
+            // Apply the squish effect
+            mainSprite.classList.add('squishing');
 
-        // Clean up the class when done so the natural bobbing animation can resume smoothly
-        mainSprite.addEventListener('animationend', () => {
-            mainSprite.classList.remove('squishing');
-        }, { once: true }); // { once: true } auto-destroys this listener so memory stays perfectly clean
+            // Clean up the class when done so the natural bobbing animation can resume smoothly
+            mainSprite.addEventListener('animationend', () => {
+                mainSprite.classList.remove('squishing');
+            }, { once: true });
 
-        // --- Your existing message pop-up and particle logic continues exactly the same below ---
-        if (messageBox.classList.contains('show')) {
-            messageBox.classList.remove('show');
-            clearTimeout(messageTimer);
-            setTimeout(() => { triggerNewMessage(); }, 150);
-        } else {
-            triggerNewMessage();
-        }
+            if (messageBox.classList.contains('show')) {
+                messageBox.classList.remove('show');
+                clearTimeout(messageTimer);
+                setTimeout(() => { triggerNewMessage(); }, 150);
+            } else {
+                triggerNewMessage();
+            }
 
-        for (let i = 0; i < 3; i++) {
-            createParticle(e.clientX, e.clientY);
-        }
-    });
+            for (let i = 0; i < 3; i++) {
+                createParticle(e.clientX, e.clientY);
+            }
+        });
 
-        let messageDeck = [];
-
-        // 3. THE NEW SHUFFLE TOOLS SIT DIRECTLY UNDER IT
+        // Helper function that shuffles a deck using the Fisher-Yates algorithm
         function shuffleDeck() {
             let indices = Array.from({ length: messages.length }, (v, i) => i);
             for (let i = indices.length - 1; i > 0; i--) {
@@ -595,8 +593,7 @@ clickArea.addEventListener('click', (e) => {
             return indices;
         }
 
-        
-function triggerNewMessage() {
+        function triggerNewMessage() {
             // If the deck is completely empty, shuffle up a brand new sequence
             if (messageDeck.length === 0) {
                 messageDeck = shuffleDeck();
@@ -619,23 +616,6 @@ function triggerNewMessage() {
             }, 4000);
         }
 
-            let rawMessage = messages[randomIndex];
-
-            let formattedMessage = rawMessage.replace(
-                /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF])/g, 
-                '<span class="bubble-emoji">$1</span>'
-            );
-
-            messageBox.innerHTML = formattedMessage;
-            messageBox.classList.add('show');
-
-            if (messageTimer) clearTimeout(messageTimer);
-            messageTimer = setTimeout(() => {
-                messageBox.classList.remove('show');
-            }, 4000);
-        }
-        // ==========================================
-
         function createParticle(clickX, clickY) {
             const particle = document.createElement('div');
             particle.classList.add('floating-particle');
@@ -657,14 +637,12 @@ function triggerNewMessage() {
             particle.addEventListener('animationend', () => { particle.remove(); });
         }
 
-        // METHOD A: Crossfading view states so music never stops
+        // Crossfading view states so music never stops
         ellaButton.addEventListener('click', (e) => {
             e.stopPropagation(); 
             startMusic();
 
-            // ADJUST LOUDNESS HERE (0.0 = muted, 1.0 = full blast)
-    transitionSound.volume = 0.4; // Sets it to 40% volume. Adjust this number as needed!
-            
+            transitionSound.volume = 0.4; // Sets it to 40% volume.
             transitionSound.currentTime = 0;
             transitionSound.play().catch(err => {});
             
