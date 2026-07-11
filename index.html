@@ -78,6 +78,27 @@
     box-sizing: border-box;
 }
 
+        /* Forces the header text and emoji into a perfectly centered horizontal track */
+.splash-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Adds clean horizontal breathing space between Ella! and the heart */
+    font-size: 16px;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    line-height: 1;
+}
+
+/* Micro alignment tuning dedicated specifically for large headers */
+.splash-title-emoji {
+    font-family: Arial, sans-serif;
+    font-size: 18px; /* Slightly scaled up to match the bold presence of the pixel font */
+    line-height: 1;
+    transform: translateY(-1px); /* Delicate upward push to lock it to the eye level */
+    display: inline-block;
+}
+
 /* Hidden state animation modifier */
 #welcome-splash.fade-out {
     opacity: 0;
@@ -460,7 +481,7 @@
     }
 }
 
-        /* --- LETTER CARD IMAGE MODAL --- */
+/* --- LETTER CARD IMAGE MODAL BUTTON --- */
 #view-photo-btn {
     background: #1a1a1a;
     color: white;
@@ -470,8 +491,10 @@
     font-size: 10px;
     cursor: pointer;
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
-    margin-top: 15px;
-    display: inline-block;
+    
+    /* THE CENTERING ENGINE: */
+    display: block;       /* Forces the button onto its own dedicated row */
+    margin: 20px auto 0;  /* "auto" on the left and right dynamically pushes it to the perfect center */
 }
 
 #view-photo-btn:active {
@@ -530,7 +553,10 @@
 <body>
 <div id="welcome-splash">
     <div class="splash-card">
-<h1>HI ELLA! <span class="bubble-emoji">💖</span></h1>
+<h1 class="splash-title">
+            <span>HI ELLA!</span>
+            <span class="splash-title-emoji">💖</span>
+        </h1>
         <p>THIS LITTLE GIFT WAS MADE SPECIFICALLY FOR YOU!</p>
         <p class="byline">FROM VANESSA :)</p>
         <button id="enter-button" onclick="dismissSplash()">CLICK CAPRIELLE!</button>
