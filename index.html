@@ -114,27 +114,28 @@
         }
 
         /* Organic Physics-Based Bobbing Loop */
-        @keyframes naturalBobbing {
-            0%, 100% { 
-                transform: translateY(0) scaleX(1) scaleY(1); 
-            }
-            /* Upward momentum: Stretches slightly vertically */
-            25% { 
-                transform: translateY(-8px) scaleX(0.97) scaleY(1.03); 
-            }
-            /* Peak height: Gravity slows it to a brief floating pause */
-            50% { 
-                transform: translateY(-16px) scaleX(1) scaleY(1); 
-            }
-            /* Falling down: Stretches out slightly again */
-            75% { 
-                transform: translateY(-6px) scaleX(0.98) scaleY(1.02); 
-            }
-            /* Sinking into baseline: Squashes flat outward on settlement */
-            90% { 
-                transform: translateY(2px) scaleX(1.04) scaleY(0.96); 
-            }
-        }
+/* Organic Bobbing Loop (Pure movement, no squashing) */
+@keyframes naturalBobbing {
+    0%, 100% { 
+        transform: translateY(0); 
+    }
+    /* Rising up smoothly */
+    25% { 
+        transform: translateY(-6px); 
+    }
+    /* Peak height: floating pause at the top */
+    50% { 
+        transform: translateY(-16px); 
+    }
+    /* Descending fluidly */
+    75% { 
+        transform: translateY(-10px); 
+    }
+    /* Settling gently near the baseline before starting over */
+    90% { 
+        transform: translateY(-2px); 
+    }
+}
 
         /* Particle Float Vector Engine */
         @keyframes floatUp {
