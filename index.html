@@ -238,6 +238,27 @@
             15% { opacity: 1; }
             100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.1) rotate(var(--r)); }
         }
+
+        .pixel-art.squishing {
+    animation: clickSquish 0.25s ease-out;
+}
+
+@keyframes clickSquish {
+    0% {
+        transform: scale(1, 1);
+    }
+    30% {
+        /* Squashes down vertically, stretches slightly horizontally */
+        transform: scale(1.08, 0.92); 
+    }
+    60% {
+        /* Bounces slightly higher than normal on recovery */
+        transform: scale(0.96, 1.04);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
     </style>
 </head>
 <body>
@@ -304,23 +325,41 @@
             }
         }
 
-        clickArea.addEventListener('click', (e) => {
-            startMusic();
-            clickSound.currentTime = 0; 
-            clickSound.play().catch(err => {});
+clickArea.addEventListener('click', (e) => {
+        startMusic();
+        clickSound.currentTime = 0; 
+        clickSound.play().catch(err => {});
 
-            if (messageBox.classList.contains('show')) {
-                messageBox.classList.remove('show');
-                clearTimeout(messageTimer);
-                setTimeout(() => { triggerNewMessage(); }, 150);
-            } else {
-                triggerNewMessage();
-            }
+        // NEW: Squish Feedback Animation
+        const mainSprite = document.getElementById('mainSprite');
+        
+        // Remove the class first just in case it's already there from a rapid double-click
+        mainSprite.classList.remove('squishing'); 
+        
+        // Force a quick browser reflow to reset the animation timeline safely
+        void mainSprite.offsetWidth; 
+        
+        // Apply the squish effect
+        mainSprite.classList.add('squishing');
 
-            for (let i = 0; i < 3; i++) {
-                createParticle(e.clientX, e.clientY);
-            }
-        });
+        // Clean up the class when done so the natural bobbing animation can resume smoothly
+        mainSprite.addEventListener('animationend', () => {
+            mainSprite.classList.remove('squishing');
+        }, { once: true }); // { once: true } auto-destroys this listener so memory stays perfectly clean
+
+        // --- Your existing message pop-up and particle logic continues exactly the same below ---
+        if (messageBox.classList.contains('show')) {
+            messageBox.classList.remove('show');
+            clearTimeout(messageTimer);
+            setTimeout(() => { triggerNewMessage(); }, 150);
+        } else {
+            triggerNewMessage();
+        }
+
+        for (let i = 0; i < 3; i++) {
+            createParticle(e.clientX, e.clientY);
+        }
+    });
 
         function triggerNewMessage() {
             let randomIndex = lastMessageIndex;
