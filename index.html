@@ -4,273 +4,325 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comfort Corner</title>
-    <!-- Import authentic retro pixel art font -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        
-        /* RETRO CROSSHATCH BACKGROUND PATTERN */
-        background-color: #f0e6ef; /* Pastel base */
-        background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.4) 4px, transparent 4px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 4px, transparent 4px);
-        background-size: 64px 64px; /* Controls the size of the crosshatch grid squares */
-        
-        font-family: 'Press Start 2P', monospace; 
-        overflow: hidden;
-        user-select: none;
-    }
-
-    /* Container handles the stack alignment */
-    .interactive-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-        position: relative;
-        height: 420px;
-        justify-content: flex-end;
-    }
-
-    /* TRUE RETRO PIXEL ART SPEECH BUBBLE */
-    .message-box {
-        position: absolute;
-        bottom: 380px; /* Tweak this if it clips into your specific sprite head */
-        
-        background: #ffffff;
-        box-shadow: 
-            0 -4px 0 -4px #1a1a1a,
-            0 4px 0 -4px #1a1a1a,
-            0 -8px 0 -4px #ffffff,
-            0 8px 0 -4px #ffffff,
-            -4px 0 0 -4px #1a1a1a,
-            4px 0 0 -4px #1a1a1a,
-            -8px 0 0 -4px #ffffff,
-            8px 0 0 -4px #ffffff,
-            4px 4px 0 0 #1a1a1a,
-            4px -4px 0 0 #1a1a1a,
-            -4px 4px 0 0 #1a1a1a,
-            -4px -4px 0 0 #1a1a1a,
-            8px 0 0 0 #1a1a1a,
-            -8px 0 0 0 #1a1a1a,
-            0 8px 0 0 #1a1a1a,
-            0 -8px 0 0 #1a1a1a,
-            8px 8px 0 0 rgba(0,0,0,0.15);
-
-
-    padding: 16px;
-    width: 280px;
-    height: auto;        /* Let it grow vertically */
-    min-height: 50px;    /* Baseline size for short text */
-    box-sizing: border-box;
-    word-wrap: break-word; /* Prevents long words from bleeding past the border */
-    text-align: center;
-    color: #1a1a1a;
-    font-size: 11px;
-    line-height: 1.6;
-        
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.2s steps(4), transform 0.2s steps(4);
-        pointer-events: none;
-        z-index: 999;
-    }
-
-    /* Pixel Art Tail Pointer */
-    .message-box::after {
-        content: '';
-        position: absolute;
-        bottom: -16px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 16px;
-        height: 8px;
-        background: white;
-        box-shadow: 
-            -4px 0 0 0 #1a1a1a, 
-            4px 0 0 0 #1a1a1a,
-            0 4px 0 0 #1a1a1a,
-            -4px 4px 0 -4px #1a1a1a,
-            4px 4px 0 -4px #1a1a1a,
-            -4px 8px 0 -4px #1a1a1a,
-            0 8px 0 -4px #1a1a1a;
-    }
-
-    .message-box.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* PIXEL DROP SHADOW UNDERNEATH */
-    .sprite-shadow {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        
-        /* Adjust width to roughly match the width of your sprite baseline */
-        width: 120px; 
-        height: 16px;
-        
-        /* Dark transparent tint */
-        background-color: rgba(0, 0, 0, 0.12); 
-        border-radius: 50%;
-        
-        /* Synchronized inversely with the character's bobbing loop */
-        animation: shadowPulse 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        z-index: 1;
-    }
-
-    /* FORCED UPSCALED SPRITE */
-    .pixel-art {
-        width: 360px !important;
-        height: auto !important;
-        display: block;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
-        will-change: transform;
-        
-        animation: naturalBobbing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        position: relative;
-        z-index: 2; /* Sits cleanly directly over the ground shadow layer */
-        
-        /* Pushes the baseline up slightly so the ground shadow has a place to exist */
-        margin-bottom: 8px; 
-    }
-
-    /* Floating Particles */
-    .floating-particle {
-        position: absolute;
-        pointer-events: none;
-        font-family: Arial, sans-serif;
-        font-size: 32px;
-        z-index: 1000;
-        animation: floatUp 2s ease-out forwards;
-    }
-
-    /* Synced Animation Timings */
-    @keyframes naturalBobbing {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-16px); }
-    }
-
-    @keyframes shadowPulse {
-        /* When character is on the ground, shadow is at its darkest and widest */
-        0%, 100% { 
-            transform: translateX(-50%) scale(1);
-            background-color: rgba(0, 0, 0, 0.15);
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            /* Crosshatch background remains */
+            background-color: #f0e6ef; 
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.4) 4px, transparent 4px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 4px, transparent 4px);
+            background-size: 64px 64px;
+            
+            font-family: 'Press Start 2P', monospace; 
+            overflow: hidden;
+            user-select: none;
+            transition: opacity 0.5s ease; /* For smooth page fade transition */
         }
-        /* When character floats up, shadow shrinks and diffuses lighter */
-        50% { 
-            transform: translateX(-50%) scale(0.75);
-            background-color: rgba(0, 0, 0, 0.06);
-        }
-    }
 
-    @keyframes floatUp {
-        0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
-        15% { opacity: 1; }
-        100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.1) rotate(var(--r)); }
-    }
-</style>
+        /* NEW: Main Frame Encasing Sprite and Bubble */
+        .window-frame {
+            background: #fff8fc; /* Soft warm tinted white background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+            
+            /* Thick retro pixel layout border around everything */
+            border: 6px solid #1a1a1a;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container sets up bounds inside the frame */
+        .interactive-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            height: 440px; /* Enhanced vertical window to keep layout isolated */
+            justify-content: flex-end;
+            width: 340px;
+        }
+
+        /* TRUE RETRO PIXEL ART SPEECH BUBBLE */
+        .message-box {
+            position: absolute;
+            /* Tweak this number if it clips into your specific sprite head */
+            bottom: 290px; 
+            
+            background: #ffffff;
+            box-shadow: 
+                0 -4px 0 -4px #1a1a1a, 0 4px 0 -4px #1a1a1a,
+                0 -8px 0 -4px #ffffff, 0 8px 0 -4px #ffffff,
+                -4px 0 0 -4px #1a1a1a, 4px 0 0 -4px #1a1a1a,
+                -8px 0 0 -4px #ffffff, 8px 0 0 -4px #ffffff,
+                4px 4px 0 0 #1a1a1a, 4px -4px 0 0 #1a1a1a,
+                -4px 4px 0 0 #1a1a1a, -4px -4px 0 0 #1a1a1a,
+                8px 0 0 0 #1a1a1a, -8px 0 0 0 #1a1a1a,
+                0 8px 0 0 #1a1a1a, 0 -8px 0 0 #1a1a1a,
+                8px 8px 0 0 rgba(0,0,0,0.1);
+
+            padding: 16px;
+            width: 280px;
+            min-height: 50px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #1a1a1a;
+            font-size: 11px;
+            line-height: 1.6;
+            
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s steps(4), transform 0.2s steps(4);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Pixel Art Tail Pointer */
+        .message-box::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 8px;
+            background: white;
+            box-shadow: 
+                -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,
+                0 4px 0 0 #1a1a1a,
+                -4px 4px 0 -4px #1a1a1a, 4px 4px 0 -4px #1a1a1a,
+                -4px 8px 0 -4px #1a1a1a, 0 8px 0 -4px #1a1a1a;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* DYNAMIC GROUND SHADOW */
+        .sprite-shadow {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px; 
+            height: 16px;
+            background-color: rgba(0, 0, 0, 0.12); 
+            border-radius: 50%;
+            animation: shadowPulse 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            z-index: 1;
+        }
+
+        /* MAIN SPRITE */
+        .pixel-art {
+            width: 256px !important;
+            height: auto !important;
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            will-change: transform;
+            animation: naturalBobbing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            position: relative;
+            z-index: 2; 
+            margin-bottom: 8px; 
+        }
+
+        /* NEW: FOR ELLA RETRO BUTTON STYLING */
+        .ella-btn {
+            margin-top: 30px;
+            background-color: #ffb3c6; /* Pastel pink button color */
+            color: #1a1a1a;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            padding: 14px 24px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            
+            /* Clean pixel art border style mapping */
+            border: none;
+            box-shadow: 
+                0 -4px 0 0 #1a1a1a, 0 4px 0 0 #1a1a1a,
+                -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,
+                4px 4px 0 0 rgba(0, 0, 0, 0.15);
+            
+            transition: background-color 0.1s ease;
+        }
+
+        .ella-btn:hover {
+            background-color: #ffc2d1; /* Slight hover highlight tint */
+        }
+
+        /* Mechanical visual press state */
+        .ella-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 0 0 transparent;
+        }
+
+        /* Floating Particles */
+        .floating-particle {
+            position: absolute;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 32px;
+            z-index: 1000;
+            animation: floatUp 2s ease-out forwards;
+        }
+
+        /* Animation Keyframes loops */
+        @keyframes naturalBobbing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-16px); }
+        }
+
+        @keyframes shadowPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); background-color: rgba(0, 0, 0, 0.15); }
+            50% { transform: translateX(-50%) scale(0.75); background-color: rgba(0, 0, 0, 0.06); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+            15% { opacity: 1; }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.1) rotate(var(--r)); }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="interactive-container" id="clickArea">
-    <!-- Pixel Speech Bubble -->
-    <div class="message-box" id="messageBox"></div>
-    
-    <!-- Main Character Sprite -->
-    <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
+    <!-- NEW: Main framing box around your elements -->
+    <div class="window-frame">
+        <div class="interactive-container" id="clickArea">
+            <div class="message-box" id="messageBox"></div>
+            <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
+            <div class="sprite-shadow"></div>
+        </div>
 
-    <!-- NEW: The Dynamic Ground Shadow -->
-    <div class="sprite-shadow"></div>
-</div>
+        <!-- NEW: "For Ella" Button Component -->
+        <button class="ella-btn" id="ellaButton">FOR ELLA</button>
+    </div>
 
+    <!-- Hidden audio asset tags -->
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="background-music.mp3" preload="auto" loop></audio>
+    <audio id="transitionSound" src="transition.mp3" preload="auto"></audio>
 
-<script>
-    const messages = [
-        "YOU'RE DOING WONDERFULLY.",
-        "TAKE A DEEP BREATH. YOU'VE GOT THIS.",
-        "IT'S OKAY TO REST FOR A BIT.",
-        "PROUD OF YOU FOR TRYING YOUR BEST.",
-        "EVERYTHING IS GOING TO BE ALRIGHT.",
-        "DRINK SOME WATER TODAY! ✨",
-        "YOU ARE DEEPLY APPRECIATED."
-    ];
+    <script>
+        const messages = [
+            "YOU'RE DOING WONDERFULLY.",
+            "TAKE A DEEP BREATH. YOU'VE GOT THIS.",
+            "IT'S OKAY TO REST FOR A BIT.",
+            "PROUD OF YOU FOR TRYING YOUR BEST.",
+            "EVERYTHING IS GOING TO BE ALRIGHT.",
+            "DRINK SOME WATER TODAY! ✨",
+            "YOU ARE DEEPLY APPRECIATED."
+        ];
 
-    const floatingPool = ["✨", "💖", "⭐", "🌸", "☁️"];
+        const floatingPool = ["✨", "💖", "⭐", "🌸", "☁️"];
 
-    const clickArea = document.getElementById('clickArea');
-    const messageBox = document.getElementById('messageBox');
-    const clickSound = document.getElementById('clickSound');
-    
-    let messageTimer = null;
-    let lastMessageIndex = -1; // Stores the index of the phrase on screen
-
-    clickArea.addEventListener('click', (e) => {
-        clickSound.currentTime = 0; 
-        clickSound.play().catch(err => console.log("Audio waiting for gesture."));
-
-        if (messageBox.classList.contains('show')) {
-            messageBox.classList.remove('show');
-            clearTimeout(messageTimer);
-            setTimeout(() => { triggerNewMessage(); }, 150);
-        } else {
-            triggerNewMessage();
-        }
-
-        for (let i = 0; i < 3; i++) {
-            createParticle(e.clientX, e.clientY);
-        }
-    });
-
-    function triggerNewMessage() {
-        let randomIndex = lastMessageIndex;
-
-        // Loop until we pick an index that is different from the last one shown
-        while (randomIndex === lastMessageIndex) {
-            randomIndex = Math.floor(Math.random() * messages.length);
-        }
+        const clickArea = document.getElementById('clickArea');
+        const messageBox = document.getElementById('messageBox');
+        const clickSound = document.getElementById('clickSound');
+        const bgMusic = document.getElementById('bgMusic');
+        const ellaButton = document.getElementById('ellaButton');
+        const transitionSound = document.getElementById('transitionSound');
         
-        // Track this selection for the next click verification cycle
-        lastMessageIndex = randomIndex; 
+        let messageTimer = null;
+        let lastMessageIndex = -1; 
+        let musicStarted = false;
 
-        messageBox.textContent = messages[randomIndex];
-        messageBox.classList.add('show');
+        // Modern browsers block background music until a user clicks *anything* on the page.
+        // Clicking the main sprite or the button will instantly unlock and start the loop music.
+        function startMusic() {
+            if (!musicStarted) {
+                bgMusic.volume = 0.3; // Set loop track slightly lower so it doesn't overpower sounds
+                bgMusic.play().catch(err => console.log("Music setup pending interaction"));
+                musicStarted = true;
+            }
+        }
 
-        messageTimer = setTimeout(() => {
-            messageBox.classList.remove('show');
-        }, 4000);
-    }
+        clickArea.addEventListener('click', (e) => {
+            startMusic();
+            clickSound.currentTime = 0; 
+            clickSound.play().catch(err => {});
 
-    function createParticle(clickX, clickY) {
-        const particle = document.createElement('div');
-        particle.classList.add('floating-particle');
-        const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
-        particle.textContent = choice;
+            if (messageBox.classList.contains('show')) {
+                messageBox.classList.remove('show');
+                clearTimeout(messageTimer);
+                setTimeout(() => { triggerNewMessage(); }, 150);
+            } else {
+                triggerNewMessage();
+            }
 
-        particle.style.left = `${clickX - 16}px`;
-        particle.style.top = `${clickY - 16}px`;
+            for (let i = 0; i < 3; i++) {
+                createParticle(e.clientX, e.clientY);
+            }
+        });
 
-        const randomX = (Math.random() - 0.5) * 180;
-        const randomY = -(Math.random() * 120 + 100);
-        const randomRotation = (Math.random() - 0.5) * 90;
+        function triggerNewMessage() {
+            let randomIndex = lastMessageIndex;
+            while (randomIndex === lastMessageIndex) {
+                randomIndex = Math.floor(Math.random() * messages.length);
+            }
+            lastMessageIndex = randomIndex; 
 
-        particle.style.setProperty('--x', `${randomX}px`);
-        particle.style.setProperty('--y', `${randomY}px`);
-        particle.style.setProperty('--r', `${randomRotation}deg`);
+            messageBox.textContent = messages[randomIndex];
+            messageBox.classList.add('show');
 
-        document.body.appendChild(particle);
-        particle.addEventListener('animationend', () => { particle.remove(); });
-    }
-</script>
+            messageTimer = setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 4000);
+        }
+
+        function createParticle(clickX, clickY) {
+            const particle = document.createElement('div');
+            particle.classList.add('floating-particle');
+            const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
+            particle.textContent = choice;
+
+            // Compute relative positioning if within frame windows
+            particle.style.left = `${clickX - 16}px`;
+            particle.style.top = `${clickY - 16}px`;
+
+            const randomX = (Math.random() - 0.5) * 180;
+            const randomY = -(Math.random() * 120 + 100);
+            const randomRotation = (Math.random() - 0.5) * 90;
+
+            particle.style.setProperty('--x', `${randomX}px`);
+            particle.style.setProperty('--y', `${randomY}px`);
+            particle.style.setProperty('--r', `${randomRotation}deg`);
+
+            document.body.appendChild(particle);
+            particle.addEventListener('animationend', () => { particle.remove(); });
+        }
+
+        // NEW: Transition routing logic for "For Ella" link execution
+        ellaButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents triggering normal sprite pop-ups
+            startMusic();
+            
+            // Play the unique transition sequence audio snippet
+            transitionSound.play().catch(err => {});
+            
+            // Fade out page body smoothly
+            document.body.style.opacity = '0';
+            
+            // Delay navigation slightly so the player hears the sound and sees the fade out
+            setTimeout(() => {
+                window.location.href = 'letter.html';
+            }, 600);
+        });
+    </script>
 </body>
 </html>
