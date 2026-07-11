@@ -4,152 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comfort Corner</title>
+    <!-- Import authentic retro pixel art font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* Base Styling & Center Layout */
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #f0e6ef; /* Light pastel purple/pink background */
-            font-family: 'Courier New', Courier, monospace; /* Cute retro look */
-            overflow: hidden; /* Prevents scrollbars from floating art */
-            user-select: none; /* Prevents accidental text highlighting on click */
+            background-color: #f0e6ef;
+            /* Apply pixel font globally */
+            font-family: 'Press Start 2P', monospace; 
+            overflow: hidden;
+            user-select: none;
         }
 
-        /* Container to keep everything layered nicely */
+        /* Flex column layout naturally pushes the bubble ABOVE the sprite 
+           without relying on absolute coordinates that clip headers */
         .interactive-container {
-            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             cursor: pointer;
+            position: relative;
         }
 
-        /* Main Pixel Art with Natural Squash-and-Stretch Animation */
-        .pixel-art {
-            width: 256px; /* Increased scale */
-            height: auto;
-            image-rendering: pixelated; /* Keeps pixel art crisp, not blurry */
-            
-            /* Custom cubic-bezier mimics a realistic physics spring / momentum curve */
-            animation: naturalBobbing 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-            
-            /* Sets the anchor point to the bottom so it squashes against gravity */
-            transform-origin: bottom center; 
-            
-            transition: transform 0.1s ease;
-        }
-
-        /* Subtle mechanical response when clicked */
-        .interactive-container:active .pixel-art {
-            transform: scale(0.95);
-        }
-
-        /* Pixel Art Speech Bubble Style */
+        /* TRUE RETRO PIXEL ART SPEECH BUBBLE (Stair-stepped styling) */
         .message-box {
-            position: absolute;
-            bottom: 285px; /* Adjust this value if it sits too close or far from your sprite's head */
-            background: white;
+            position: relative;
+            background: #ffffff;
             
-            /* Thicker, blocky retro border */
-            border: 6px solid #1a1a1a; 
-            border-radius: 4px; /* Tiny curvature for a blocky corner */
-            
-            padding: 16px 24px;
-            max-width: 280px;
+            /* Multi-layered box-shadow generates a clean blocky 4px pixel outline 
+               instead of smooth anti-aliased browser vectors */
+            box-shadow: 
+                0 -4px 0 -4px #1a1a1a,
+                0 4px 0 -4px #1a1a1a,
+                0 -8px 0 -4px #ffffff,
+                0 8px 0 -4px #ffffff,
+                -4px 0 0 -4px #1a1a1a,
+                4px 0 0 -4px #1a1a1a,
+                -8px 0 0 -4px #ffffff,
+                8px 0 0 -4px #ffffff,
+                4px 4px 0 0 #1a1a1a,
+                4px -4px 0 0 #1a1a1a,
+                -4px 4px 0 0 #1a1a1a,
+                -4px -4px 0 0 #1a1a1a,
+                8px 0 0 0 #1a1a1a,
+                -8px 0 0 0 #1a1a1a,
+                0 8px 0 0 #1a1a1a,
+                0 -8px 0 0 #1a1a1a,
+                8px 8px 0 0 rgba(0,0,0,0.15); /* Retro block shadow */
+
+            padding: 16px;
+            width: 280px;
+            min-height: 50px;
+            box-sizing: border-box;
             text-align: center;
             color: #1a1a1a;
-            font-weight: bold;
-            font-size: 16px;
+            font-size: 11px; /* Small size fits the crisp retro typography best */
+            line-height: 1.6;
             
-            /* Animation transitions */
+            /* Safe gap between text box bottom and sprite head top */
+            margin-bottom: 40px; 
+            
             opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            pointer-events: none; /* Allows clicks to pass right through to container */
-            
-            /* Retro block drop shadow */
-            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+            transform: translateY(10px);
+            transition: opacity 0.2s steps(4), transform 0.2s steps(4);
+            pointer-events: none;
         }
 
-        /* Speech Bubble Tail (Pointers) */
-        .message-box::after, .message-box::before {
+        /* Pixel Art Tail Pointer (Stair-stepped block boxes) */
+        .message-box::after {
             content: '';
             position: absolute;
-            bottom: -22px; /* Pulls it right underneath the bubble border */
+            bottom: -16px;
             left: 50%;
             transform: translateX(-50%);
-            border-width: 8px;
-            border-style: solid;
+            width: 16px;
+            height: 8px;
+            background: white;
+            box-shadow: 
+                -4px 0 0 0 #1a1a1a, 
+                4px 0 0 0 #1a1a1a,
+                0 4px 0 0 #1a1a1a,
+                -4px 4px 0 -4px #1a1a1a,
+                4px 4px 0 -4px #1a1a1a,
+                -4px 8px 0 -4px #1a1a1a,
+                0 8px 0 -4px #1a1a1a;
         }
 
-        /* Outer dark border of the bubble tail */
-        .message-box::before {
-            border-color: #1a1a1a transparent transparent transparent;
-            margin-bottom: -6px; /* Offsets for the main border line thickness */
-        }
-
-        /* Inner white fill of the bubble tail */
-        .message-box::after {
-            border-color: white transparent transparent transparent;
-        }
-
-        /* Toggle visibility class managed by JS */
         .message-box.show {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Floating Particle Art */
+        /* FORCE UPSCALED SPRITE */
+        .pixel-art {
+            width: 256px !important;
+            height: auto !important;
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            
+            /* Rigorous up-and-down bobbing loop without compression deforms */
+            animation: naturalBobbing 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        }
+
+        /* Floating Particles */
         .floating-particle {
             position: absolute;
             pointer-events: none;
-            image-rendering: pixelated;
+            font-family: Arial, sans-serif; /* Fallback to keep emojis uniform */
+            font-size: 32px;
+            z-index: 1000;
             animation: floatUp 2s ease-out forwards;
-            font-size: 28px; /* Slightly upscaled particles to match layout */
         }
 
-        /* Organic Physics-Based Bobbing Loop */
-/* Organic Bobbing Loop (Pure movement, no squashing) */
-@keyframes naturalBobbing {
-    0%, 100% { 
-        transform: translateY(0); 
-    }
-    /* Rising up smoothly */
-    25% { 
-        transform: translateY(-6px); 
-    }
-    /* Peak height: floating pause at the top */
-    50% { 
-        transform: translateY(-16px); 
-    }
-    /* Descending fluidly */
-    75% { 
-        transform: translateY(-10px); 
-    }
-    /* Settling gently near the baseline before starting over */
-    90% { 
-        transform: translateY(-2px); 
-    }
-}
+        /* Rigid Up-And-Down Physics Translation Loop */
+        @keyframes naturalBobbing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-16px); } /* Safe clearance ceiling */
+        }
 
-        /* Particle Float Vector Engine */
         @keyframes floatUp {
-            0% {
-                opacity: 0;
-                transform: translate(0, 0) scale(0.5) rotate(0deg);
-            }
-            15% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(1.2) rotate(var(--r));
-            }
+            0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+            15% { opacity: 1; }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.1) rotate(var(--r)); }
         }
     </style>
 </head>
@@ -163,49 +145,39 @@
         <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
     </div>
 
-    <!-- Hidden audio pipeline -->
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
 
     <script>
-        // Array of comforting strings
+        // Array of comforting strings (All caps works exceptionally well with 8-bit typography)
         const messages = [
-            "You're doing wonderfully.",
-            "Take a deep breath. You've got this.",
-            "It's okay to rest for a bit.",
-            "Proud of you for trying your best.",
-            "Everything is going to be alright.",
-            "Make sure to drink some water today! ✨",
-            "You are deeply appreciated."
+            "YOU'RE DOING WONDERFULLY.",
+            "TAKE A DEEP BREATH. YOU'VE GOT THIS.",
+            "IT'S OKAY TO REST FOR A BIT.",
+            "PROUD OF YOU FOR TRYING YOUR BEST.",
+            "EVERYTHING IS GOING TO BE ALRIGHT.",
+            "DRINK SOME WATER TODAY! ✨",
+            "YOU ARE DEEPLY APPRECIATED."
         ];
 
-        // Particle pool options (Use emojis or replace with asset path strings)
         const floatingPool = ["✨", "💖", "⭐", "🌸", "☁️"];
 
         const clickArea = document.getElementById('clickArea');
         const messageBox = document.getElementById('messageBox');
         const clickSound = document.getElementById('clickSound');
-
         let messageTimer = null;
 
         clickArea.addEventListener('click', (e) => {
-            // Re-trigger audio immediately from position 0 on sequential clicks
             clickSound.currentTime = 0; 
-            clickSound.play().catch(err => console.log("Audio pipeline requires user interaction gesture first."));
+            clickSound.play().catch(err => console.log("Audio waiting for interaction."));
 
-            // Toggle / Cycle Message Windows
             if (messageBox.classList.contains('show')) {
                 messageBox.classList.remove('show');
                 clearTimeout(messageTimer);
-                
-                // Wait for the exit fade animation to finish before updating content
-                setTimeout(() => {
-                    triggerNewMessage();
-                }, 150);
+                setTimeout(() => { triggerNewMessage(); }, 150);
             } else {
                 triggerNewMessage();
             }
 
-            // Spawn random floating instances at point of cursor contact
             for (let i = 0; i < 3; i++) {
                 createParticle(e.clientX, e.clientY);
             }
@@ -216,7 +188,6 @@
             messageBox.textContent = messages[randomIndex];
             messageBox.classList.add('show');
 
-            // Automatic dismissal timer (4000ms = 4 seconds)
             messageTimer = setTimeout(() => {
                 messageBox.classList.remove('show');
             }, 4000);
@@ -225,29 +196,22 @@
         function createParticle(clickX, clickY) {
             const particle = document.createElement('div');
             particle.classList.add('floating-particle');
-            
             const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
             particle.textContent = choice;
 
-            // Centers the particle origin around the absolute cursor click coordinate
-            particle.style.left = `${clickX - 14}px`;
-            particle.style.top = `${clickY - 14}px`;
+            particle.style.left = `${clickX - 16}px`;
+            particle.style.top = `${clickY - 16}px`;
 
-            // Calculate individualized trajectory parameters via CSS custom properties
-            const randomX = (Math.random() - 0.5) * 180; // Left-to-right spread width
-            const randomY = -(Math.random() * 120 + 100); // Upward velocity ceiling
-            const randomRotation = (Math.random() - 0.5) * 90; // Rotation spin velocity
+            const randomX = (Math.random() - 0.5) * 180;
+            const randomY = -(Math.random() * 120 + 100);
+            const randomRotation = (Math.random() - 0.5) * 90;
 
             particle.style.setProperty('--x', `${randomX}px`);
             particle.style.setProperty('--y', `${randomY}px`);
             particle.style.setProperty('--r', `${randomRotation}deg`);
 
             document.body.appendChild(particle);
-
-            // Clean up memory and DOM footprint once fade-out completes
-            particle.addEventListener('animationend', () => {
-                particle.remove();
-            });
+            particle.addEventListener('animationend', () => { particle.remove(); });
         }
     </script>
 </body>
