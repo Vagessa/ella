@@ -197,22 +197,22 @@
             }
         }
 
-        /* NIGHT MODE TRANSITION: Adapts the gorgeous pixel borders to a cozy purple scheme */
+/* NIGHT MODE TRANSITION: Keeps the box light and normal always */
         body.night-mode .message-box {
-            background: #211c33 !important; /* Soft deep purple inside tint */
-            color: #ffffff !important;     /* Flips text color to crisp white for nighttime legibility */
+            background: #ffffff !important; /* Forces it to stay bright white */
+            color: #1a1a1a !important;     /* Forces the text to stay dark */
             
-            /* Recalculated shadow formula using soft purple border rings instead of harsh black */
+            /* Keeps your exact classic shadow border formula completely unchanged at night */
             box-shadow: 
-                0 -4px 0 -4px #4a3f6b, 0 4px 0 -4px #4a3f6b,
-                0 -8px 0 -4px #211c33, 0 8px 0 -4px #211c33,
-                -4px 0 0 -4px #4a3f6b, 4px 0 0 -4px #4a3f6b,
-                -8px 0 0 -4px #211c33, 8px 0 0 -4px #211c33,
-                4px 4px 0 0 #4a3f6b, 4px -4px 0 0 #4a3f6b,
-                -4px 4px 0 0 #4a3f6b, -4px -4px 0 0 #4a3f6b,
-                8px 0 0 0 #4a3f6b, -8px 0 0 0 #4a3f6b,
-                0 8px 0 0 #4a3f6b, 0 -8px 0 0 #4a3f6b,
-                8px 8px 0 0 rgba(0, 0, 0, 0.45) !important;
+                0 -4px 0 -4px #1a1a1a, 0 4px 0 -4px #1a1a1a,
+                0 -8px 0 -4px #ffffff, 0 8px 0 -4px #ffffff,
+                -4px 0 0 -4px #1a1a1a, 4px 0 0 -4px #1a1a1a,
+                -8px 0 0 -4px #ffffff, 8px 0 0 -4px #ffffff,
+                4px 4px 0 0 #1a1a1a, 4px -4px 0 0 #1a1a1a,
+                -4px 4px 0 0 #1a1a1a, -4px -4px 0 0 #1a1a1a,
+                8px 0 0 0 #1a1a1a, -8px 0 0 0 #1a1a1a,
+                0 8px 0 0 #1a1a1a, 0 -8px 0 0 #1a1a1a,
+                8px 8px 0 0 rgba(0,0,0,0.1) !important;
         }
 
         /* Pixel Art Tail Pointer */
