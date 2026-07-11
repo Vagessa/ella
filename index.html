@@ -536,8 +536,6 @@
         const backButton = document.getElementById('backButton');
         
         let messageTimer = null;
-        let messageHistory = []; 
-        const historyLimit = 7;
         let musicStarted = false;
 
         // Unlocks background audio loop context on first interaction
@@ -585,27 +583,40 @@ clickArea.addEventListener('click', (e) => {
         }
     });
 
+        let messageDeck = [];
+
+        // 3. THE NEW SHUFFLE TOOLS SIT DIRECTLY UNDER IT
+        function shuffleDeck() {
+            let indices = Array.from({ length: messages.length }, (v, i) => i);
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            return indices;
+        }
+
+        
 function triggerNewMessage() {
-            let availableIndexes = [];
-            for (let i = 0; i < messages.length; i++) {
-                if (!messageHistory.includes(i)) {
-                    availableIndexes.push(i);
-                }
+            if (messageDeck.length === 0) {
+                messageDeck = shuffleDeck();
             }
 
-            if (availableIndexes.length === 0) {
-                messageHistory = [];
-                for (let i = 0; i < messages.length; i++) {
-                    availableIndexes.push(i);
-                }
-            }
+            let randomIndex = messageDeck.pop();
+            let rawMessage = messages[randomIndex];
 
-            let randomIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
-            messageHistory.push(randomIndex);
+            let formattedMessage = rawMessage.replace(
+                /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF])/g, 
+                '<span class="bubble-emoji">$1</span>'
+            );
 
-            if (messageHistory.length > historyLimit) {
-                messageHistory.shift();
-            }
+            messageBox.innerHTML = formattedMessage;
+            messageBox.classList.add('show');
+
+            if (messageTimer) clearTimeout(messageTimer);
+            messageTimer = setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 4000);
+        }
 
             let rawMessage = messages[randomIndex];
 
