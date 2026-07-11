@@ -259,6 +259,51 @@
         transform: scale(1, 1);
     }
 }
+        /* --- BULLETPROOF RESPONSIVE ENGINE --- */
+@media (max-width: 740px), (max-height: 700px) {
+    body {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .window-frame {
+        /* 
+           Uses CSS math to pick the absolute perfect scale factor.
+           It looks at the screen's width and height and makes sure 
+           the frame never spills over the edge of either boundary.
+        */
+        transform: scale(
+            clamp(0.4, min(calc(vw / 720), calc(vh / 680)), 1)
+        );
+        transform-origin: center center;
+        margin: 0 auto;
+        box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+        
+        /* Forces hardware acceleration to keep pixel edges ultra-sharp while scaling */
+        will-change: transform; 
+    }
+
+    /* Keeps the letter container perfectly snug and scrollable on all small screens */
+    .letter-card {
+        padding: 24px;
+        width: 100%;
+        max-width: 440px;
+        max-height: 82vh; 
+        overflow-y: auto; 
+        -webkit-overflow-scrolling: touch; /* Silky smooth momentum scrolling on iOS Safari */
+    }
+
+    .letter-card h1 {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .letter-card p {
+        font-size: 10px;
+        line-height: 1.8;
+        margin-bottom: 16px;
+    }
+}
     </style>
 </head>
 <body>
