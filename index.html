@@ -548,6 +548,30 @@
     margin-top: 12px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
+
+        /* --- EASTER EGG REACTION ANIMATIONS --- */
+
+/* Frantic shaking while charging */
+.charging-shake {
+    animation: jitter 0.1s infinite alternate !important;
+}
+
+/* Super high bounce when the code succeeds */
+.victory-jump {
+    animation: megaBounce 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+@keyframes jitter {
+    0% { transform: translate(1px, 1px) scale(0.95, 1.05); }
+    100% { transform: translate(-1px, -1px) scale(1.05, 0.95); }
+}
+
+@keyframes megaBounce {
+    0% { transform: translateY(0) scale(1); }
+    30% { transform: translateY(-120px) scale(1.2) rotate(15deg); }
+    50% { transform: translateY(-120px) scale(1.2) rotate(-15deg); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
     </style>
 </head>
 <body>
@@ -652,9 +676,107 @@
         }
 
         clickArea.addEventListener('click', (e) => {
+            if (isHolding) return; // Add this line! Stops click conflicting with hold mechanics
             startMusic();
             clickSound.currentTime = 0; 
             clickSound.play().catch(err => {});
+
+            // --- EASTER EGG: 2-SECOND HOLD FOR HEART EXPLOSION ---
+        let holdTimer = null;
+        let isHolding = false;
+        const mainSprite = document.getElementById('mainSprite');
+
+        // This function handles starting the 2-second countdown tracker
+        function startHold(e) {
+            // Prevent the regular click pop-up from firing immediately on touch devices
+            if (e.type === 'touchstart') e.preventDefault();
+            
+            if (isHolding) return;
+            isHolding = true;
+
+            // Apply the frantic shake style to show it is charging up
+            mainSprite.classList.add('charging-shake');
+
+            // Start the 2000ms (2 second) timer clock
+            holdTimer = setTimeout(() => {
+                triggerHeartExplosion();
+                cancelHold(); 
+            }, 2000);
+        }
+
+        // Resets the clock cleanly if she lets go early
+        function cancelHold() {
+            isHolding = false;
+            if (holdTimer) clearTimeout(holdTimer);
+            mainSprite.classList.remove('charging-shake');
+        }
+
+        // The Grand Finale Action Sequence
+        function triggerHeartExplosion() {
+            // 1. Play your transition sound (or swap this with a custom sound element id)
+            if (transitionSound) {
+                transitionSound.currentTime = 0;
+                transitionSound.volume = 0.5;
+                transitionSound.play().catch(err => {});
+            }
+
+            // 2. Trigger the massive jump animation profile
+            mainSprite.classList.remove('squishing', 'charging-shake');
+            void mainSprite.offsetWidth; // Safe reflow trigger
+            mainSprite.classList.add('victory-jump');
+            
+            mainSprite.addEventListener('animationend', () => {
+                mainSprite.classList.remove('victory-jump');
+            }, { once: true });
+
+            // 3. Flood the page with a massive fountain of 40 randomized hearts!
+            for (let i = 0; i < 40; i++) {
+                // Stagger the particle burst slightly so they don't spawn clumped on top of each other
+                setTimeout(() => {
+                    // Pull the exact center coordinates of the Nommi screen block
+                    const rect = clickArea.getBoundingClientRect();
+                    const centerX = rect.left + (rect.width / 2);
+                    const centerY = rect.top + (rect.height / 2);
+                    
+                    // Call your existing particle machine with custom trajectory adjustments
+                    createCustomExplosionParticle(centerX, centerY);
+                }, i * 15);
+            }
+        }
+
+        // Customized particle creator that blasts elements across the entire display window
+        function createCustomExplosionParticle(startX, startY) {
+            const particle = document.createElement('div');
+            particle.classList.add('floating-particle');
+            
+            // Pick exclusively from the prettiest heart/sparkle symbols
+            const explosionPool = ["💖", "💝", "❤️", "✨", "🌸", "💘"];
+            particle.textContent = explosionPool[Math.floor(Math.random() * explosionPool.length)];
+
+            particle.style.left = `${startX - 12}px`;
+            particle.style.top = `${startY - 12}px`;
+
+            // Massive vertical thrust and wide horizontal scatter angles
+            const randomX = (Math.random() - 0.5) * window.innerWidth * 0.8;
+            const randomY = -(Math.random() * window.innerHeight * 0.7 + 200);
+            const randomRotation = (Math.random() - 0.5) * 360;
+
+            particle.style.setProperty('--x', `${randomX}px`);
+            particle.style.setProperty('--y', `${randomY}px`);
+            particle.style.setProperty('--r', `${randomRotation}deg`);
+
+            document.body.appendChild(particle);
+            particle.addEventListener('animationend', () => { particle.remove(); });
+        }
+
+        // BIND GESTURES: Listen for both Desktop Mouse clicks and Mobile Touch presses
+        clickArea.addEventListener('mousedown', startHold);
+        clickArea.addEventListener('touchstart', startHold, { passive: false });
+        
+        // Cancel logic if they move away or let go
+        window.addEventListener('mouseup', cancelHold);
+        window.addEventListener('touchend', cancelHold);
+        clickArea.addEventListener('mouseleave', cancelHold);
 
             // Squish Feedback Animation
             const mainSprite = document.getElementById('mainSprite');
