@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comfort Corner</title>
     <style>
+        /* Base Styling & Center Layout */
         body {
             margin: 0;
             padding: 0;
@@ -13,12 +14,13 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #f0e6ef;
-            font-family: 'Courier New', Courier, monospace;
-            overflow: hidden;
-            user-select: none;
+            background-color: #f0e6ef; /* Light pastel purple/pink background */
+            font-family: 'Courier New', Courier, monospace; /* Cute retro look */
+            overflow: hidden; /* Prevents scrollbars from floating art */
+            user-select: none; /* Prevents accidental text highlighting on click */
         }
 
+        /* Container to keep everything layered nicely */
         .interactive-container {
             position: relative;
             display: flex;
@@ -27,28 +29,35 @@
             cursor: pointer;
         }
 
-        /* 1. LARGER SPRITE SIZE */
+        /* Main Pixel Art with Natural Squash-and-Stretch Animation */
         .pixel-art {
-            width: 256px; /* Increased from 128px to 256px */
+            width: 256px; /* Increased scale */
             height: auto;
-            image-rendering: pixelated; 
-            animation: bobbing 3s ease-in-out infinite;
+            image-rendering: pixelated; /* Keeps pixel art crisp, not blurry */
+            
+            /* Custom cubic-bezier mimics a realistic physics spring / momentum curve */
+            animation: naturalBobbing 3.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            
+            /* Sets the anchor point to the bottom so it squashes against gravity */
+            transform-origin: bottom center; 
+            
             transition: transform 0.1s ease;
         }
 
+        /* Subtle mechanical response when clicked */
         .interactive-container:active .pixel-art {
             transform: scale(0.95);
         }
 
-        /* 2. PIXEL ART SPEECH BUBBLE STYLE */
+        /* Pixel Art Speech Bubble Style */
         .message-box {
             position: absolute;
-            bottom: 275px; /* Pushed up higher to clear the bigger sprite */
+            bottom: 285px; /* Adjust this value if it sits too close or far from your sprite's head */
             background: white;
             
-            /* Thicker, blocky pixel border */
+            /* Thicker, blocky retro border */
             border: 6px solid #1a1a1a; 
-            border-radius: 4px; /* Slight blocky corner curve */
+            border-radius: 4px; /* Tiny curvature for a blocky corner */
             
             padding: 16px 24px;
             max-width: 280px;
@@ -61,34 +70,35 @@
             opacity: 0;
             transform: translateY(15px);
             transition: opacity 0.2s ease, transform 0.2s ease;
-            pointer-events: none;
+            pointer-events: none; /* Allows clicks to pass right through to container */
             
-            /* Retro block shadow */
+            /* Retro block drop shadow */
             box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
         }
 
-        /* The Bubble Tail (Pointer) */
+        /* Speech Bubble Tail (Pointers) */
         .message-box::after, .message-box::before {
             content: '';
             position: absolute;
-            bottom: -22px; /* Positioned right underneath the bubble */
+            bottom: -22px; /* Pulls it right underneath the bubble border */
             left: 50%;
             transform: translateX(-50%);
             border-width: 8px;
             border-style: solid;
         }
 
-        /* Outer pixel border of the tail */
+        /* Outer dark border of the bubble tail */
         .message-box::before {
             border-color: #1a1a1a transparent transparent transparent;
-            margin-bottom: -6px; /* Offsets the border thickness */
+            margin-bottom: -6px; /* Offsets for the main border line thickness */
         }
 
-        /* Inner white fill of the tail */
+        /* Inner white fill of the bubble tail */
         .message-box::after {
             border-color: white transparent transparent transparent;
         }
 
+        /* Toggle visibility class managed by JS */
         .message-box.show {
             opacity: 1;
             transform: translateY(0);
@@ -100,14 +110,33 @@
             pointer-events: none;
             image-rendering: pixelated;
             animation: floatUp 2s ease-out forwards;
-            font-size: 28px; /* Slightly bigger particles to match the vibe */
+            font-size: 28px; /* Slightly upscaled particles to match layout */
         }
 
-        @keyframes bobbing {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); } /* Slightly deeper bob to match scale */
+        /* Organic Physics-Based Bobbing Loop */
+        @keyframes naturalBobbing {
+            0%, 100% { 
+                transform: translateY(0) scaleX(1) scaleY(1); 
+            }
+            /* Upward momentum: Stretches slightly vertically */
+            25% { 
+                transform: translateY(-8px) scaleX(0.97) scaleY(1.03); 
+            }
+            /* Peak height: Gravity slows it to a brief floating pause */
+            50% { 
+                transform: translateY(-16px) scaleX(1) scaleY(1); 
+            }
+            /* Falling down: Stretches out slightly again */
+            75% { 
+                transform: translateY(-6px) scaleX(0.98) scaleY(1.02); 
+            }
+            /* Sinking into baseline: Squashes flat outward on settlement */
+            90% { 
+                transform: translateY(2px) scaleX(1.04) scaleY(0.96); 
+            }
         }
 
+        /* Particle Float Vector Engine */
         @keyframes floatUp {
             0% {
                 opacity: 0;
@@ -126,14 +155,18 @@
 <body>
 
     <div class="interactive-container" id="clickArea">
+        <!-- Pixel Speech Bubble -->
         <div class="message-box" id="messageBox"></div>
+        
+        <!-- Main Character Sprite -->
         <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
     </div>
 
+    <!-- Hidden audio pipeline -->
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
 
     <script>
-        // (The JavaScript section remains exactly the same as before!)
+        // Array of comforting strings
         const messages = [
             "You're doing wonderfully.",
             "Take a deep breath. You've got this.",
@@ -144,24 +177,34 @@
             "You are deeply appreciated."
         ];
 
+        // Particle pool options (Use emojis or replace with asset path strings)
         const floatingPool = ["✨", "💖", "⭐", "🌸", "☁️"];
+
         const clickArea = document.getElementById('clickArea');
         const messageBox = document.getElementById('messageBox');
         const clickSound = document.getElementById('clickSound');
+
         let messageTimer = null;
 
         clickArea.addEventListener('click', (e) => {
+            // Re-trigger audio immediately from position 0 on sequential clicks
             clickSound.currentTime = 0; 
-            clickSound.play().catch(err => console.log("Audio waiting for user gesture"));
+            clickSound.play().catch(err => console.log("Audio pipeline requires user interaction gesture first."));
 
+            // Toggle / Cycle Message Windows
             if (messageBox.classList.contains('show')) {
                 messageBox.classList.remove('show');
                 clearTimeout(messageTimer);
-                setTimeout(() => { triggerNewMessage(); }, 150);
+                
+                // Wait for the exit fade animation to finish before updating content
+                setTimeout(() => {
+                    triggerNewMessage();
+                }, 150);
             } else {
                 triggerNewMessage();
             }
 
+            // Spawn random floating instances at point of cursor contact
             for (let i = 0; i < 3; i++) {
                 createParticle(e.clientX, e.clientY);
             }
@@ -172,6 +215,7 @@
             messageBox.textContent = messages[randomIndex];
             messageBox.classList.add('show');
 
+            // Automatic dismissal timer (4000ms = 4 seconds)
             messageTimer = setTimeout(() => {
                 messageBox.classList.remove('show');
             }, 4000);
@@ -180,22 +224,29 @@
         function createParticle(clickX, clickY) {
             const particle = document.createElement('div');
             particle.classList.add('floating-particle');
+            
             const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
             particle.textContent = choice;
 
+            // Centers the particle origin around the absolute cursor click coordinate
             particle.style.left = `${clickX - 14}px`;
             particle.style.top = `${clickY - 14}px`;
 
-            const randomX = (Math.random() - 0.5) * 180;
-            const randomY = -(Math.random() * 120 + 100);
-            const randomRotation = (Math.random() - 0.5) * 90;
+            // Calculate individualized trajectory parameters via CSS custom properties
+            const randomX = (Math.random() - 0.5) * 180; // Left-to-right spread width
+            const randomY = -(Math.random() * 120 + 100); // Upward velocity ceiling
+            const randomRotation = (Math.random() - 0.5) * 90; // Rotation spin velocity
 
             particle.style.setProperty('--x', `${randomX}px`);
             particle.style.setProperty('--y', `${randomY}px`);
             particle.style.setProperty('--r', `${randomRotation}deg`);
 
             document.body.appendChild(particle);
-            particle.addEventListener('animationend', () => { particle.remove(); });
+
+            // Clean up memory and DOM footprint once fade-out completes
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
         }
     </script>
 </body>
