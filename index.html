@@ -280,34 +280,56 @@
         box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
     }
 
-    /* Shrink the inner elements proportionally so they stay completely inside the new width bounds */
+/* FIXED: Changes alignment mechanics from absolute positioning to flexible stacking */
     .interactive-container {
         width: 100%;
         height: auto;
-        min-height: 420px;
-        justify-content: flex-end;
+        min-height: auto; /* Drops the fixed container height trap */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding-top: 20px;
     }
 
-    /* Scales down your sprite to perfectly fit mobile dimensions without breaking pixel rules */
+/* Scales down your sprite smoothly while maintaining center alignment */
     .pixel-art {
         width: 100% !important;
-        max-width: 260px; /* Scales down smoothly from 360px desktop size */
+        max-width: 240px; 
         height: auto !important;
-        margin-bottom: 4px;
+        margin-bottom: 0;
+        position: relative;
+        z-index: 2;
     }
 
-    /* Scales down the shadow to anchor correctly under the smaller sprite frame */
+    /* Stays pinned relative to the bottom layout floor */
     .sprite-shadow {
-        width: 130px;
-        height: 14px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 12px;
+        z-index: 1;
     }
 
-    /* Scales down the speech bubble width to align with the mobile card grid */
+/* FIXED: Stacks the speech bubble naturally above the sprite instead of guessing the height */
     .message-box {
-        width: 92%;
-        bottom: 280px; /* Lowers it slightly to match the smaller 260px sprite head */
+        position: relative; /* Switches off absolute positioning */
+        bottom: 0 !important; /* Wipes clean the desktop top/bottom tracking rules */
+        width: 100%;
+        max-width: 300px;
+        margin-top: 0;
+        margin-bottom: 25px; /* Creates a guaranteed, fixed safety gap above your sprite's head */
         padding: 14px;
         font-size: 10px;
+        transform: translateY(0); /* Normalizes position animations */
+    }
+
+    /* Make sure the text pop animation operates smoothly under relative constraints */
+    .message-box.show {
+        transform: translateY(-5px);
     }
 
     /* Letter card adjustments */
