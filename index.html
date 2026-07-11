@@ -101,7 +101,7 @@
     left: 50%;
     transform: translateX(-50%);
     width: 16px;
-    height: 12px;
+    height: 8px;
     background: #ffffff;
     
     /* 
@@ -452,7 +452,8 @@
         const backButton = document.getElementById('backButton');
         
         let messageTimer = null;
-        let lastMessageIndex = -1; 
+        let messageHistory = []; 
+        const historyLimit = 7;
         let musicStarted = false;
 
         // Unlocks background audio loop context on first interaction
@@ -501,32 +502,43 @@ clickArea.addEventListener('click', (e) => {
     });
 
 function triggerNewMessage() {
-            let randomIndex = lastMessageIndex;
-            while (randomIndex === lastMessageIndex) {
-                randomIndex = Math.floor(Math.random() * messages.length);
+            let availableIndexes = [];
+            for (let i = 0; i < messages.length; i++) {
+                if (!messageHistory.includes(i)) {
+                    availableIndexes.push(i);
+                }
             }
-            lastMessageIndex = randomIndex; 
+
+            if (availableIndexes.length === 0) {
+                messageHistory = [];
+                for (let i = 0; i < messages.length; i++) {
+                    availableIndexes.push(i);
+                }
+            }
+
+            let randomIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+            messageHistory.push(randomIndex);
+
+            if (messageHistory.length > historyLimit) {
+                messageHistory.shift();
+            }
 
             let rawMessage = messages[randomIndex];
 
-            /* 
-               REGULAR EXPRESSION ENGINE: 
-               Scans the selected text string for all standard, complex, 
-               and compound skin-tone/handshake emojis, then isolates them inside spans.
-            */
             let formattedMessage = rawMessage.replace(
                 /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF])/g, 
                 '<span class="bubble-emoji">$1</span>'
             );
 
-            // Print the newly formatted layout string safely as HTML markup
             messageBox.innerHTML = formattedMessage;
             messageBox.classList.add('show');
 
+            if (messageTimer) clearTimeout(messageTimer);
             messageTimer = setTimeout(() => {
                 messageBox.classList.remove('show');
             }, 4000);
         }
+        // ==========================================
 
         function createParticle(clickX, clickY) {
             const particle = document.createElement('div');
