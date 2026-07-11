@@ -599,20 +599,6 @@
     50% { transform: translateY(-120px) scale(1.2) rotate(-15deg); }
     100% { transform: translateY(0) scale(1) rotate(0deg); }
 }
-
-        /* --- TIME OF DAY: AUTOMATIC NIGHT CYCLE --- */
-body.night-mode {
-    /* Deep midnight purple-blue background */
-    background-color: #96117F !important; 
-    transition: background-color 1.5s ease; /* Smooth fade when entering */
-}
-
-/* Optional: Softens the main text display box at night so it doesn't strain the eyes */
-body.night-mode #messageBox {
-    background: rgba(255, 255, 255, 0.92);
-    border-color: #3b4252;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
     </style>
 </head>
 <body>
@@ -973,21 +959,6 @@ body.night-mode #messageBox {
             }
         }
 
-    // --- AUTOMATIC TIME-OF-DAY CYCLE ENGINE ---
-        function checkTimeOfDay() {
-            const currentHour = new Date().getHours();
-            
-            // If it is before 6:00 AM (6) or after 7:00 PM (19), activate midnight mode
-            if (currentHour < 6 || currentHour >= 00) {
-                document.body.classList.add('night-mode');
-                console.log("Night mode initialized automatically based on device clock.");
-            } else {
-                document.body.classList.remove('night-mode');
-            }
-        }
-
-        // Run the clock check immediately when the page loads up
-        checkTimeOfDay();
     </script>
 </body>
 </html>
