@@ -259,41 +259,63 @@
         transform: scale(1, 1);
     }
 }
-/* --- BULLETPROOF RESPONSIVE ENGINE --- */
+/* --- UNIVERSAL MOBILE ENGINE (SAFARI COMPATIBLE) --- */
 @media (max-width: 740px), (max-height: 700px) {
     body {
-        padding: 20px;
+        padding: 16px;
         box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        overflow-y: auto; /* Allows smooth viewport scrolling if the screen is tiny */
+        height: auto;
+        min-height: 100vh;
     }
 
     .window-frame {
-        /* 
-           FIXED: Using vmin checks the absolute tightest screen boundary.
-           0.85 vmin forces the container to shrink to 85% of her phone's smallest dimension,
-           guaranteeing it can NEVER clip or slide off the left, right, top, or bottom edges!
-        */
-        transform: scale(min(calc(100vmin / 740), 1));
-        
-        transform-origin: center center;
-        margin: 0 auto;
+        /* FIXED: Remove Safari scale glitch by using responsive fluid layout properties directly */
+        transform: none !important; 
+        width: 100%;
+        max-width: 440px; /* Snug, standard mobile card width */
+        min-height: auto;
+        padding: 24px 16px;
+        margin: 20px auto;
         box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
-        will-change: transform; 
-        
-        /* Prevents container flex engines from twisting shapes while scaling */
-        flex-shrink: 0; 
     }
 
-    /* Keeps the letter container perfectly snug and scrollable on all small screens */
+    /* Shrink the inner elements proportionally so they stay completely inside the new width bounds */
+    .interactive-container {
+        width: 100%;
+        height: auto;
+        min-height: 420px;
+        justify-content: flex-end;
+    }
+
+    /* Scales down your sprite to perfectly fit mobile dimensions without breaking pixel rules */
+    .pixel-art {
+        width: 100% !important;
+        max-width: 260px; /* Scales down smoothly from 360px desktop size */
+        height: auto !important;
+        margin-bottom: 4px;
+    }
+
+    /* Scales down the shadow to anchor correctly under the smaller sprite frame */
+    .sprite-shadow {
+        width: 130px;
+        height: 14px;
+    }
+
+    /* Scales down the speech bubble width to align with the mobile card grid */
+    .message-box {
+        width: 92%;
+        bottom: 280px; /* Lowers it slightly to match the smaller 260px sprite head */
+        padding: 14px;
+        font-size: 10px;
+    }
+
+    /* Letter card adjustments */
     .letter-card {
         padding: 24px;
         width: 100%;
         max-width: 440px;
-        max-height: 80vh; 
-        overflow-y: auto; 
-        -webkit-overflow-scrolling: touch; 
+        box-sizing: border-box;
     }
 
     .letter-card h1 {
