@@ -155,12 +155,13 @@
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
-        /* TRUE RETRO PIXEL ART SPEECH BUBBLE */
+/* TRUE RETRO PIXEL ART SPEECH BUBBLE */
         .message-box {
             position: absolute;
             bottom: 490px;        /* Clears the upscaled 360px sprite head */
             
             background: #ffffff;
+            /* YOUR EXACT RETRO PIXEL BOX ART SHADOW FORMULA: */
             box-shadow: 
                 0 -4px 0 -4px #1a1a1a, 0 4px 0 -4px #1a1a1a,
                 0 -8px 0 -4px #ffffff, 0 8px 0 -4px #ffffff,
@@ -186,6 +187,32 @@
             transition: opacity 0.2s steps(4), transform 0.2s steps(4);
             pointer-events: none;
             z-index: 999;
+        }
+
+        /* MOBILE EXPANSION SAFETY: Keeps the box from breaking on narrow phone screens */
+        @media (max-width: 400px) {
+            .message-box {
+                width: 90% !important; /* Lets it squish safely on tiny touchscreens */
+                bottom: 450px;         /* Pulls it slightly closer to the sprite on mobile layout chains */
+            }
+        }
+
+        /* NIGHT MODE TRANSITION: Adapts the gorgeous pixel borders to a cozy purple scheme */
+        body.night-mode .message-box {
+            background: #211c33 !important; /* Soft deep purple inside tint */
+            color: #ffffff !important;     /* Flips text color to crisp white for nighttime legibility */
+            
+            /* Recalculated shadow formula using soft purple border rings instead of harsh black */
+            box-shadow: 
+                0 -4px 0 -4px #4a3f6b, 0 4px 0 -4px #4a3f6b,
+                0 -8px 0 -4px #211c33, 0 8px 0 -4px #211c33,
+                -4px 0 0 -4px #4a3f6b, 4px 0 0 -4px #4a3f6b,
+                -8px 0 0 -4px #211c33, 8px 0 0 -4px #211c33,
+                4px 4px 0 0 #4a3f6b, 4px -4px 0 0 #4a3f6b,
+                -4px 4px 0 0 #4a3f6b, -4px -4px 0 0 #4a3f6b,
+                8px 0 0 0 #4a3f6b, -8px 0 0 0 #4a3f6b,
+                0 8px 0 0 #4a3f6b, 0 -8px 0 0 #4a3f6b,
+                8px 8px 0 0 rgba(0, 0, 0, 0.45) !important;
         }
 
         /* Pixel Art Tail Pointer */
@@ -431,21 +458,6 @@
         padding: 14px;
         font-size: 10px;
         transform: translateY(0); /* Normalizes position animations */
-    /* CRISP PIXEL OUTLINE ENGINE: */
-    background-color: #ffffff;
-    border: 4px solid #1a1a1a; /* Explicit solid border line forces mobile browsers to render it */
-    border-radius: 0px;        /* Keeps that lovely sharp, retro 8-bit aesthetic block corner */
-    box-sizing: border-box;    /* Prevents the border from expanding past the mobile viewport width */
-    
-    /* Adds a clean drop shadow layer that functions beautifully on tiny touchscreens */
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15); 
-}
-
-/* Updates the box presentation style for night mode safely */
-body.night-mode #messageBox {
-    background-color: rgba(255, 255, 255, 0.94) !important;
-    border: 4px solid #2d2645 !important; /* Soft deep purple border variant for nighttime visibility */
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
 }
 
     /* Make sure the text pop animation operates smoothly under relative constraints */
