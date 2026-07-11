@@ -597,6 +597,7 @@ clickArea.addEventListener('click', (e) => {
 
         
 function triggerNewMessage() {
+            // If the deck is completely empty, shuffle up a brand new sequence
             if (messageDeck.length === 0) {
                 messageDeck = shuffleDeck();
             }
