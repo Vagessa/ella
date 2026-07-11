@@ -603,7 +603,7 @@
         /* --- TIME OF DAY: AUTOMATIC NIGHT CYCLE --- */
 body.night-mode {
     /* Deep midnight purple-blue background */
-    background-color: #402A5E !important; 
+    background-color: #96117F !important; 
     transition: background-color 1.5s ease; /* Smooth fade when entering */
 }
 
@@ -978,7 +978,7 @@ body.night-mode #messageBox {
             const currentHour = new Date().getHours();
             
             // If it is before 6:00 AM (6) or after 7:00 PM (19), activate midnight mode
-            if (currentHour < 6 || currentHour >= 20) {
+            if (currentHour < 6 || currentHour >= 00) {
                 document.body.classList.add('night-mode');
                 console.log("Night mode initialized automatically based on device clock.");
             } else {
