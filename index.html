@@ -63,14 +63,17 @@
             0 -8px 0 0 #1a1a1a,
             8px 8px 0 0 rgba(0,0,0,0.15);
 
-        padding: 16px;
-        width: 280px;
-        min-height: 50px;
-        box-sizing: border-box;
-        text-align: center;
-        color: #1a1a1a;
-        font-size: 11px;
-        line-height: 1.6;
+
+    padding: 16px;
+    width: 280px;
+    height: auto;        /* Let it grow vertically */
+    min-height: 50px;    /* Baseline size for short text */
+    box-sizing: border-box;
+    word-wrap: break-word; /* Prevents long words from bleeding past the border */
+    text-align: center;
+    color: #1a1a1a;
+    font-size: 11px;
+    line-height: 1.6;
         
         opacity: 0;
         transform: translateY(10px);
@@ -189,82 +192,85 @@
     <!-- NEW: The Dynamic Ground Shadow -->
     <div class="sprite-shadow"></div>
 </div>
-    <div class="interactive-container" id="clickArea">
-        <!-- Pixel Speech Bubble -->
-        <div class="message-box" id="messageBox"></div>
-        
-        <!-- Main Character Sprite -->
-        <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
-    </div>
 
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
 
-    <script>
-        // Array of comforting strings (All caps works exceptionally well with 8-bit typography)
-        const messages = [
-            "YOU'RE DOING WONDERFULLY.",
-            "TAKE A DEEP BREATH. YOU'VE GOT THIS.",
-            "IT'S OKAY TO REST FOR A BIT.",
-            "PROUD OF YOU FOR TRYING YOUR BEST.",
-            "EVERYTHING IS GOING TO BE ALRIGHT.",
-            "DRINK SOME WATER TODAY! ✨",
-            "YOU ARE DEEPLY APPRECIATED."
-        ];
+<script>
+    const messages = [
+        "YOU'RE DOING WONDERFULLY.",
+        "TAKE A DEEP BREATH. YOU'VE GOT THIS.",
+        "IT'S OKAY TO REST FOR A BIT.",
+        "PROUD OF YOU FOR TRYING YOUR BEST.",
+        "EVERYTHING IS GOING TO BE ALRIGHT.",
+        "DRINK SOME WATER TODAY! ✨",
+        "YOU ARE DEEPLY APPRECIATED."
+    ];
 
-        const floatingPool = ["✨", "💖", "⭐", "🌸", "☁️"];
+    const floatingPool = ["✨", "💖", "⭐", "🌸", "☁️"];
 
-        const clickArea = document.getElementById('clickArea');
-        const messageBox = document.getElementById('messageBox');
-        const clickSound = document.getElementById('clickSound');
-        let messageTimer = null;
+    const clickArea = document.getElementById('clickArea');
+    const messageBox = document.getElementById('messageBox');
+    const clickSound = document.getElementById('clickSound');
+    
+    let messageTimer = null;
+    let lastMessageIndex = -1; // Stores the index of the phrase on screen
 
-        clickArea.addEventListener('click', (e) => {
-            clickSound.currentTime = 0; 
-            clickSound.play().catch(err => console.log("Audio waiting for interaction."));
+    clickArea.addEventListener('click', (e) => {
+        clickSound.currentTime = 0; 
+        clickSound.play().catch(err => console.log("Audio waiting for gesture."));
 
-            if (messageBox.classList.contains('show')) {
-                messageBox.classList.remove('show');
-                clearTimeout(messageTimer);
-                setTimeout(() => { triggerNewMessage(); }, 150);
-            } else {
-                triggerNewMessage();
-            }
-
-            for (let i = 0; i < 3; i++) {
-                createParticle(e.clientX, e.clientY);
-            }
-        });
-
-        function triggerNewMessage() {
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            messageBox.textContent = messages[randomIndex];
-            messageBox.classList.add('show');
-
-            messageTimer = setTimeout(() => {
-                messageBox.classList.remove('show');
-            }, 4000);
+        if (messageBox.classList.contains('show')) {
+            messageBox.classList.remove('show');
+            clearTimeout(messageTimer);
+            setTimeout(() => { triggerNewMessage(); }, 150);
+        } else {
+            triggerNewMessage();
         }
 
-        function createParticle(clickX, clickY) {
-            const particle = document.createElement('div');
-            particle.classList.add('floating-particle');
-            const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
-            particle.textContent = choice;
-
-            particle.style.left = `${clickX - 16}px`;
-            particle.style.top = `${clickY - 16}px`;
-
-            const randomX = (Math.random() - 0.5) * 180;
-            const randomY = -(Math.random() * 120 + 100);
-            const randomRotation = (Math.random() - 0.5) * 90;
-
-            particle.style.setProperty('--x', `${randomX}px`);
-            particle.style.setProperty('--y', `${randomY}px`);
-            particle.style.setProperty('--r', `${randomRotation}deg`);
-
-            document.body.appendChild(particle);
-            particle.addEventListener('animationend', () => { particle.remove(); });
+        for (let i = 0; i < 3; i++) {
+            createParticle(e.clientX, e.clientY);
         }
-    </script>
+    });
+
+    function triggerNewMessage() {
+        let randomIndex = lastMessageIndex;
+
+        // Loop until we pick an index that is different from the last one shown
+        while (randomIndex === lastMessageIndex) {
+            randomIndex = Math.floor(Math.random() * messages.length);
+        }
+        
+        // Track this selection for the next click verification cycle
+        lastMessageIndex = randomIndex; 
+
+        messageBox.textContent = messages[randomIndex];
+        messageBox.classList.add('show');
+
+        messageTimer = setTimeout(() => {
+            messageBox.classList.remove('show');
+        }, 4000);
+    }
+
+    function createParticle(clickX, clickY) {
+        const particle = document.createElement('div');
+        particle.classList.add('floating-particle');
+        const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
+        particle.textContent = choice;
+
+        particle.style.left = `${clickX - 16}px`;
+        particle.style.top = `${clickY - 16}px`;
+
+        const randomX = (Math.random() - 0.5) * 180;
+        const randomY = -(Math.random() * 120 + 100);
+        const randomRotation = (Math.random() - 0.5) * 90;
+
+        particle.style.setProperty('--x', `${randomX}px`);
+        particle.style.setProperty('--y', `${randomY}px`);
+        particle.style.setProperty('--r', `${randomRotation}deg`);
+
+        document.body.appendChild(particle);
+        particle.addEventListener('animationend', () => { particle.remove(); });
+    }
+</script>
 </body>
 </html>
