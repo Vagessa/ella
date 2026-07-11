@@ -60,6 +60,80 @@
     height: 560px;        /* Lifted slightly to keep the speech bubble aligned correctly */
 }
 
+        /* --- WELCOME SPLASH SCREEN STYLES --- */
+#welcome-splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f7f5f0; /* Matches your main background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Forces it to sit over absolutely everything else */
+    opacity: 1;
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Hidden state animation modifier */
+#welcome-splash.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.splash-card {
+    background: white;
+    border: 4px solid #1a1a1a;
+    padding: 32px 24px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+    font-family: 'Press Start 2P', monospace; /* Uses your existing pixel font */
+}
+
+.splash-card h1 {
+    font-size: 16px;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    line-height: 1.4;
+}
+
+.splash-card p {
+    font-size: 11px;
+    color: #555555;
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.splash-card .byline {
+    font-size: 10px;
+    color: #a3a3a3;
+    margin-bottom: 28px;
+}
+
+/* Retro Pixel-Style Button */
+#enter-button {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s active;
+    width: 100%;
+}
+
+#enter-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
         /* TRUE RETRO PIXEL ART SPEECH BUBBLE */
         .message-box {
             position: absolute;
@@ -388,7 +462,14 @@
     </style>
 </head>
 <body>
-
+<div id="welcome-splash">
+    <div class="splash-card">
+        <h1>HI ELLA! 💖</h1>
+        <p>THIS LITTLE THING WAS MADE SPECIFICALLY FOR YOU.</p>
+        <p class="byline">BY VANESSA</p>
+        <button id="enter-button" onclick="dismissSplash()">CLICK THE NOMMI!</button>
+    </div>
+</div>
     <!-- SCREEN 1: Main Sprite Frame -->
     <div class="window-frame" id="spriteFrame">
         <div class="interactive-container" id="clickArea">
@@ -602,6 +683,14 @@ function triggerNewMessage() {
                 }, 50);
             }, 500);
         });
+
+        // Dismisses the welcome screen with a smooth fade animation
+        function dismissSplash() {
+            const splash = document.getElementById('welcome-splash');
+            if (splash) {
+                splash.classList.add('fade-out');
+            }
+        }
     </script>
 </body>
 </html>
