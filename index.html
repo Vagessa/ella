@@ -623,6 +623,7 @@
     <audio id="photoSound" src="sfx.mp3" preload="auto"></audio>
 
 <script>
+        // 1. GLOBAL STATE & CONFIGURATION
         const messages = [
             "YOU ARE LOVED 💖",
             "YOU ARE CARED FOR 🫂",
@@ -651,20 +652,25 @@
 
         const floatingPool = ["🤍", "💖", "🌸", "☁️", "✨", "🌹", "🪷", "🌷"];
 
+        // DOM Elements
         const clickArea = document.getElementById('clickArea');
         const messageBox = document.getElementById('messageBox');
         const clickSound = document.getElementById('clickSound');
         const bgMusic = document.getElementById('bgMusic');
         const ellaButton = document.getElementById('ellaButton');
         const transitionSound = document.getElementById('transitionSound');
+        const mainSprite = document.getElementById('mainSprite');
         
         const spriteFrame = document.getElementById('spriteFrame');
         const letterCard = document.getElementById('letterCard');
         const backButton = document.getElementById('backButton');
         
+        // Dynamic State Engine Tracker Variables
         let messageTimer = null;
         let musicStarted = false;
         let messageDeck = [];
+        let holdTimer = null;
+        let isHolding = false;
 
         // Unlocks background audio loop context on first interaction
         function startMusic() {
@@ -675,122 +681,18 @@
             }
         }
 
+        // 2. MAIN CLICK AND TAP INTERACTIONS
         clickArea.addEventListener('click', (e) => {
-            if (isHolding) return; // Add this line! Stops click conflicting with hold mechanics
+            if (isHolding) return; 
             startMusic();
             clickSound.currentTime = 0; 
             clickSound.play().catch(err => {});
 
-            // --- EASTER EGG: 2-SECOND HOLD FOR HEART EXPLOSION ---
-        let holdTimer = null;
-        let isHolding = false;
-        const mainSprite = document.getElementById('mainSprite');
-
-        // This function handles starting the 2-second countdown tracker
-        function startHold(e) {
-            // Prevent the regular click pop-up from firing immediately on touch devices
-            if (e.type === 'touchstart') e.preventDefault();
-            
-            if (isHolding) return;
-            isHolding = true;
-
-            // Apply the frantic shake style to show it is charging up
-            mainSprite.classList.add('charging-shake');
-
-            // Start the 2000ms (2 second) timer clock
-            holdTimer = setTimeout(() => {
-                triggerHeartExplosion();
-                cancelHold(); 
-            }, 2000);
-        }
-
-        // Resets the clock cleanly if she lets go early
-        function cancelHold() {
-            isHolding = false;
-            if (holdTimer) clearTimeout(holdTimer);
-            mainSprite.classList.remove('charging-shake');
-        }
-
-        // The Grand Finale Action Sequence
-        function triggerHeartExplosion() {
-            // 1. Play your transition sound (or swap this with a custom sound element id)
-            if (transitionSound) {
-                transitionSound.currentTime = 0;
-                transitionSound.volume = 0.5;
-                transitionSound.play().catch(err => {});
-            }
-
-            // 2. Trigger the massive jump animation profile
-            mainSprite.classList.remove('squishing', 'charging-shake');
-            void mainSprite.offsetWidth; // Safe reflow trigger
-            mainSprite.classList.add('victory-jump');
-            
-            mainSprite.addEventListener('animationend', () => {
-                mainSprite.classList.remove('victory-jump');
-            }, { once: true });
-
-            // 3. Flood the page with a massive fountain of 40 randomized hearts!
-            for (let i = 0; i < 40; i++) {
-                // Stagger the particle burst slightly so they don't spawn clumped on top of each other
-                setTimeout(() => {
-                    // Pull the exact center coordinates of the Nommi screen block
-                    const rect = clickArea.getBoundingClientRect();
-                    const centerX = rect.left + (rect.width / 2);
-                    const centerY = rect.top + (rect.height / 2);
-                    
-                    // Call your existing particle machine with custom trajectory adjustments
-                    createCustomExplosionParticle(centerX, centerY);
-                }, i * 15);
-            }
-        }
-
-        // Customized particle creator that blasts elements across the entire display window
-        function createCustomExplosionParticle(startX, startY) {
-            const particle = document.createElement('div');
-            particle.classList.add('floating-particle');
-            
-            // Pick exclusively from the prettiest heart/sparkle symbols
-            const explosionPool = ["💖", "💝", "❤️", "✨", "🌸", "💘"];
-            particle.textContent = explosionPool[Math.floor(Math.random() * explosionPool.length)];
-
-            particle.style.left = `${startX - 12}px`;
-            particle.style.top = `${startY - 12}px`;
-
-            // Massive vertical thrust and wide horizontal scatter angles
-            const randomX = (Math.random() - 0.5) * window.innerWidth * 0.8;
-            const randomY = -(Math.random() * window.innerHeight * 0.7 + 200);
-            const randomRotation = (Math.random() - 0.5) * 360;
-
-            particle.style.setProperty('--x', `${randomX}px`);
-            particle.style.setProperty('--y', `${randomY}px`);
-            particle.style.setProperty('--r', `${randomRotation}deg`);
-
-            document.body.appendChild(particle);
-            particle.addEventListener('animationend', () => { particle.remove(); });
-        }
-
-        // BIND GESTURES: Listen for both Desktop Mouse clicks and Mobile Touch presses
-        clickArea.addEventListener('mousedown', startHold);
-        clickArea.addEventListener('touchstart', startHold, { passive: false });
-        
-        // Cancel logic if they move away or let go
-        window.addEventListener('mouseup', cancelHold);
-        window.addEventListener('touchend', cancelHold);
-        clickArea.addEventListener('mouseleave', cancelHold);
-
             // Squish Feedback Animation
-            const mainSprite = document.getElementById('mainSprite');
-            
-            // Remove the class first just in case it's already there from a rapid double-click
             mainSprite.classList.remove('squishing'); 
-            
-            // Force a quick browser reflow to reset the animation timeline safely
-            void mainSprite.offsetWidth; 
-            
-            // Apply the squish effect
+            void mainSprite.offsetWidth; // Force safe layout engine reflow
             mainSprite.classList.add('squishing');
 
-            // Clean up the class when done so the natural bobbing animation can resume smoothly
             mainSprite.addEventListener('animationend', () => {
                 mainSprite.classList.remove('squishing');
             }, { once: true });
@@ -808,7 +710,51 @@
             }
         });
 
-        // Helper function that shuffles a deck using the Fisher-Yates algorithm
+        // 3. SECRETS ENGINE: HOLD TRACKER GESTURES
+        function startHold(e) {
+            if (e.type === 'touchstart') e.preventDefault();
+            
+            isHolding = true;
+            mainSprite.classList.add('charging-shake');
+
+            holdTimer = setTimeout(() => {
+                triggerHeartExplosion();
+                cancelHold(); 
+            }, 2000);
+        }
+
+        function cancelHold() {
+            isHolding = false;
+            if (holdTimer) clearTimeout(holdTimer);
+            if (mainSprite) mainSprite.classList.remove('charging-shake');
+        }
+
+        function triggerHeartExplosion() {
+            if (transitionSound) {
+                transitionSound.currentTime = 0;
+                transitionSound.volume = 0.5;
+                transitionSound.play().catch(err => {});
+            }
+
+            mainSprite.classList.remove('squishing', 'charging-shake');
+            void mainSprite.offsetWidth; 
+            mainSprite.classList.add('victory-jump');
+            
+            mainSprite.addEventListener('animationend', () => {
+                mainSprite.classList.remove('victory-jump');
+            }, { once: true });
+
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const rect = clickArea.getBoundingClientRect();
+                    const centerX = rect.left + (rect.width / 2);
+                    const centerY = rect.top + (rect.height / 2);
+                    createCustomExplosionParticle(centerX, centerY);
+                }, i * 15);
+            }
+        }
+
+        // 4. GENERATIVE EFFECTS: SHUFFLING & PARTICLES
         function shuffleDeck() {
             let indices = Array.from({ length: messages.length }, (v, i) => i);
             for (let i = indices.length - 1; i > 0; i--) {
@@ -819,7 +765,6 @@
         }
 
         function triggerNewMessage() {
-            // If the deck is completely empty, shuffle up a brand new sequence
             if (messageDeck.length === 0) {
                 messageDeck = shuffleDeck();
             }
@@ -862,23 +807,50 @@
             particle.addEventListener('animationend', () => { particle.remove(); });
         }
 
+        function createCustomExplosionParticle(startX, startY) {
+            const particle = document.createElement('div');
+            particle.classList.add('floating-particle');
+            
+            const explosionPool = ["💖", "💝", "❤️", "✨", "🌸", "💘"];
+            particle.textContent = explosionPool[Math.floor(Math.random() * explosionPool.length)];
+
+            particle.style.left = `${startX - 12}px`;
+            particle.style.top = `${startY - 12}px`;
+
+            const randomX = (Math.random() - 0.5) * window.innerWidth * 0.8;
+            const randomY = -(Math.random() * window.innerHeight * 0.7 + 200);
+            const randomRotation = (Math.random() - 0.5) * 360;
+
+            particle.style.setProperty('--x', `${randomX}px`);
+            particle.style.setProperty('--y', `${randomY}px`);
+            particle.style.setProperty('--r', `${randomRotation}deg`);
+
+            document.body.appendChild(particle);
+            particle.addEventListener('animationend', () => { particle.remove(); });
+        }
+
+        // 5. WINDOW GESTURE LISTENERS
+        clickArea.addEventListener('mousedown', startHold);
+        clickArea.addEventListener('touchstart', startHold, { passive: false });
+        window.addEventListener('mouseup', cancelHold);
+        window.addEventListener('touchend', cancelHold);
+        clickArea.addEventListener('mouseleave', cancelHold);
+
         // Crossfading view states so music never stops
         ellaButton.addEventListener('click', (e) => {
             e.stopPropagation(); 
             startMusic();
 
-            transitionSound.volume = 0.4; // Sets it to 40% volume.
+            transitionSound.volume = 0.4; 
             transitionSound.currentTime = 0;
             transitionSound.play().catch(err => {});
             
-            // Fade out the main sprite window frame
             spriteFrame.style.opacity = '0';
             
             setTimeout(() => {
                 spriteFrame.style.display = 'none'; 
                 letterCard.style.display = 'block'; 
                 
-                // Smoothly fade in the letter card structure
                 setTimeout(() => {
                     letterCard.style.opacity = '1';
                 }, 50);
@@ -904,32 +876,6 @@
             const splash = document.getElementById('welcome-splash');
             if (splash) {
                 splash.classList.add('fade-out');
-            }
-        }
-
-    // Opens the photo modal overlay and triggers your custom sound effect
-        function openPhotoModal(event) {
-            event.stopPropagation(); // Prevents clicks from leaking around the layout engine
-            
-            const modal = document.getElementById('photo-modal');
-            const sound = document.getElementById('photoSound');
-            
-            if (sound) {
-                sound.currentTime = 0;
-                sound.volume = 0.5; // Sets the pop effect to 50% volume
-                sound.play().catch(err => console.log("Sound played safely"));
-            }
-            
-            if (modal) {
-                modal.classList.add('modal-show');
-            }
-        }
-
-        // Dismisses the image overlay safely when clicking anywhere on the screen
-        function closePhotoModal() {
-            const modal = document.getElementById('photo-modal');
-            if (modal) {
-                modal.classList.remove('modal-show');
             }
         }
     </script>
