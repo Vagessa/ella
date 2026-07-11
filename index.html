@@ -94,22 +94,23 @@
         }
 
         /* Pixel Art Tail Pointer */
-        .message-box::after {
-content: '';
+.message-box::after {
+    content: '';
     position: absolute;
-    bottom: -16px;
+    bottom: -14px; /* Shifted up 2px from -16px to overlap and kill the gap completely */
     left: 50%;
     transform: translateX(-50%);
     width: 16px;
-    height: 16px; /* Slightly taller to mask the parent border */
+    height: 16px;
     background: white;
     box-shadow: 
-        -4px -4px 0 0 #ffffff, 4px -4px 0 0 #ffffff, /* Extra white pixels to hide the box line */
-        -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,
-        -4px 4px 0 0 #1a1a1a, 4px 4px 0 0 #1a1a1a,
-        0 8px 0 0 #1a1a1a,
-        4px 8px 0 0 rgba(0,0,0,0.1); /* Matches the main bubble's soft drop shadow */
-        }
+        -4px -4px 0 0 #ffffff, 4px -4px 0 0 #ffffff, /* Overlap masking */
+        -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,       /* Left & Right black borders */
+        -4px 4px 0 0 #1a1a1a, 4px 4px 0 0 #1a1a1a,   /* Diagonal border fill */
+        0 4px 0 0 #ffffff,                           /* Solid white inner fill */
+        0 8px 0 0 #1a1a1a,                           /* Sharp bottom point border */
+        4px 8px 0 0 rgba(0,0,0,0.1);                 /* Drop shadow match */
+}
 
         .message-box.show {
             opacity: 1;
@@ -355,18 +356,24 @@ content: '';
 
         /* Forces emojis inside the speech balloon to scale perfectly with the text height */
 .bubble-emoji {
-    font-family: Arial, sans-serif; /* Switches font style locally so emojis render correctly */
-    font-size: 16px;                /* Upscales them beautifully past the 11px pixel font limit */
+    font-family: Arial, sans-serif; 
+    font-size: 16px;                
     line-height: 1;
     display: inline-block;
-    vertical-align: middle;        /* Keeps them vertically balanced with your text lines */
-    margin: 0 2px;                 /* Adds a tiny bit of horizontal breathing room */
+    
+    /* ALIGNMENT FIXES */
+    vertical-align: baseline;    /* Uses the text's baseline instead of trying to center a different font height */
+    margin-bottom: -1px;         /* Gently pulls the emoji upward by 1 pixel to match the letters */
+    margin-left: 4px;            /* Adds uniform horizontal space */
+    margin-right: 4px;
 }
 
-/* Slightly smaller adjustment for mobile screen dimensions */
+/* Matching alignment tune-up for mobile screen dimensions */
 @media (max-width: 740px), (max-height: 700px) {
     .bubble-emoji {
         font-size: 14px;
+        vertical-align: baseline;
+        margin-bottom: -1px;
     }
 }
     </style>
