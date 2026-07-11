@@ -27,34 +27,38 @@
         }
 
         /* SCREEN 1: Main Sprite Window Frame Layout */
-        .window-frame {
-            background: #fff8fc; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px;
-            box-sizing: border-box;
-            position: relative;
-            
-            border: 6px solid #1a1a1a;
-            border-radius: 4px;
-            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+/* Update this block inside your <style> section */
+.window-frame {
+    background: #fff8fc; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;
+    
+    border: 6px solid #1a1a1a;
+    border-radius: 4px;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease;
 
-            width: 500px;         /* Rectangular proportions */
-            min-height: 600px;    
-            transition: opacity 0.5s ease;
-        }
-
-        .interactive-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-            justify-content: flex-end;
-            width: 100%;          
-            height: 540px;        
-        }
+    /* NEW RECTANGULAR RATIOS */
+    width: 680px;         /* Significantly widened from 500px for a true rectangle */
+    min-height: 640px;    /* Slightly taller to keep proportions beautifully balanced */
+}
+/* Update this block inside your <style> section */
+.interactive-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    justify-content: flex-end;
+    
+    /* SCALE ADJUSTMENTS */
+    width: 100%;          /* Flexes out to fill the entire 680px frame width */
+    height: 560px;        /* Lifted slightly to keep the speech bubble aligned correctly */
+}
 
         /* TRUE RETRO PIXEL ART SPEECH BUBBLE */
         .message-box {
