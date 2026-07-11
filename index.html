@@ -217,7 +217,7 @@
             position: absolute;
             pointer-events: none;
             font-family: Arial, sans-serif;
-            font-size: 32px;
+            font-size: 48px;
             z-index: 1000;
             animation: floatUp 2s ease-out forwards;
         }
@@ -259,28 +259,31 @@
         transform: scale(1, 1);
     }
 }
-        /* --- BULLETPROOF RESPONSIVE ENGINE --- */
+/* --- BULLETPROOF RESPONSIVE ENGINE --- */
 @media (max-width: 740px), (max-height: 700px) {
     body {
-        padding: 10px;
+        padding: 20px;
         box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .window-frame {
         /* 
-           Uses CSS math to pick the absolute perfect scale factor.
-           It looks at the screen's width and height and makes sure 
-           the frame never spills over the edge of either boundary.
+           FIXED: Using vmin checks the absolute tightest screen boundary.
+           0.85 vmin forces the container to shrink to 85% of her phone's smallest dimension,
+           guaranteeing it can NEVER clip or slide off the left, right, top, or bottom edges!
         */
-        transform: scale(
-            clamp(0.4, min(calc(vw / 720), calc(vh / 680)), 1)
-        );
+        transform: scale(min(calc(100vmin / 740), 1));
+        
         transform-origin: center center;
         margin: 0 auto;
         box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
-        
-        /* Forces hardware acceleration to keep pixel edges ultra-sharp while scaling */
         will-change: transform; 
+        
+        /* Prevents container flex engines from twisting shapes while scaling */
+        flex-shrink: 0; 
     }
 
     /* Keeps the letter container perfectly snug and scrollable on all small screens */
@@ -288,9 +291,9 @@
         padding: 24px;
         width: 100%;
         max-width: 440px;
-        max-height: 82vh; 
+        max-height: 80vh; 
         overflow-y: auto; 
-        -webkit-overflow-scrolling: touch; /* Silky smooth momentum scrolling on iOS Safari */
+        -webkit-overflow-scrolling: touch; 
     }
 
     .letter-card h1 {
@@ -427,12 +430,12 @@ clickArea.addEventListener('click', (e) => {
             const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
             particle.textContent = choice;
 
-            particle.style.left = `${clickX - 16}px`;
-            particle.style.top = `${clickY - 16}px`;
+            particle.style.left = `${clickX - 24}px`;
+            particle.style.top = `${clickY - 24}px`;
 
-            const randomX = (Math.random() - 0.5) * 180;
-            const randomY = -(Math.random() * 120 + 100);
-            const randomRotation = (Math.random() - 0.5) * 90;
+            const randomX = (Math.random() - 0.5) * 300;
+            const randomY = -(Math.random() * 180 + 150);
+            const randomRotation = (Math.random() - 0.5) * 180;
 
             particle.style.setProperty('--x', `${randomX}px`);
             particle.style.setProperty('--y', `${randomY}px`);
@@ -446,6 +449,9 @@ clickArea.addEventListener('click', (e) => {
         ellaButton.addEventListener('click', (e) => {
             e.stopPropagation(); 
             startMusic();
+
+            // ADJUST LOUDNESS HERE (0.0 = muted, 1.0 = full blast)
+    transitionSound.volume = 0.4; // Sets it to 40% volume. Adjust this number as needed!
             
             transitionSound.currentTime = 0;
             transitionSound.play().catch(err => {});
