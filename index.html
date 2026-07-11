@@ -274,7 +274,17 @@
             position: relative;
             z-index: 2; 
             margin-bottom: 8px; 
-        }
+/* SEALS THE ELEMENT FROM INTERCEPTING TOUCH SHEET POPUPS: */
+    -webkit-touch-callout: none !important; /* Total Safari popup block */
+    -webkit-user-select: none !important;   /* No highlight bands */
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    
+    -webkit-user-drag: none !important;    /* Keeps mobile Chrome from dragging the asset file */
+    pointer-events: none !important;       /* Lets touch passes route safely through to the wrapper container */
+}
 
         /* FOR ELLA PIXEL BUTTON */
         .ella-btn {
@@ -599,6 +609,25 @@
     50% { transform: translateY(-120px) scale(1.2) rotate(-15deg); }
     100% { transform: translateY(0) scale(1) rotate(0deg); }
 }
+
+        /* --- RARE FLIP ANIMATION ENGINE --- */
+        .rare-backflip {
+            /* Uses your exact signature steps configuration to keep the retro 8-bit vibe! */
+            animation: retroFlip 0.6s steps(6) forwards;
+        }
+
+        @keyframes retroFlip {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                /* Pulls upward slightly at the peak of the jump flight path */
+                transform: scale(1.15) translateY(-30px) rotate(180deg);
+            }
+            100% {
+                transform: scale(1) translateY(0) rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -710,24 +739,34 @@
             }
         }
 
-        // 2. MAIN CLICK AND TAP INTERACTIONS
+// 2. MAIN CLICK AND TAP INTERACTIONS
         clickArea.addEventListener('click', (e) => {
-            // Prevent regular click popup if we are currently performing or processing a long-press
             if (isHolding) return; 
-            
             startMusic();
             clickSound.currentTime = 0; 
             clickSound.play().catch(err => {});
 
-            // Squish Feedback Animation
-            mainSprite.classList.remove('squishing'); 
-            void mainSprite.offsetWidth; // Force safe layout engine reflow
-            mainSprite.classList.add('squishing');
+            // REMOVE OLD ANIMATIONS CLEANLY BEFORE ROLLING
+            mainSprite.classList.remove('squishing', 'rare-backflip'); 
+            void mainSprite.offsetWidth; // Force layout reflow
 
-            mainSprite.addEventListener('animationend', () => {
-                mainSprite.classList.remove('squishing');
-            }, { once: true });
+            // ROLL THE DICE: 5% chance to do a rare backflip (0.05)
+            if (Math.random() < 0.05) {
+                mainSprite.classList.add('rare-backflip');
+                
+                mainSprite.addEventListener('animationend', () => {
+                    mainSprite.classList.remove('rare-backflip');
+                }, { once: true });
+            } else {
+                // Default 95% chance: Standard Squish Feedback Animation
+                mainSprite.classList.add('squishing');
 
+                mainSprite.addEventListener('animationend', () => {
+                    mainSprite.classList.remove('squishing');
+                }, { once: true });
+            }
+
+            // Your existing message popup and particle code continues exactly the same below...
             if (messageBox.classList.contains('show')) {
                 messageBox.classList.remove('show');
                 clearTimeout(messageTimer);
@@ -892,6 +931,11 @@
         clickArea.addEventListener('mouseup', cancelHold);
         clickArea.addEventListener('touchend', cancelHold);
         clickArea.addEventListener('mouseleave', cancelHold);
+    /* NEW: FORCES MOBILE SYSTEM MENUS TO SHUT DOWN INSTANTLY ON INTERACTION */
+        clickArea.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
 
         // 6. PHOTO MODAL FUNCTIONS
         function openPhotoModal(event) {
