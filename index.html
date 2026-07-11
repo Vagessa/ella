@@ -97,19 +97,28 @@
 .message-box::after {
     content: '';
     position: absolute;
-    bottom: -14px; /* Shifted up 2px from -16px to overlap and kill the gap completely */
+    bottom: -12px; /* Pulled up significantly into the bubble to crush sub-pixel gaps */
     left: 50%;
     transform: translateX(-50%);
     width: 16px;
     height: 16px;
-    background: white;
+    background: #ffffff;
+    
+    /* 
+       THE SEAM KILLER: 
+       This explicit white top border acts as a visual patch. 
+       It physically covers up the bubble's bottom dark border line 
+       so browser rendering engine rounding errors cannot leave transparent slits.
+    */
+    border-top: 2px solid #ffffff; 
+    box-sizing: content-box;
+
     box-shadow: 
-        -4px -4px 0 0 #ffffff, 4px -4px 0 0 #ffffff, /* Overlap masking */
-        -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,       /* Left & Right black borders */
-        -4px 4px 0 0 #1a1a1a, 4px 4px 0 0 #1a1a1a,   /* Diagonal border fill */
-        0 4px 0 0 #ffffff,                           /* Solid white inner fill */
+        -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,       /* Left & Right sharp outlines */
+        -4px 4px 0 0 #1a1a1a, 4px 4px 0 0 #1a1a1a,   /* Diagonal outer corners */
+        0 4px 0 0 #ffffff,                           /* Solid white internal fill */
         0 8px 0 0 #1a1a1a,                           /* Sharp bottom point border */
-        4px 8px 0 0 rgba(0,0,0,0.1);                 /* Drop shadow match */
+        4px 8px 0 0 rgba(0, 0, 0, 0.1);              /* Drop shadow alignment match */
 }
 
         .message-box.show {
