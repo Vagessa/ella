@@ -962,8 +962,9 @@
 
         // 6. PHOTO MODAL FUNCTIONS
 // 📸 DYNAMIC RANDOMIZED PHOTO POOL
+let currentPhotoIndex = 0; // Starts at the first image
         const memoryPhotos = [
-            'cat.jpg', // Add your actual image filenames or URLs here!
+            'cat.jpg', 
             'bestie.gif',
             'dog.jpg',
             'me-when.jpg',
@@ -973,22 +974,25 @@
 function openPhotoModal(event) {
             if (event) event.preventDefault(); // Keeps the page from shifting
             
-            // 1. Pick a completely random image path from your pool array
-            const randomPhoto = memoryPhotos[Math.floor(Math.random() * memoryPhotos.length)];
+            // 1. CYCLE ENGINE: Grab the image at the current track index
+            const currentPhoto = memoryPhotos[currentPhotoIndex];
             
             // 2. Inject it straight into your modal's image element target
             const modalTargetImg = document.getElementById('photoModalImage');
             if (modalTargetImg) {
-                modalTargetImg.src = randomPhoto;
+                modalTargetImg.src = currentPhoto;
             }
 
-            // 3. Trigger your optional photo sound effect if you have it!
+            // 3. Increment the index for the next click, wrapping back to 0 at the end
+            currentPhotoIndex = (currentPhotoIndex + 1) % memoryPhotos.length;
+
+            // 4. Trigger your optional photo sound effect if you have it!
             if (typeof photoSound !== 'undefined') {
                 photoSound.currentTime = 0;
                 photoSound.play().catch(e => {});
             }
 
-            // 4. FIX: Use the CSS class you already built to show the modal flawlessly
+            // 5. Opens the modal smoothly
             const photoModal = document.getElementById('photo-modal');
             if (photoModal) {
                 photoModal.classList.add('modal-show');
