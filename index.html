@@ -520,6 +520,33 @@
         vertical-align: baseline;
         margin-bottom: -1px;
     }
+    /* FORCE MODAL RESPONSIVENESS ON MOBILE DIMENSIONS */
+    #photo-modal {
+        display: none;          /* Keeps it hidden until clicked */
+        align-items: center;    /* Center vertically */
+        justify-content: center;/* Center horizontally */
+        padding: 16px;
+        box-sizing: border-box;
+    }
+    
+    #photo-modal.modal-show {
+        display: flex !important; /* Forces layout context switch on click */
+    }
+
+    .modal-content {
+        width: 100% !important;
+        max-width: 320px !important; /* Snug fit for narrow phone viewports */
+        padding: 0 !important;
+    }
+
+    #modal-img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 60vh !important; /* Leaves plenty of room for screen orientation glitches */
+        display: block;
+        margin: 0 auto;
+    }
 }
 
 /* --- LETTER CARD IMAGE MODAL BUTTON --- */
