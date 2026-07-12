@@ -686,7 +686,7 @@
     <div id="photo-modal" onclick="closePhotoModal()">
     <div class="modal-content">
         <!-- REPLACE THIS WITH YOUR ACTUAL IMAGE PATH/URL -->
-        <img src="cat.jpg" alt="Special memory" id="modal-img">
+<img id="photoModalImage" src="" alt="Random Memory Photo" />
         <p class="modal-hint">CLICK ANYWHERE TO CLOSE</p>
     </div>
 </div>
@@ -961,25 +961,39 @@
         });
 
         // 6. PHOTO MODAL FUNCTIONS
-        function openPhotoModal(event) {
-            event.stopPropagation(); 
-            const modal = document.getElementById('photo-modal');
-            const sound = document.getElementById('photoSound');
-            
-            if (sound) {
-                sound.currentTime = 0;
-                sound.volume = 0.5;
-                sound.play().catch(err => console.log("Sound error handled"));
-            }
-            if (modal) {
-                modal.classList.add('modal-show');
-            }
-        }
+// 📸 DYNAMIC RANDOMIZED PHOTO POOL
+        const memoryPhotos = [
+            'cat.jpg', // Add your actual image filenames or URLs here!
+            'bestie.gif',
+            'dog.jpg',
+            'me-when.jpg',
+            'godzilla.jpg'
+        ];
 
-        function closePhotoModal() {
-            const modal = document.getElementById('photo-modal');
-            if (modal) {
-                modal.classList.remove('modal-show');
+        function openPhotoModal(event) {
+            if (event) event.preventDefault(); // Keeps the page from shifting
+            
+            // 1. Pick a completely random image path from your pool array
+            const randomPhoto = memoryPhotos[Math.floor(Math.random() * memoryPhotos.length)];
+            
+            // 2. Inject it straight into your modal's image element target
+            const modalTargetImg = document.getElementById('photoModalImage');
+            if (modalTargetImg) {
+                modalTargetImg.src = randomPhoto;
+            }
+
+            // 3. Trigger your optional photo sound effect if you have it!
+            if (typeof photoSound !== 'undefined') {
+                photoSound.currentTime = 0;
+                photoSound.play().catch(e => {});
+            }
+
+            // 4. YOUR EXISTING MODAL OPEN LOGIC HERE:
+            // (e.g., photoModal.classList.add('show') or whatever your layout track uses)
+            const photoModal = document.getElementById('photoModal'); // Change ID to match yours if different
+            if (photoModal) {
+                photoModal.style.display = 'flex'; // Or whatever opens your specific modal layout
+                setTimeout(() => { photoModal.style.opacity = '1'; }, 10);
             }
         }
 
