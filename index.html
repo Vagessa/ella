@@ -575,11 +575,13 @@
 }
 
 #modal-img {
-    max-width: 100%;
-    max-height: 70vh;
+    width: auto;                  /* Lets the width calculate naturally */
+    max-width: 100%;             /* Prevents the image from being wider than the screen */
+    height: auto;                 /* Keeps the aspect ratio perfectly intact */
+    max-height: 70vh;             /* Prevents vertical scrolling on taller images */
     border: 4px solid white;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    object-fit: contain;
+    object-fit: contain;          /* Ensures the whole picture stays visible inside the bounds */
 }
 
 .modal-hint {
@@ -642,7 +644,7 @@
             <span class="splash-title-emoji">💖</span>
         </h1>
         <p>THIS LITTLE GIFT WAS MADE SPECIFICALLY FOR YOU!</p>
-        <p style="font-size: 9px; color: #a3a3a3; margin-top: -8px; margin-bottom: 20px;">THERE IS AUDIO BTW!!</p>
+        <p style="font-size: 7px; color: #a3a3a3; margin-top: -8px; margin-bottom: 20px;">THERE IS AUDIO BTW!!</p>
         
         <p class="byline">FROM VANESSA :)</p>
         <button id="enter-button" onclick="dismissSplash()">TAP CAPRIELLE!</button>
