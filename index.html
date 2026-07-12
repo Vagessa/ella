@@ -1001,6 +1001,8 @@ function openPhotoModal(event) {
 
             // 4. Trigger your optional photo sound effect if you have it!
             if (typeof photoSound !== 'undefined') {
+                // ADJUST CLICK VOLUME HERE (0.0 to 1.0)
+            clickSound.volume = 0.5; // 0.5 cuts the volume completely in half!
                 photoSound.currentTime = 0;
                 photoSound.play().catch(e => {});
             }
