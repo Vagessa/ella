@@ -570,18 +570,21 @@
 
 .modal-content {
     text-align: center;
-    max-width: 90%;
+    width: 100%;             /* Allows the content block to use the full available width */
+    max-width: 440px;        /* Matches your mobile window card width so it frames up nicely */
     max-height: 80vh;
+    padding: 0 10px;         /* Creates a tiny safety gutter so the image border doesn't touch the phone glass */
+    box-sizing: border-box;  /* Includes the padding inside the width calculation */
 }
 
 #modal-img {
-    width: auto;                  /* Lets the width calculate naturally */
-    max-width: 100%;             /* Prevents the image from being wider than the screen */
-    height: auto;                 /* Keeps the aspect ratio perfectly intact */
-    max-height: 70vh;             /* Prevents vertical scrolling on taller images */
+    width: 100%;             /* Forces the image to fill the safe width of its container */
+    height: auto;            /* Keeps the aspect ratio perfectly intact */
+    max-height: 65vh;        /* Slightly reduced to leave room for the text hint below it */
     border: 4px solid white;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    object-fit: contain;          /* Ensures the whole picture stays visible inside the bounds */
+    object-fit: contain;     /* Safeguards against any clipping or squishing */
+    box-sizing: border-box;
 }
 
 .modal-hint {
