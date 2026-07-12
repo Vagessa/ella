@@ -970,7 +970,7 @@
             'godzilla.jpg'
         ];
 
-        function openPhotoModal(event) {
+function openPhotoModal(event) {
             if (event) event.preventDefault(); // Keeps the page from shifting
             
             // 1. Pick a completely random image path from your pool array
@@ -988,12 +988,18 @@
                 photoSound.play().catch(e => {});
             }
 
-            // 4. YOUR EXISTING MODAL OPEN LOGIC HERE:
-            // (e.g., photoModal.classList.add('show') or whatever your layout track uses)
-            const photoModal = document.getElementById('photoModal'); // Change ID to match yours if different
+            // 4. FIX: Use the CSS class you already built to show the modal flawlessly
+            const photoModal = document.getElementById('photo-modal');
             if (photoModal) {
-                photoModal.style.display = 'flex'; // Or whatever opens your specific modal layout
-                setTimeout(() => { photoModal.style.opacity = '1'; }, 10);
+                photoModal.classList.add('modal-show');
+            }
+        }
+
+    // 5. FIX: Added the missing close function so clicking the modal hides it again
+        function closePhotoModal() {
+            const photoModal = document.getElementById('photo-modal');
+            if (photoModal) {
+                photoModal.classList.remove('modal-show');
             }
         }
 
