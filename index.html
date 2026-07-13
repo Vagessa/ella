@@ -712,16 +712,19 @@
             animation: jitter 0.2s infinite alternate;
         }
 
-        .fade-text {
-    font-size: 9px !important;
+.fade-text {
+    font-size: 7px !important;
     color: #a3a3a3 !important;
     margin-bottom: 20px !important;
-    animation: fadeInOut 2s ease-in-out infinite;
+    opacity: 0; /* Start hidden */
+    animation: fadeInOutOnce 3s ease-in-out forwards;
 }
 
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
+@keyframes fadeInOutOnce {
+    0% { opacity: 0; }      /* Hidden */
+    20% { opacity: 1; }     /* Appear */
+    80% { opacity: 1; }     /* Stay visible */
+    100% { opacity: 0; }    /* Disappear and stay hidden */
 }
     </style>
 </head>
@@ -734,7 +737,6 @@
         </h1>
         <p>THIS LITTLE GIFT WAS MADE SPECIFICALLY FOR YOU!</p>      
         <p class="fade-text">there is a secret somewhere...</p>
-        
         <p class="byline">FROM VANESSA :)</p>
         <button id="enter-button" onclick="dismissSplash()">TAP CAPRIELLE!</button>
     </div>
