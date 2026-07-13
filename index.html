@@ -18,7 +18,6 @@
             justify-content: center;
             align-items: center;
             
-            /* Core crosshatch background */
             background-color: #f0e6ef; 
             background-image: 
                 linear-gradient(to right, rgba(255, 255, 255, 0.4) 4px, transparent 4px),
@@ -31,141 +30,135 @@
         }
 
         /* SCREEN 1: Main Sprite Window Frame Layout */
-/* Update this block inside your <style> section */
-.window-frame {
-    background: #fff8fc; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px;
-    box-sizing: border-box;
-    position: relative;
-    
-    border: 6px solid #1a1a1a;
-    border-radius: 4px;
-    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.5s ease;
+        .window-frame {
+            background: #fff8fc; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+            
+            border: 6px solid #1a1a1a;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
+            width: 680px;         
+            min-height: 640px;    
+        }
 
-    /* NEW RECTANGULAR RATIOS */
-    width: 680px;         /* Significantly widened from 500px for a true rectangle */
-    min-height: 640px;    /* Slightly taller to keep proportions beautifully balanced */
-}
-/* Update this block inside your <style> section */
-.interactive-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-    justify-content: flex-end;
-    
-    /* SCALE ADJUSTMENTS */
-    width: 100%;          /* Flexes out to fill the entire 680px frame width */
-    height: 560px;        /* Lifted slightly to keep the speech bubble aligned correctly */
-}
+        .interactive-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            justify-content: flex-end;
+            width: 100%;          
+            height: 560px;        
+        }
 
         /* --- WELCOME SPLASH SCREEN STYLES --- */
-#welcome-splash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #f7f5f0; /* Matches your main background color */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Forces it to sit over absolutely everything else */
-    opacity: 1;
-    transition: opacity 0.5s ease-out, visibility 0.5s;
-    padding: 20px;
-    box-sizing: border-box;
-}
+        #welcome-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f7f5f0; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999; 
+            opacity: 1;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+            padding: 20px;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
 
-        /* Forces the header text and emoji into a perfectly centered horizontal track */
-.splash-title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px; /* Adds clean horizontal breathing space between Ella! and the heart */
-    font-size: 16px;
-    color: #1a1a1a;
-    margin-bottom: 24px;
-    line-height: 1;
-}
+        .splash-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px; 
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            line-height: 1;
+        }
 
-/* Micro alignment tuning dedicated specifically for large headers */
-.splash-title-emoji {
-    font-family: Arial, sans-serif;
-    font-size: 18px; /* Slightly scaled up to match the bold presence of the pixel font */
-    line-height: 1;
-    transform: translateY(-1px); /* Delicate upward push to lock it to the eye level */
-    display: inline-block;
-}
+        .splash-title-emoji {
+            font-family: Arial, sans-serif;
+            font-size: 18px; 
+            line-height: 1;
+            transform: translateY(-1px); 
+            display: inline-block;
+        }
 
-/* Hidden state animation modifier */
-#welcome-splash.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
+        #welcome-splash.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-.splash-card {
-    background: white;
-    border: 4px solid #1a1a1a;
-    padding: 32px 24px;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
-    font-family: 'Press Start 2P', monospace; /* Uses your existing pixel font */
-}
+        .splash-card {
+            background: white;
+            border: 4px solid #1a1a1a;
+            padding: 32px 24px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+            font-family: 'Press Start 2P', monospace; 
+            pointer-events: auto;
+        }
 
-.splash-card h1 {
-    font-size: 16px;
-    color: #1a1a1a;
-    margin-bottom: 24px;
-    line-height: 1.4;
-}
+        .splash-card h1 {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
 
-.splash-card p {
-    font-size: 11px;
-    color: #555555;
-    line-height: 1.8;
-    margin-bottom: 16px;
-}
+        .splash-card p {
+            font-size: 11px;
+            color: #555555;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
 
-.splash-card .byline {
-    font-size: 10px;
-    color: #a3a3a3;
-    margin-bottom: 28px;
-}
+        .splash-card .byline {
+            font-size: 10px;
+            color: #a3a3a3;
+            margin-bottom: 28px;
+        }
 
-/* Retro Pixel-Style Button */
-#enter-button {
-    background: #1a1a1a;
-    color: white;
-    border: none;
-    padding: 16px 24px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 11px;
-    cursor: pointer;
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
-    transition: transform 0.1s active;
-    width: 100%;
-}
+        #enter-button {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s ease-out;
+            width: 100%;
+            position: relative;
+            z-index: 100000;
+        }
 
-#enter-button:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-}
-/* TRUE RETRO PIXEL ART SPEECH BUBBLE */
+        #enter-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        /* PIXEL ART SPEECH BUBBLE */
         .message-box {
             position: absolute;
-            bottom: 490px;        /* Clears the upscaled 360px sprite head */
-            
+            bottom: 490px;        
             background: #ffffff;
-            /* YOUR EXACT RETRO PIXEL BOX ART SHADOW FORMULA: */
             box-shadow: 
                 0 -4px 0 -4px #1a1a1a, 0 4px 0 -4px #1a1a1a,
                 0 -8px 0 -4px #ffffff, 0 8px 0 -4px #ffffff,
@@ -178,7 +171,7 @@
                 8px 8px 0 0 rgba(0,0,0,0.1);
 
             padding: 20px;
-            width: 360px;         /* Matches sprite width */
+            width: 360px;         
             min-height: 60px;
             box-sizing: border-box;
             text-align: center;
@@ -193,22 +186,30 @@
             z-index: 999;
         }
 
-        /* MOBILE EXPANSION SAFETY: Keeps the box from breaking on narrow phone screens */
+        /* SECRET BUBBLE SPECIAL EFFECTS */
+        .secret-bubble {
+            color: #ff3366 !important;
+            font-weight: bold;
+            animation: secretFloatWiggle 0.6s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes secretFloatWiggle {
+            0% { transform: translateY(0) scale(1) rotate(-1deg); }
+            100% { transform: translateY(-8px) scale(1.03) rotate(1deg); }
+        }
+
         @media (max-width: 400px) {
             .message-box {
-                width: 90% !important; /* Lets it squish safely on tiny touchscreens */
-                bottom: 450px;         /* Pulls it slightly closer to the sprite on mobile layout chains */
+                width: 90% !important; 
+                bottom: 450px;         
             }
         }
 
-/* NIGHT MODE TRANSITION: Keeps the box light and normal always */
         body.night-mode .message-box {
-            background: #ffffff !important; /* Forces it to stay bright white */
-            color: #1a1a1a !important;     /* Forces the text to stay dark */
-            
-            /* Keeps your exact classic shadow border formula completely unchanged at night */
+            background: #ffffff !important; 
+            color: #1a1a1a !important;     
             box-shadow: 
-                0 -4px 0 -4px #1a1a1a, 0 4px 0 -4px #1a1a1a,
+                0 -4px 0 -4px #1a1a1a, 4px 0 0 -4px #1a1a1a,
                 0 -8px 0 -4px #ffffff, 0 8px 0 -4px #ffffff,
                 -4px 0 0 -4px #1a1a1a, 4px 0 0 -4px #1a1a1a,
                 -8px 0 0 -4px #ffffff, 8px 0 0 -4px #ffffff,
@@ -219,46 +220,37 @@
                 8px 8px 0 0 rgba(0,0,0,0.1) !important;
         }
 
-        /* Pixel Art Tail Pointer */
-.message-box::after {
-    content: '';
-    position: absolute;
-    bottom: -12px; /* Pulled up significantly into the bubble to crush sub-pixel gaps */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 16px;
-    height: 6px;
-    background: #ffffff;
-    
-    /* 
-       THE SEAM KILLER: 
-       This explicit white top border acts as a visual patch. 
-       It physically covers up the bubble's bottom dark border line 
-       so browser rendering engine rounding errors cannot leave transparent slits.
-    */
-    border-top: 2px solid #ffffff; 
-    box-sizing: content-box;
+        .message-box::after {
+            content: '';
+            position: absolute;
+            bottom: -12px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 6px;
+            background: #ffffff;
+            border-top: 2px solid #ffffff; 
+            box-sizing: content-box;
 
-    box-shadow: 
-        -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,       /* Left & Right sharp outlines */
-        -4px 4px 0 0 #1a1a1a, 4px 4px 0 0 #1a1a1a,   /* Diagonal outer corners */
-        0 4px 0 0 #ffffff,                           /* Solid white internal fill */
-        0 8px 0 0 #1a1a1a,                           /* Sharp bottom point border */
-        4px 4px 0 0 rgba(0, 0, 0, 0.1);              /* Drop shadow alignment match */
-}
+            box-shadow: 
+                -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,       
+                -4px 4px 0 0 #1a1a1a, 4px 4px 0 0 #1a1a1a,   
+                0 4px 0 0 #ffffff,                           
+                0 8px 0 0 #1a1a1a,                           
+                4px 4px 0 0 rgba(0, 0, 0, 0.1);              
+        }
 
         .message-box.show {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* DYNAMIC GROUND SHADOW */
         .sprite-shadow {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 180px;         /* Proportional to 360px width */
+            width: 180px;         
             height: 20px;
             background-color: rgba(0, 0, 0, 0.12); 
             border-radius: 50%;
@@ -266,9 +258,8 @@
             z-index: 1;
         }
 
-        /* MAIN SPRITE */
-        .pixel-art {
-            width: 360px !important;  /* Upscaled sprite size */
+        #mainSprite {
+            width: 360px !important;  
             height: auto !important;
             display: block;
             image-rendering: pixelated;
@@ -278,19 +269,16 @@
             position: relative;
             z-index: 2; 
             margin-bottom: 8px; 
-/* SEALS THE ELEMENT FROM INTERCEPTING TOUCH SHEET POPUPS: */
-    -webkit-touch-callout: none !important; /* Total Safari popup block */
-    -webkit-user-select: none !important;   /* No highlight bands */
-    -khtml-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    
-    -webkit-user-drag: none !important;    /* Keeps mobile Chrome from dragging the asset file */
-    pointer-events: none !important;       /* Lets touch passes route safely through to the wrapper container */
-}
+            -webkit-touch-callout: none !important; 
+            -webkit-user-select: none !important;   
+            -khtml-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-user-drag: none !important;    
+            pointer-events: none !important;       
+        }
 
-        /* FOR ELLA PIXEL BUTTON */
         .ella-btn {
             margin-top: 30px;
             background-color: #ffb3c6; 
@@ -301,13 +289,11 @@
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            
             border: none;
             box-shadow: 
                 0 -4px 0 0 #1a1a1a, 0 4px 0 0 #1a1a1a,
                 -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,
                 4px 4px 0 0 rgba(0, 0, 0, 0.15);
-            
             transition: background-color 0.1s ease;
         }
 
@@ -347,11 +333,10 @@
             line-height: 2;
             margin-bottom: 24px;
             text-align: left;
-/* THE PIXEL READABILITY ENGINE: */
-    letter-spacing: 0.5px !important; /* Gently pushes bunched up letters apart */
-    line-height: 1.8 !important;       /* Increases space between lines so sentences don't merge */
-    font-size: 11px;                   /* Double check that this is sitting around 11px or 12px */
-}
+            letter-spacing: 0.5px !important; 
+            line-height: 1.8 !important;       
+            font-size: 11px;                   
+        }
 
         .back-btn {
             display: block;
@@ -363,17 +348,22 @@
             cursor: pointer;
         }
 
-        /* Floating Particles */
+        /* --- CLOUD & EMOTE FLYWEIGHTS --- */
         .floating-particle {
             position: absolute;
             pointer-events: none;
             font-family: Arial, sans-serif;
-            font-size: 48px;
+            font-size: 48px; 
             z-index: 1000;
             animation: floatUp 2s ease-out forwards;
+            opacity: 0.65;
         }
 
-        /* Keyframes loops */
+        .floating-particle.milestone-blast {
+            font-size: 48px; 
+        }
+
+        /* KEYFRAMES LOOPS */
         @keyframes naturalBobbing {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-16px); }
@@ -390,263 +380,343 @@
             100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1.1) rotate(var(--r)); }
         }
 
-        .pixel-art.squishing {
-    animation: clickSquish 0.25s ease-out;
-}
+        #mainSprite.squishing {
+            animation: clickSquish 0.25s ease-out !important;
+        }
 
-@keyframes clickSquish {
-    0% {
-        transform: scale(1, 1);
-    }
-    30% {
-        /* Squashes down vertically, stretches slightly horizontally */
-        transform: scale(1.08, 0.92); 
-    }
-    60% {
-        /* Bounces slightly higher than normal on recovery */
-        transform: scale(0.96, 1.04);
-    }
-    100% {
-        transform: scale(1, 1);
-    }
-}
-/* --- UNIVERSAL MOBILE ENGINE (SAFARI COMPATIBLE) --- */
-@media (max-width: 740px), (max-height: 700px) {
-    body {
-        padding: 16px;
-        box-sizing: border-box;
-        overflow-y: auto; /* Allows smooth viewport scrolling if the screen is tiny */
-        height: auto;
-        min-height: 100vh;
-    }
+        @keyframes clickSquish {
+            0% { transform: scale(1, 1); }
+            30% { transform: scale(1.08, 0.92); }
+            60% { transform: scale(0.96, 1.04); }
+            100% { transform: scale(1, 1); }
+        }
 
-    .window-frame {
-        /* FIXED: Remove Safari scale glitch by using responsive fluid layout properties directly */
-        transform: none !important; 
-        width: 100%;
-        max-width: 440px; /* Snug, standard mobile card width */
-        min-height: auto;
-        padding: 24px 16px;
-        margin: 20px auto;
-        box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
-    }
+        /* --- MOBILE RESPONSTRUCTS --- */
+        @media (max-width: 740px), (max-height: 700px) {
+            body {
+                padding: 16px;
+                box-sizing: border-box;
+                overflow-y: auto; 
+                height: auto;
+                min-height: 100vh;
+            }
 
-/* FIXED: Changes alignment mechanics from absolute positioning to flexible stacking */
-    .interactive-container {
-        width: 100%;
-        height: auto;
-        min-height: auto; /* Drops the fixed container height trap */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        padding-top: 20px;
-    }
+            .window-frame {
+                transform: none !important; 
+                width: 100%;
+                max-width: 440px; 
+                min-height: auto;
+                padding: 24px 16px;
+                margin: 20px auto;
+                box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+            }
 
-/* Scales down your sprite smoothly while maintaining center alignment */
-    .pixel-art {
-        width: 100% !important;
-        max-width: 240px; 
-        height: auto !important;
-        margin-bottom: 0;
-        position: relative;
-        z-index: 2;
-    }
+            .interactive-container {
+                width: 100%;
+                height: auto;
+                min-height: auto; 
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                padding-top: 20px;
+            }
 
-    /* Stays pinned relative to the bottom layout floor */
-    .sprite-shadow {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 120px;
-        height: 12px;
-        z-index: 1;
-    }
+            #mainSprite {
+                width: 100% !important;
+                max-width: 240px; 
+                height: auto !important;
+                margin-bottom: 0;
+                position: relative;
+                z-index: 2;
+            }
 
-/* FIXED: Stacks the speech bubble naturally above the sprite instead of guessing the height */
-    .message-box {
-        position: relative; /* Switches off absolute positioning */
-        bottom: 0 !important; /* Wipes clean the desktop top/bottom tracking rules */
-        width: 100%;
-        max-width: 300px;
-        margin-top: 0;
-        margin-bottom: 25px; /* Creates a guaranteed, fixed safety gap above your sprite's head */
-        padding: 14px;
-        font-size: 10px;
-        transform: translateY(0); /* Normalizes position animations */
-}
+            .sprite-shadow {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 120px;
+                height: 12px;
+                z-index: 1;
+            }
 
-    /* Make sure the text pop animation operates smoothly under relative constraints */
-    .message-box.show {
-        transform: translateY(-5px);
-    }
+            .message-box {
+                position: relative; 
+                bottom: 0 !important; 
+                width: 100%;
+                max-width: 300px;
+                margin-top: 0;
+                margin-bottom: 25px; 
+                padding: 14px;
+                font-size: 10px;
+                transform: translateY(0); 
+            }
 
-    /* Letter card adjustments */
-    .letter-card {
-        padding: 24px;
-        width: 100%;
-        max-width: 440px;
-        box-sizing: border-box;
-    }
+            .message-box.show {
+                transform: translateY(-5px);
+            }
 
-    .letter-card h1 {
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
+            .letter-card {
+                padding: 24px;
+                width: 100%;
+                max-width: 440px;
+                box-sizing: border-box;
+            }
 
-    .letter-card p {
-        font-size: 10px;
-        line-height: 1.8;
-        margin-bottom: 16px;
-    }
-}
+            .letter-card h1 {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
 
-        /* Forces emojis inside the speech balloon to scale perfectly with the text height */
-.bubble-emoji {
-    font-family: Arial, sans-serif; 
-    font-size: 16px;                
-    line-height: 1;
-    display: inline-block;
-    
-    /* ALIGNMENT FIXES */
-    vertical-align: baseline;    /* Uses the text's baseline instead of trying to center a different font height */
-    margin-bottom: -1px;         /* Gently pulls the emoji upward by 1 pixel to match the letters */
-    margin-left: 4px;            /* Adds uniform horizontal space */
-    margin-right: 4px;
-}
+            .letter-card p {
+                font-size: 10px;
+                line-height: 1.8;
+                margin-bottom: 16px;
+            }
+        }
 
-/* Matching alignment tune-up for mobile screen dimensions */
-@media (max-width: 740px), (max-height: 700px) {
-    .bubble-emoji {
-        font-size: 14px;
-        vertical-align: baseline;
-        margin-bottom: -1px;
-    }
-}
+        .bubble-emoji {
+            font-family: Arial, sans-serif; 
+            font-size: 16px;                
+            line-height: 1;
+            display: inline-block;
+            vertical-align: baseline;    
+            margin-bottom: -1px;         
+            margin-left: 4px;            
+            margin-right: 4px;
+        }
 
-/* --- LETTER CARD IMAGE MODAL BUTTON --- */
-#view-photo-btn {
-    background: #1a1a1a;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    cursor: pointer;
-    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
-    
-    /* THE CENTERING ENGINE: */
-    display: block;       /* Forces the button onto its own dedicated row */
-    margin: 20px auto 0;  /* "auto" on the left and right dynamically pushes it to the perfect center */
-}
+        @media (max-width: 740px), (max-height: 700px) {
+            .bubble-emoji {
+                font-size: 14px;
+                vertical-align: baseline;
+                margin-bottom: -1px;
+            }
+        }
 
-#view-photo-btn:active {
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-}
+        #view-photo-btn {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+            display: block;       
+            margin: 20px auto 0;  
+        }
 
-/* --- UNIVERSAL MODAL ENGINE --- */
-#photo-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;             /* Keeps everything perfectly centered on PC */
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s;
-    padding: 20px;
-    box-sizing: border-box;
-    cursor: pointer;
-}
+        #view-photo-btn:active {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
 
-#photo-modal.modal-show {
-    opacity: 1;
-    visibility: visible;
-}
+        #photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;             
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-.modal-content {
-    text-align: center;
-    width: 100%;
-    max-width: 500px;         /* Perfect framing width for desktop */
-    display: flex;
-    flex-direction: column;
-    align-items: center;      /* Centers the image horizontally inside the block */
-}
+        #photo-modal.modal-show {
+            opacity: 1;
+            visibility: visible;
+        }
 
-#modal-img {
-    width: auto;
-    max-width: 100%;          /* Protects mobile screens from horizontal overflow */
-    height: auto;
-    max-height: 70vh;         /* Protects both PC and mobile from clipping vertically */
-    border: 4px solid white;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    object-fit: contain;
-    display: block;
-}
+        .modal-content {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;         
+            display: flex;
+            flex-direction: column;
+            align-items: center;      
+        }
 
-.modal-hint {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    color: #a3a3a3;
-    margin-top: 12px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-}
-        /* --- EASTER EGG REACTION ANIMATIONS --- */
+        #modal-img {
+            width: auto;
+            max-width: 100%;          
+            height: auto;
+            max-height: 70vh;         
+            border: 4px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            object-fit: contain;
+            display: block;
+            cursor: pointer;
+        }
 
-/* Frantic shaking while charging */
-.charging-shake {
-    animation: jitter 0.1s infinite alternate !important;
-}
+        /* SUBTITLE NOTATIONS */
+        .photo-hint {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            color: #ffb3c6;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
 
-/* Super high bounce when the code succeeds */
-.victory-jump {
-    animation: megaBounce 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
+        .photo-close-hint {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 7px;
+            color: #a3a3a3;
+            margin-top: 14px;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
 
-@keyframes jitter {
-    0% { transform: translate(1px, 1px) scale(0.95, 1.05); }
-    100% { transform: translate(-1px, -1px) scale(1.05, 0.95); }
-}
+        #mainSprite.charging-shake {
+            animation: jitter 0.1s infinite alternate !important;
+        }
 
-@keyframes megaBounce {
-    0% { transform: translateY(0) scale(1); }
-    30% { transform: translateY(-120px) scale(1.2) rotate(15deg); }
-    50% { transform: translateY(-120px) scale(1.2) rotate(-15deg); }
-    100% { transform: translateY(0) scale(1) rotate(0deg); }
-}
+        #mainSprite.victory-jump {
+            animation: megaBounce 1.0s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
 
-/* --- SOFT RARE FLIP ANIMATION ENGINE --- */
-        .rare-backflip {
-            /* Keeps your clean retro step count but stretches it for a smoother, relaxed roll */
-            animation: retroFlip 0.1s steps(8) forwards;
+        #mainSprite.rare-backflip {
+            animation: retroFlip 0.35s steps(6) !important; 
+        }
+
+        #mainSprite.celebration-pop-jump {
+            animation: screenStepJump 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        }
+
+        @keyframes jitter {
+            0% { transform: translate(1px, 1px) scale(0.95, 1.05); }
+            100% { transform: translate(-1px, -1px) scale(1.05, 0.95); }
+        }
+
+        @keyframes megaBounce {
+            0% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-80px) scale(1.1) rotate(15deg); }
+            50% { transform: translateY(-80px) scale(1.1) rotate(-15deg); }
+            100% { transform: translateY(0) scale(1) rotate(0deg); }
         }
 
         @keyframes retroFlip {
-            0% {
-                transform: scale(1) rotate(0deg);
-            }
-            40% {
-                /* Reduced jump height from -30px down to a gentle -12px peak bounce */
-                transform: scale(1.05) translateY(-12px) rotate(140deg);
-            }
-            100% {
-                transform: scale(1) translateY(0) rotate(360deg);
-            }
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) translateY(-40px) rotate(180deg); }
+            100% { transform: scale(1) translateY(0) rotate(360deg); }
+        }
+
+        @keyframes screenStepJump {
+            0% { transform: scale(1) translateY(0); }
+            20% { transform: scale(1.15, 0.85) translateY(0); }
+            45% { transform: scale(1.22) translateY(-45px); } 
+            70% { transform: scale(1.18) translateY(-45px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        .care-drawer {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 360px;
+            background: #fff0f5; 
+            border: 4px solid #1a1a1a;
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .drawer-entrance {
+            animation: slideDownIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .drawer-exit {
+            animation: slideUpOut 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+        }
+
+        @keyframes slideDownIn {
+            0% { opacity: 0; transform: translateY(-15px) scaleY(0.7); }
+            100% { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        @keyframes slideUpOut {
+            0% { opacity: 1; transform: translateY(0) scaleY(1); }
+            100% { opacity: 0; transform: translateY(-15px) scaleY(0.7); }
+        }
+
+        .love-bar-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .love-label {
+            font-size: 9px;
+            color: #1a1a1a;
+            font-weight: bold;
+        }
+        .love-bar-track {
+            width: 100%;
+            height: 16px;
+            background: #ffffff;
+            border: 3px solid #1a1a1a;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        .love-bar-fill {
+            width: 0%; 
+            height: 100%;
+            background: #ff6b8b; 
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .care-buttons {
+            display: flex;
+            width: 100%;
+            gap: 8px;
+        }
+        .care-btn {
+            flex: 1;
+            background: #ffffff;
+            color: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            padding: 10px 4px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px #1a1a1a;
+            transition: background 0.1s;
+        }
+        .care-btn:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px #1a1a1a;
+        }
+        .care-btn.active-item {
+            background: #ffb3c6; 
+        }
+
+        .special-milestone-msg {
+            font-size: 8px;
+            line-height: 1.5;
+            color: #ff3366;
+            text-align: center;
+            margin-top: 4px;
+            animation: jitter 0.2s infinite alternate;
         }
     </style>
 </head>
 <body>
 <div id="welcome-splash">
     <div class="splash-card">
-<h1 class="splash-title">
+        <h1 class="splash-title">
             <span>HI ELLA!</span>
             <span class="splash-title-emoji">💖</span>
         </h1>
@@ -655,30 +725,45 @@
         <button id="enter-button" onclick="dismissSplash()">TAP CAPRIELLE!</button>
     </div>
 </div>
+
     <!-- SCREEN 1: Main Sprite Frame -->
     <div class="window-frame" id="spriteFrame">
         <div class="interactive-container" id="clickArea">
             <div class="message-box" id="messageBox"></div>
-            <img src="sprite.png" alt="Pixel Art" class="pixel-art" id="mainSprite">
+            <img src="sprite.png" alt="Pixel Art" id="mainSprite">
             <div class="sprite-shadow"></div>
         </div>
         <button class="ella-btn" id="ellaButton">FOR YOU!</button>
+
+        <!-- TAMAGOTCHI CARE DRAWER UI -->
+        <div class="care-drawer" id="careDrawer" style="display: none;">
+            <div class="love-bar-container">
+                <span class="love-label">LOVE: <span id="lovePercent">0</span>%</span>
+                <div class="love-bar-track">
+                    <div class="love-bar-fill" id="loveFill"></div>
+                </div>
+            </div>
+            
+            <div class="care-buttons">
+                <button class="care-btn" id="btnCoffee" onclick="giveItem('coffee')">GIVE COFFEE ☕</button>
+                <button class="care-btn" id="btnSlippers" onclick="giveItem('slippers')">GIVE SLIPPERS 🥿</button>
+            </div>
+            
+            <div id="specialMilestoneText" class="special-milestone-msg" style="display: none;">
+                ✨ CAPRIELLE IS FULLY COZY & CHEERING FOR YOU! ✨
+            </div>
+        </div>
     </div>
 
-<!-- SCREEN 2: Hidden Letter Card Frame (Fades in dynamically) -->
+    <!-- SCREEN 2: Hidden Letter Card Frame -->
     <div class="letter-card" id="letterCard" style="display: none; opacity: 0;">
         <h1>DEAR <span style="color: #ff6b8b;">ELLA</span>,</h1>
-        
         <p>I wanted to give you a gift but the distance makes that kind of hard!! So I learned some pixel art and coding to make something special instead (I hope). It was very fun to make and learn.</p>
-
         <p>I'm really grateful our paths crossed. Who knew joining a shit themed server would lead to a friendship that means so much to me. You've brought so much kindness, laughter, comfort, and joy even though we live so far apart, and that is a beautiful thing to experience. I cherish our friendship, and i'm thankful for every conversation, movie, and moment we've shared!</p>
-
         <p>I know I can't make the hard days disappear, but I hope you know how important you are. And I hope this little gift can remind you how loved and valued you are. You never have to go through any of this alone &lt;3</p>
-
         <p>Anyway!! Thank you for visiting my silly gift. I hope, if nothing else, it at least made you smile! No matter what kind of day you are having, I will always be just a message away, and you can keep this page around if you ever need a tiny reminder that a random ho from London is cheering for you, thinking of you, and grateful to have you in her life 💖🤗</p>
-
-        <!-- Snappy Easter Egg Hint: Rendered slightly smaller than standard text weight -->
-<p style="font-size: 8px !important; opacity: 0.7; margin-top: 25px; line-height: 1.5;">
+        
+        <p style="font-size: 8px !important; opacity: 0.7; margin-top: 25px; line-height: 1.5;">
             btw, if u hold Caprielle she does something different!
         </p>
 
@@ -686,29 +771,30 @@
             <p style="margin: 0;">With love,</p>
             <p style="margin: 5px 0 0 0; font-weight: bold; color: #ff6b8b;">Vanessa</p>
         </div>
-
         <button id="view-photo-btn" onclick="openPhotoModal(event)">CLICK ME ✨</button>
-        
         <span class="back-btn" id="backButton">GO BACK</span>
     </div>
 
+    <!-- PHOTO DISPLAY MODAL LAYER -->
     <div id="photo-modal" onclick="closePhotoModal()">
-    <div class="modal-content">
-        <!-- REPLACE THIS WITH YOUR ACTUAL IMAGE PATH/URL -->
-        <img id="photoModalImage" src="" alt="Random Memory Photo" />
-        <p class="modal-hint">CLICK ANYWHERE TO CLOSE</p>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="photo-hint">TAP IMAGE FOR MORE</div>
+            <img id="modal-img" src="" alt="Random Memory Photo" onclick="advancePhotoItem()" />
+            <div class="photo-close-hint">TAP ANYWHERE TO CLOSE</div>
+        </div>
     </div>
-</div>
 
-    <!-- Audio pipelines -->
+    <!-- Audio Pipelines -->
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
     <audio id="bgMusic" src="background-music.mp3" preload="auto" loop></audio>
     <audio id="transitionSound" src="transition.mp3" preload="auto"></audio>
     <audio id="photoSound" src="sfx.mp3" preload="auto"></audio>
     <audio id="holdSound" src="hold-loop.mp3" loop preload="auto"></audio>
+    <audio id="sfxEquip1" src="equip.mp3" preload="auto"></audio>
+    <audio id="sfxEquip2" src="equip2.mp3" preload="auto"></audio>
+    <audio id="sfxCelebration" src="celebration.mp3" preload="auto"></audio>
 
-<script>
-        // 1. GLOBAL STATE & CONFIGURATION
+    <script>
         const messages = [
             "YOU ARE SO LOVED 💖",
             "I CARE ABOUT YOU 🫂",
@@ -735,13 +821,25 @@
             "YOU ARE A BAD BITCH 💅",
             "YOU MATTER SO MUCH!",
             "IT'S OKAY TO REST FOR A BIT.",
+            "💋",
+            "YOU ARE SUCH A KIND SOUL!",
+            "I'M GLAD WE'RE FRIENDS 🤗",
+            "WISHING YOU THE BEST!!",
             "PROUD OF YOU FOR TRYING YOUR BEST.",
             "YOU ARE DEEPLY APPRECIATED."
         ];
 
+        const celebrationMessages = [
+            "MAXIMUM LOVE ACHIEVED!! <span class='bubble-emoji'>💖</span>",
+            "HI ELLA I HOPE YOU'RE DOING OKAY!",
+            "YOU DESERVE ALL THE WARMTH AND COMFORT RN!! <span class='bubble-emoji'>☕</span>",
+            "NEVER FORGET HOW VALUED YOU ARE ELLA... <span class='bubble-emoji'>🌟</span>",
+            "I AM CHEERING YOU ON EVERY SINGLE STEP OF THE WAY! <span class='bubble-emoji'>✨</span>",
+            "ROOTING FOR YOU, ILY - VANESSA <span class='bubble-emoji'>🌸</span>"
+        ];
+
         const floatingPool = ["🤍", "💖", "🌸", "☁️", "✨", "🌹", "🪷", "🌷"];
 
-        // DOM Elements
         const clickArea = document.getElementById('clickArea');
         const messageBox = document.getElementById('messageBox');
         const clickSound = document.getElementById('clickSound');
@@ -750,57 +848,69 @@
         const transitionSound = document.getElementById('transitionSound');
         const holdSound = document.getElementById('holdSound');
         const mainSprite = document.getElementById('mainSprite');
-        
         const spriteFrame = document.getElementById('spriteFrame');
         const letterCard = document.getElementById('letterCard');
         const backButton = document.getElementById('backButton');
-        
-        // Dynamic State Engine Tracker Variables
+        const careDrawer = document.getElementById('careDrawer');
+
         let messageTimer = null;
         let musicStarted = false;
         let messageDeck = [];
         let holdTimer = null;
         let isHolding = false;
+        let isDrawerUnlocked = false; 
 
-        // Unlocks background audio loop context on first interaction
+        let lovePoints = 0;
+        let hasCoffee = false;
+        let hasSlippers = false;
+        let milestoneTriggered = false;
+        let celebrationInterval = null; 
+
+        const SPRITE_BASE = "sprite.png";
+        const SPRITE_COFFEE = "sprite_coffee.png";
+        const SPRITE_SLIPPERS = "sprite_slippers.png";
+        const SPRITE_BOTH = "sprite_both.png";
+
         function startMusic() {
             if (!musicStarted) {
-                bgMusic.volume = 0.3; 
-                bgMusic.play().catch(err => console.log("Audio pipeline initialized"));
-                musicStarted = true;
+                bgMusic.volume = 0.3;
+                clickSound.load();
+                transitionSound.load();
+                holdSound.load();
+                document.getElementById('sfxEquip1').load();
+                document.getElementById('sfxEquip2').load();
+                document.getElementById('sfxCelebration').load();
+                
+                bgMusic.play().then(() => {
+                    musicStarted = true;
+                }).catch(err => console.log("Audio unlock flagged"));
             }
         }
 
-// 2. MAIN CLICK AND TAP INTERACTIONS
         clickArea.addEventListener('click', (e) => {
-            if (isHolding) return; 
+            if (document.getElementById('welcome-splash') && !document.getElementById('welcome-splash').classList.contains('fade-out')) return;
+            if (isHolding || milestoneTriggered) return;
             startMusic();
+            
             clickSound.currentTime = 0; 
             clickSound.play().catch(err => {});
 
-            // REMOVE OLD ANIMATIONS CLEANLY BEFORE ROLLING
             mainSprite.classList.remove('squishing', 'rare-backflip'); 
-            void mainSprite.offsetWidth; // Force layout reflow
+            void mainSprite.offsetWidth; 
 
-// ROLL THE DICE: 2% chance to do a rare backflip (0.02)
             if (Math.random() < 0.05) {
                 mainSprite.classList.add('rare-backflip');
-                
-                mainSprite.addEventListener('animationend', () => {
-                    mainSprite.classList.remove('rare-backflip');
-                }, { once: true });
             } else {
-                // Default 98% chance: Standard Squish Feedback Animation
                 mainSprite.classList.add('squishing');
-
-                mainSprite.addEventListener('animationend', () => {
-                    mainSprite.classList.remove('squishing');
-                }, { once: true });
             }
 
-            // Your existing message popup and particle code continues exactly the same below...
+            mainSprite.addEventListener('animationend', () => {
+                mainSprite.classList.remove('squishing', 'rare-backflip');
+            }, { once: true });
+
             if (messageBox.classList.contains('show')) {
-                messageBox.classList.remove('show');
+                messageBox.classList.remove('show', 'secret-bubble');
+                messageBox.style.pointerEvents = 'none';
                 clearTimeout(messageTimer);
                 setTimeout(() => { triggerNewMessage(); }, 150);
             } else {
@@ -808,30 +918,44 @@
             }
 
             for (let i = 0; i < 3; i++) {
-                createParticle(e.clientX, e.clientY);
+                createParticle(e.clientX, e.clientY, false);
             }
         });
 
-// 3. SECRETS ENGINE: HOLD TRACKER GESTURES WITH INITIAL DELAY
-        let animationDelayTimer = null; // Tracks the half-second delay before shaking starts
+        // HANDLE TAPPING THE SECRET SPEECH BUBBLE TO OPEN DRAWER
+        messageBox.addEventListener('click', (e) => {
+            if (messageBox.classList.contains('secret-bubble')) {
+                e.stopPropagation(); // Stop click from filtering through to Nommi's click setup
+                
+                if (!isDrawerUnlocked) {
+                    isDrawerUnlocked = true;
+                    careDrawer.classList.remove('drawer-exit');
+                    careDrawer.classList.add('drawer-entrance');
+                    careDrawer.style.display = 'flex';
+                }
+
+                messageBox.classList.remove('show', 'secret-bubble');
+                messageBox.style.pointerEvents = 'none';
+                clearTimeout(messageTimer);
+            }
+        });
+
+        let animationDelayTimer = null; 
 
         function startHold(e) {
-            if (isHolding) return;
+            if (document.getElementById('welcome-splash') && !document.getElementById('welcome-splash').classList.contains('fade-out')) return;
+            if (isHolding || milestoneTriggered) return; 
             isHolding = true;
 
-            // 1. Wait 500ms before starting the visual/audio effects
             animationDelayTimer = setTimeout(() => {
                 if (mainSprite) mainSprite.classList.add('charging-shake');
-                
-                // Play custom charging loop audio
                 if (holdSound) {
                     holdSound.currentTime = 0;
                     holdSound.volume = 0.4;
                     holdSound.play().catch(err => {});
                 }
-            }, 500); // 500ms delay. You can increase this to 1000 (1 second) if you want it even more hidden!
+            }, 500);
 
-            // 2. Keep the full 2-second timer running for the final explosion
             holdTimer = setTimeout(() => {
                 triggerHeartExplosion();
                 setTimeout(() => { isHolding = false; }, 300); 
@@ -847,8 +971,7 @@
 
         function cancelHoldEngine() {
             if (holdTimer) clearTimeout(holdTimer);
-            if (animationDelayTimer) clearTimeout(animationDelayTimer); // Clear the delay clock
-            
+            if (animationDelayTimer) clearTimeout(animationDelayTimer); 
             if (mainSprite) mainSprite.classList.remove('charging-shake');
             if (holdSound) {
                 holdSound.pause();
@@ -871,6 +994,8 @@
                 mainSprite.classList.remove('victory-jump');
             }, { once: true });
 
+            // Note: Care drawer unlock sequence removed from here completely
+
             for (let i = 0; i < 40; i++) {
                 setTimeout(() => {
                     const rect = clickArea.getBoundingClientRect();
@@ -881,7 +1006,6 @@
             }
         }
 
-        // 4. GENERATIVE EFFECTS: SHUFFLING & PARTICLES
         function shuffleDeck() {
             let indices = Array.from({ length: messages.length }, (v, i) => i);
             for (let i = indices.length - 1; i > 0; i--) {
@@ -892,38 +1016,48 @@
         }
 
         function triggerNewMessage() {
-            if (messageDeck.length === 0) {
-                messageDeck = shuffleDeck();
+            let isSecret = Math.random() < 0.05; // 5% chance
+            let formattedMessage = "";
+
+            if (isSecret) {
+                formattedMessage = "tap here for a secret!";
+                messageBox.classList.add('secret-bubble');
+                messageBox.style.pointerEvents = 'auto'; // Make bubble clickable
+            } else {
+                messageBox.classList.remove('secret-bubble');
+                messageBox.style.pointerEvents = 'none';
+
+                if (messageDeck.length === 0) messageDeck = shuffleDeck();
+                let randomIndex = messageDeck.pop();
+                let rawMessage = messages[randomIndex];
+                formattedMessage = rawMessage.replace(
+                    /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF])/g, 
+                    '<span class="bubble-emoji">$1</span>'
+                );
             }
-
-            let randomIndex = messageDeck.pop();
-            let rawMessage = messages[randomIndex];
-
-            let formattedMessage = rawMessage.replace(
-                /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDC00-\uDFFF])/g, 
-                '<span class="bubble-emoji">$1</span>'
-            );
 
             messageBox.innerHTML = formattedMessage;
             messageBox.classList.add('show');
 
             if (messageTimer) clearTimeout(messageTimer);
-            messageTimer = setTimeout(() => {
-                messageBox.classList.remove('show');
+            messageTimer = setTimeout(() => { 
+                messageBox.classList.remove('show', 'secret-bubble'); 
+                messageBox.style.pointerEvents = 'none';
             }, 4000);
         }
 
-        function createParticle(clickX, clickY) {
+        function createParticle(clickX, clickY, isMilestone = false) {
             const particle = document.createElement('div');
             particle.classList.add('floating-particle');
-            const choice = floatingPool[Math.floor(Math.random() * floatingPool.length)];
-            particle.textContent = choice;
+            if (isMilestone) {
+                particle.classList.add('milestone-blast');
+            }
+            particle.textContent = floatingPool[Math.floor(Math.random() * floatingPool.length)];
+            particle.style.left = `${clickX - 14}px`;
+            particle.style.top = `${clickY - 14}px`;
 
-            particle.style.left = `${clickX - 24}px`;
-            particle.style.top = `${clickY - 24}px`;
-
-            const randomX = (Math.random() - 0.5) * 300;
-            const randomY = -(Math.random() * 180 + 150);
+            const randomX = (Math.random() - 0.5) * (isMilestone ? 500 : 300);
+            const randomY = -(Math.random() * (isMilestone ? 350 : 180) + (isMilestone ? 200 : 150));
             const randomRotation = (Math.random() - 0.5) * 180;
 
             particle.style.setProperty('--x', `${randomX}px`);
@@ -937,15 +1071,13 @@
         function createCustomExplosionParticle(startX, startY) {
             const particle = document.createElement('div');
             particle.classList.add('floating-particle');
-            
             const explosionPool = ["💖", "💝", "❤️", "✨", "🌸", "💘"];
             particle.textContent = explosionPool[Math.floor(Math.random() * explosionPool.length)];
-
             particle.style.left = `${startX - 12}px`;
             particle.style.top = `${startY - 12}px`;
 
-            const randomX = (Math.random() - 0.5) * window.innerWidth * 0.8;
-            const randomY = -(Math.random() * window.innerHeight * 0.7 + 200);
+            const randomX = (Math.random() - 0.5) * window.innerWidth * 0.9;
+            const randomY = -(Math.random() * window.innerHeight * 0.8 + 250);
             const randomRotation = (Math.random() - 0.5) * 360;
 
             particle.style.setProperty('--x', `${randomX}px`);
@@ -956,109 +1088,184 @@
             particle.addEventListener('animationend', () => { particle.remove(); });
         }
 
-        // 5. EVENT GESTURE TRACKING (Cleaned & Scoped)
         clickArea.addEventListener('mousedown', startHold);
         clickArea.addEventListener('touchstart', startHold);
-        
         clickArea.addEventListener('mouseup', cancelHold);
         clickArea.addEventListener('touchend', cancelHold);
         clickArea.addEventListener('mouseleave', cancelHold);
-    /* NEW: FORCES MOBILE SYSTEM MENUS TO SHUT DOWN INSTANTLY ON INTERACTION */
-        clickArea.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            return false;
-        });
+        clickArea.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
 
-        // 6. PHOTO MODAL FUNCTIONS
-// 📸 DYNAMIC RANDOMIZED PHOTO POOL
-let currentPhotoIndex = 0; // Starts at the first image
-        const memoryPhotos = [
-            'cat.png', 
-            'bestie.gif',
-            'me-when.png'
-        ];
+        let currentPhotoIndex = 0; 
+        const memoryPhotos = ['cat.png', 'bestie.gif', 'me-when.png', 'dog2.png', 'cat4.png', 'cat3.png', 'wolf.png', 'cat2.png'];
 
-function openPhotoModal(event) {
-            if (event) event.preventDefault(); // Keeps the page from shifting
+        function openPhotoModal(event) {
+            if (event) event.preventDefault(); 
+            currentPhotoIndex = 0; 
+            document.getElementById('modal-img').src = memoryPhotos[currentPhotoIndex];
             
-            // 1. CYCLE ENGINE: Grab the image at the current track index
-            const currentPhoto = memoryPhotos[currentPhotoIndex];
-            
-            // 2. Inject it straight into your modal's image element target
-            const modalTargetImg = document.getElementById('photoModalImage');
-            if (modalTargetImg) {
-                modalTargetImg.src = currentPhoto;
-            }
-
-            // 3. Increment the index for the next click, wrapping back to 0 at the end
-            currentPhotoIndex = (currentPhotoIndex + 1) % memoryPhotos.length;
-
-            // 4. Trigger your optional photo sound effect if you have it!
-            if (typeof photoSound !== 'undefined') {
-                // ADJUST CLICK VOLUME HERE (0.0 to 1.0)
-            clickSound.volume = 0.5; // 0.5 cuts the volume completely in half!
+            const photoSound = document.getElementById('photoSound');
+            if (photoSound) {
                 photoSound.currentTime = 0;
+                photoSound.volume = 0.15; 
                 photoSound.play().catch(e => {});
             }
-
-            // 5. Opens the modal smoothly
-            const photoModal = document.getElementById('photo-modal');
-            if (photoModal) {
-                photoModal.classList.add('modal-show');
-            }
+            document.getElementById('photo-modal').classList.add('modal-show');
         }
 
-    // 5. FIX: Added the missing close function so clicking the modal hides it again
+        function advancePhotoItem() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % memoryPhotos.length;
+            document.getElementById('modal-img').src = memoryPhotos[currentPhotoIndex];
+        }
+
         function closePhotoModal() {
-            const photoModal = document.getElementById('photo-modal');
-            if (photoModal) {
-                photoModal.classList.remove('modal-show');
-            }
+            document.getElementById('photo-modal').classList.remove('modal-show');
         }
 
-        // Crossfading view states so music never stops
         ellaButton.addEventListener('click', (e) => {
             e.stopPropagation(); 
             startMusic();
-
             transitionSound.volume = 0.4; 
             transitionSound.currentTime = 0;
             transitionSound.play().catch(err => {});
-            
             spriteFrame.style.opacity = '0';
-            
             setTimeout(() => {
                 spriteFrame.style.display = 'none'; 
                 letterCard.style.display = 'block'; 
-                
-                setTimeout(() => {
-                    letterCard.style.opacity = '1';
-                }, 50);
+                setTimeout(() => { letterCard.style.opacity = '1'; }, 50);
             }, 500);
         });
 
-        // Handle going back to the main room screen
         backButton.addEventListener('click', () => {
             letterCard.style.opacity = '0';
-            
             setTimeout(() => {
                 letterCard.style.display = 'none';
                 spriteFrame.style.display = 'flex';
-                
-                setTimeout(() => {
-                    spriteFrame.style.opacity = '1';
-                }, 50);
+                setTimeout(() => { spriteFrame.style.opacity = '1'; }, 50);
             }, 500);
         });
 
-        // Dismisses the welcome screen with a smooth fade animation
         function dismissSplash() {
-            const splash = document.getElementById('welcome-splash');
-            if (splash) {
-                splash.classList.add('fade-out');
+            document.getElementById('welcome-splash').classList.add('fade-out');
+            startMusic();
+        }
+
+        function giveItem(itemType) {
+            if (milestoneTriggered) return;
+            startMusic();
+            
+            const randomEquipId = Math.random() < 0.5 ? 'sfxEquip1' : 'sfxEquip2';
+            const equipSound = document.getElementById(randomEquipId);
+            if (equipSound) {
+                equipSound.currentTime = 0; 
+                equipSound.volume = 0.25; 
+                equipSound.play().catch(e => {});
+            }
+
+            if (itemType === 'coffee') {
+                hasCoffee = !hasCoffee;
+                document.getElementById('btnCoffee').classList.toggle('active-item', hasCoffee);
+            } else if (itemType === 'slippers') {
+                hasSlippers = !hasSlippers;
+                document.getElementById('btnSlippers').classList.toggle('active-item', hasSlippers);
+            }
+
+            if (hasCoffee && hasSlippers) mainSprite.src = SPRITE_BOTH;
+            else if (hasCoffee) mainSprite.src = SPRITE_COFFEE;
+            else if (hasSlippers) mainSprite.src = SPRITE_SLIPPERS;
+            else mainSprite.src = SPRITE_BASE;
+
+            lovePoints += 34; 
+            if (lovePoints > 100) lovePoints = 100;
+            
+            document.getElementById('lovePercent').innerText = lovePoints;
+            document.getElementById('loveFill').style.width = lovePoints + "%";
+
+            if (lovePoints === 100) {
+                triggerSpecialMilestone();
+            } else {
+                for (let i = 0; i < 5; i++) {
+                    createParticle(window.innerWidth / 2, window.innerHeight / 2, false);
+                }
             }
         }
 
+        function triggerSpecialMilestone() {
+            milestoneTriggered = true;
+            document.getElementById('specialMilestoneText').style.display = 'block';
+
+            const victorySound = document.getElementById('sfxCelebration');
+            if (victorySound) {
+                victorySound.currentTime = 0;
+                victorySound.volume = 0.4; 
+                victorySound.play().catch(e => {});
+            }
+
+            mainSprite.classList.remove('squishing', 'rare-backflip', 'charging-shake', 'victory-jump');
+            void mainSprite.offsetWidth; 
+            mainSprite.classList.add('celebration-pop-jump'); 
+
+            mainSprite.addEventListener('animationend', () => {
+                mainSprite.classList.remove('celebration-pop-jump');
+            }, { once: true });
+
+            for (let i = 0; i < 380; i++) {
+                setTimeout(() => {
+                    const randomX = Math.random() * window.innerWidth;
+                    const randomY = window.innerHeight - 30;
+                    createParticle(randomX, randomY, true);
+                }, i * 6); 
+            }
+
+            if (messageBox) {
+                clearTimeout(messageTimer);
+                let currentMsgIndex = 0;
+                
+                messageBox.innerHTML = celebrationMessages[0];
+                messageBox.classList.add('show');
+                
+                celebrationInterval = setInterval(() => {
+                    currentMsgIndex++;
+                    if (currentMsgIndex < celebrationMessages.length) {
+                        messageBox.classList.remove('show');
+                        setTimeout(() => {
+                            messageBox.innerHTML = celebrationMessages[currentMsgIndex];
+                            messageBox.classList.add('show');
+                        }, 150);
+                    }
+                }, 2500);
+            }
+
+            setTimeout(() => {
+                clearInterval(celebrationInterval); 
+                
+                lovePoints = 0;
+                document.getElementById('lovePercent').innerText = lovePoints;
+                document.getElementById('loveFill').style.width = "0%";
+                
+                hasCoffee = false;
+                hasSlippers = false;
+                document.getElementById('btnCoffee').classList.remove('active-item');
+                document.getElementById('btnSlippers').classList.remove('active-item');
+                
+                mainSprite.src = SPRITE_BASE;
+
+                document.getElementById('specialMilestoneText').style.display = 'none';
+                if (messageBox) messageBox.classList.remove('show');
+                
+                careDrawer.classList.remove('drawer-entrance');
+                careDrawer.classList.add('drawer-exit');
+                
+                setTimeout(() => {
+                    careDrawer.style.display = 'none';
+                    careDrawer.classList.remove('drawer-exit'); 
+                    isDrawerUnlocked = false; 
+                }, 400);
+
+                milestoneTriggered = false;
+                isHolding = false;
+                
+            }, 16000); 
+        }
     </script>
 </body>
 </html>
