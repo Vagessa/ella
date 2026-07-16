@@ -326,10 +326,30 @@
             padding: 30px 20px;
             max-width: 400px;
             width: 100%;
+            max-height: 85vh; /* Prevents card from going off screen */
+            overflow-y: auto; /* Allows scrolling inside the modal */
+            box-sizing: border-box; /* Includes padding in height limits */
             box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.25);
             text-align: center;
             position: relative;
         }
+        
+        /* Custom scrollbar for modals to keep the retro aesthetic */
+        .modal-card::-webkit-scrollbar {
+            width: 12px;
+        }
+        .modal-card::-webkit-scrollbar-track {
+            background: #fff8fc;
+            border-left: 4px solid #1a1a1a;
+        }
+        .modal-card::-webkit-scrollbar-thumb {
+            background: #ffb3c6;
+            border: 4px solid #1a1a1a;
+        }
+        .modal-card::-webkit-scrollbar-thumb:hover {
+            background: #ff7aa2;
+        }
+
         .modal-card h2 {
             font-size: 13px;
             color: #ff7aa2;
@@ -365,7 +385,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: 300px;
+            max-height: 300px; /* Constrains list inside its modal */
             overflow-y: auto;
             margin-bottom: 20px;
             padding-right: 5px;
@@ -646,6 +666,12 @@
             .games-grid { grid-template-columns: 1fr; gap: 12px; }
             .game-board { gap: 8px; max-width: 280px; }
             .tile-fallback { font-size: 20px; }
+            
+            /* Give modal content more space on mobile */
+            .modal-card {
+                padding: 20px 15px;
+                max-height: 92vh; 
+            }
         }
     </style>
 </head>
@@ -948,7 +974,7 @@
             <p>Anyway, no matter how heavy things feel, u will always have me in your corner, in a special way ofc cuz i don't live in canada :(( a friend once asked me why i love her so much, and idk maybe i love my friends too deeply but if that is a crime ARREST ME RIGHT NOW!!! 😡 i dont do it for anything in return, i just do it cuz its natural for me.</p>
             <p>And I hope you never forget how loved u are Ella, even on the exhausting or uncertain days people always will be rooting for u, and one of those people is me &lt;3 thank u for being my friend, u are great, u are amazing. what ur going through does not define who u are, and it will never change how much i care about u!! anyway sorry, ur probably bored of seeing me say the same thing all the time so i won't yap any more, ily</p>
             <p class="signature" style="color: #d4af37;">Vanessa 🩷</p>
-            <button class="ella-btn" onclick="closeSecretLetter()" style="background-color: #ffd700; color: #1a1a1a;">YIPPEE! 💖</button>
+            <button class="ella-btn" onclick="closeSecretLetter()" style="background-color: #ffd700; color: #1a1a1a; margin-top: 20px;">YIPPEE! 💖</button>
         </div>
     </div>
 
