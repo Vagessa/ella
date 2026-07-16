@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta property="og:title" content="Comfort Corner - Distractions">
+    <meta property="og:description" content="A cozy place to rest your mind.">
+    <meta property="og:image" content="https://github.com/Vagessa/ella/blob/main/heart.png?raw=true">
+    <meta name="theme-color" content="#FFD1FC">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comfort Corner - Distractions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* Background pattern */
+            background-color: #f0e6ef; 
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.4) 4px, transparent 4px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 4px, transparent 4px);
+            background-size: 64px 64px;
+            
+            font-family: 'Press Start 2P', monospace; 
+            overflow-x: hidden;
+            overflow-y: auto;
+            user-select: none;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        /* --- SIGNATURE RETRO FRAME --- */
+        .window-frame {
+            background: #fff8fc; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            position: relative;
+            
+            border: 6px solid #1a1a1a;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.4s ease;
+            width: 100%;
+            max-width: 580px;         
+            min-height: 520px;    
+        }
+
+        /* --- SHAKING PIXEL-ART LETTER ENVELOPE --- */
+        .envelope-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        @keyframes letterAttentionShake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            2% { transform: translate(4px, -2px) rotate(1deg); }
+            4% { transform: translate(-4px, 2px) rotate(-1deg); }
+            6% { transform: translate(4px, 2px) rotate(1.5deg); }
+            8% { transform: translate(-4px, -2px) rotate(-1.5deg); }
+            10% { transform: translate(2px, 2px) rotate(0.5deg); }
+            12% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+            14%, 100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .pixel-letter {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            background: #ffccd5;
+            border: 6px solid #1a1a1a;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            animation: letterAttentionShake 4.5s infinite ease-in-out;
+            box-sizing: border-box;
+        }
+
+        .pixel-letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(33deg, #ffa6c9 48%, transparent 50%),
+                linear-gradient(-33deg, #ffa6c9 48%, transparent 50%);
+            background-size: 100% 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .letter-paper {
+            position: absolute;
+            top: -24px;
+            width: 200px;
+            height: 150px; 
+            background: #fffdf0; 
+            border: 5px solid #1a1a1a;
+            border-bottom: none;
+            z-index: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 20px;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 4px -4px 0px rgba(0,0,0,0.05);
+        }
+
+        .pixel-letter:hover .letter-paper {
+            transform: translateY(-16px);
+        }
+
+        .letter-paper-text {
+            font-size: 8px;
+            color: #ff6b8b;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .letter-paper-line {
+            width: 70%;
+            height: 3px;
+            background: #e5e0d5;
+            margin: 2px 0;
+        }
+
+        /* --- COMPATIBLE RETRO BUTTONS --- */
+        .ella-btn {
+            background-color: #ffb3c6; 
+            color: #1a1a1a;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 12px 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            box-shadow: 
+                0 -4px 0 0 #1a1a1a, 0 4px 0 0 #1a1a1a,
+                -4px 0 0 0 #1a1a1a, 4px 0 0 0 #1a1a1a,
+                4px 4px 0 0 rgba(0, 0, 0, 0.15);
+            transition: background-color 0.1s ease;
+        }
+        
+        .ella-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 0 0 transparent;
+        }
+
+        .begin-modal-btn {
+            width: auto;
+            min-width: 160px;
+            margin-top: 25px;
+            background-color: #e2e2e2; 
+        }
+
+        @media (hover: hover) {
+            .ella-btn:hover { background-color: #ffc2d1; }
+            .begin-modal-btn:hover { background-color: #eeeeee; }
+            .game-card:hover {
+                background: #fff0f5;
+                transform: translate(-2px, -2px);
+                box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+            }
+            .secret-letter-box:hover {
+                transform: scale(1.02);
+                background: #fffff5;
+            }
+            .modal-close-link:hover { color: #ff6b8b; }
+            .back-home-link:hover { color: #ff6b8b; }
+        }
+
+        /* --- SELECTION SCREEN GRID --- */
+        .selection-title {
+            font-size: 13px;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .game-card {
+            background: #ffffff;
+            border: 4px solid #1a1a1a;
+            border-radius: 4px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        .game-card:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        .game-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .game-name {
+            font-size: 8px;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+        
+        .card-1 { border-color: #ffb3c6; }
+        .card-2 { border-color: #bae1ff; }
+        .card-3 { border-color: #baffc9; }
+        .card-4 { border-color: #ffffba; }
+        .card-5 { border-color: #ffdfba; }
+        .card-6 { border-color: #e8c4ff; }
+
+        .menu-footer-actions {
+            display: flex;
+            gap: 24px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        /* --- SECRET LETTER UNLOCKED BOX --- */
+        @keyframes pulseGold {
+            0% { box-shadow: 0 0 0 0px rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0px rgba(255, 215, 0, 0); }
+        }
+        .secret-letter-box {
+            width: 100%;
+            background: #fffdf0;
+            border: 5px dashed #ffd700;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            text-align: center;
+            cursor: pointer;
+            box-sizing: border-box;
+            animation: pulseGold 2s infinite;
+            transition: transform 0.2s;
+        }
+        
+        .secret-letter-title {
+            font-size: 9px;
+            color: #b8860b;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .secret-letter-desc {
+            font-size: 7px;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+
+        /* --- INTERACTIVE STAR EMOTE BURST --- */
+        .burst-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+        }
+        @keyframes starFloat {
+            0% {
+                transform: translate(0, 0) scale(0.2) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--mx), var(--my)) scale(1.3) rotate(var(--rot));
+                opacity: 0;
+            }
+        }
+
+        /* --- POPUP OVERLAY MODAL --- */
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .custom-modal.show-modal {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-card {
+            background: #fff8fc;
+            border: 6px solid #1a1a1a;
+            border-radius: 4px;
+            padding: 30px 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            position: relative;
+        }
+        .modal-card h2 {
+            font-size: 13px;
+            color: #ff7aa2;
+            margin-top: 0;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .modal-card p {
+            font-size: 10px;
+            line-height: 1.8;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .modal-card .signature {
+            text-align: right;
+            font-weight: bold;
+            color: #ff6b8b;
+            margin-top: 20px;
+        }
+        
+        .modal-close-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 8px;
+            color: #8a7b8c;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* --- ACHIEVEMENT LIST MODAL STYLING --- */
+        .achievement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 5px;
+        }
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #ffffff;
+            border: 3px solid #1a1a1a;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: left;
+            transition: opacity 0.3s;
+        }
+        .achievement-item.locked {
+            opacity: 0.6;
+            background: #f1ecf1;
+        }
+        .achievement-item-icon {
+            font-size: 20px;
+            filter: grayscale(1);
+        }
+        .achievement-item:not(.locked) .achievement-item-icon {
+            filter: grayscale(0);
+        }
+        .achievement-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .achievement-item-name {
+            font-size: 8px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+        .achievement-item:not(.locked) .achievement-item-name {
+            color: #ff6b8b;
+        }
+        .achievement-item-req {
+            font-size: 7px;
+            color: #6d646d;
+            line-height: 1.3;
+        }
+
+        /* --- MINI-GAME STYLING --- */
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 320px;
+            margin: 20px 0;
+            box-sizing: border-box;
+        }
+        .tile {
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+        .tile:active {
+            transform: scale(0.95);
+        }
+        .tile.flipped {
+            transform: rotateY(180deg);
+        }
+        .tile-front, .tile-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 4px solid #1a1a1a;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .tile-front {
+            background-color: #ffccd5;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, #ffa6c9 8px, #ffa6c9 16px);
+        }
+        .tile-back {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+            padding: 5px;
+        }
+        .tile-img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
+        }
+        .tile-fallback {
+            font-size: 24px;
+        }
+
+        /* --- QUIZ STYLING --- */
+        .quiz-pic-frame {
+            width: 100%;
+            max-width: 320px;
+            height: 160px;
+            border: 4px solid #1a1a1a;
+            background-color: #f1ecf1;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+        .quiz-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+        }
+        .quiz-pic-placeholder {
+            font-size: 32px;
+            color: #ffa6c9;
+        }
+        .animal-pic-frame {
+            max-width: 420px;
+            height: auto;
+            aspect-ratio: 2 / 1;
+        }
+        .wsi-reveal-frame {
+            max-width: 480px; 
+            height: 240px;    
+        }
+        .quiz-option-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 28px; 
+        }
+        .quiz-option-btn {
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            padding: 14px 10px;
+            line-height: 1.4;
+        }
+        .quiz-option-btn.disabled {
+            background-color: #e2e2e2 !important;
+            color: #8a7b8c !important;
+            box-shadow: 
+                0 -4px 0 0 #8a7b8c, 0 4px 0 0 #8a7b8c,
+                -4px 0 0 0 #8a7b8c, 4px 0 0 0 #8a7b8c !important;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .try-again-label {
+            position: absolute;
+            top: -18px;
+            font-size: 8px;
+            color: #ff6b8b;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+        .exit-quiz-btn-container {
+            margin-top: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* --- FEED MICROWAVE STYLING --- */
+        .microwave-area {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        
+        @keyframes microwaveSquish {
+            0%, 100% { transform: scale(1, 1) translateY(0); }
+            50% { transform: scale(1.02, 0.98) translateY(2px); }
+        }
+
+        #microwaveCat {
+            width: 260px;
+            height: 260px;
+            max-width: 95%;
+            max-height: 100%;
+            object-fit: contain;
+            z-index: 5;
+            animation: microwaveSquish 0.8s infinite ease-in-out;
+            transform-origin: bottom center; 
+        }
+
+        @keyframes treatFloat {
+            0% { transform: translateY(0px); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translateY(-25px); opacity: 0; }
+        }
+
+        .cat-treat {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            z-index: 10;
+            object-fit: contain;
+            animation: treatFloat 1.5s ease-out forwards; 
+        }
+
+        /* --- ACHIEVEMENT TOAST BANNER --- */
+        .achievement-banner {
+            position: fixed;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff8fc;
+            border: 6px solid #1a1a1a;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.25);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 99999;
+            transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 4px;
+            width: 90%;
+            max-width: 420px;
+            box-sizing: border-box;
+        }
+        .achievement-banner.show {
+            top: 20px;
+        }
+        .achievement-icon {
+            font-size: 26px;
+        }
+        .achievement-text {
+            text-align: left;
+        }
+        .achievement-title {
+            font-size: 8px;
+            color: #ff6b8b;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            font-weight: bold;
+        }
+        .achievement-desc {
+            font-size: 9px;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .back-home-link {
+            display: block;
+            margin-top: 30px;
+            font-size: 10px;
+            color: #8a7b8c;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+
+        /* --- MOBILE ADJUSTMENTS --- */
+        @media (max-width: 540px) {
+            body { padding: 15px; }
+            .window-frame { padding: 20px 15px; min-height: auto; }
+            .envelope-container { height: 250px; }
+            .pixel-letter { width: 230px; height: 150px; }
+            .letter-paper { width: 160px; height: 130px; top: -20px; padding-top: 18px; }
+            .games-grid { grid-template-columns: 1fr; gap: 12px; }
+            .game-board { gap: 8px; max-width: 280px; }
+            .tile-fallback { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="window-frame" id="welcomeRoom">
+        <h2 class="selection-title">TAP THE LETTER <span style="color:#ff6b8b;">💌</span></h2>
+        
+        <div class="envelope-container">
+            <div class="pixel-letter" id="pixelLetter" onclick="openNote()">
+                <div class="letter-paper">
+                    <div class="letter-paper-text">FOR ELLA</div>
+                    <div class="letter-paper-line"></div>
+                    <div class="letter-paper-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="./" class="back-home-link">← Go Back to Caprielle</a>
+    </div>
+
+    <div class="window-frame" id="selectionScreen" style="display: none;">
+        <h2 class="selection-title">SELECT A DISTRACTION <span style="color: #ff6b8b;">🎮</span></h2>
+        
+        <div class="games-grid">
+            <div class="game-card card-1" onclick="startMatchTwo()">
+                <div class="game-icon">🌸</div>
+                <div class="game-name">MATCH TWO</div>
+            </div>
+            <div class="game-card card-2" onclick="startVanessaLore()">
+                <div class="game-icon">📖</div>
+                <div class="game-name">VANESSA LORE</div>
+            </div>
+            <div class="game-card card-3" onclick="startWouldYouRather()">
+                <div class="game-icon">🤔</div>
+                <div class="game-name">WOULD YOU RATHER</div>
+            </div>
+            <div class="game-card card-4" onclick="startAnimalGame()">
+                <div class="game-icon">🐾</div>
+                <div class="game-name">ANIMAL GUESS</div>
+            </div>
+            <div class="game-card card-5" onclick="startFeedMicrowave()">
+                <div class="game-icon">🐈</div>
+                <div class="game-name">FEED MICROWAVE</div>
+            </div>
+            <div class="game-card card-6" onclick="startWhoSaidIt()">
+                <div class="game-icon">💬</div>
+                <div class="game-name">WHO SAID IT?</div>
+            </div>
+        </div>
+
+        <div id="secretLetterBox" class="secret-letter-box" style="display: none;" onclick="openSecretLetter(event)">
+            <div class="secret-letter-title">✨ A SECRET DELIVERY... ✨</div>
+            <div class="secret-letter-desc">A gold trimmed envelope has arrived just for you. Tap to unlock!</div>
+        </div>
+
+        <div class="menu-footer-actions">
+            <button class="ella-btn" id="backToRoomBtn" style="background-color: #e2e2e2;">GO BACK</button>
+            <button class="ella-btn" onclick="openAchievementsModal()">🏆 ACHIEVEMENTS</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="matchTwoScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title">MATCH TWO <span style="color: #ff6b8b;">🌸</span></h2>
+        <p id="matchFlipsCounter" style="font-size: 8px; margin-top: -15px; margin-bottom: 15px; color: #8a7b8c; text-align: center;">Flips: 0</p>
+        
+        <div class="game-board" id="gameGrid"></div>
+
+        <div class="menu-footer-actions">
+            <button class="ella-btn" onclick="exitMatchTwo()" style="background-color: #e2e2e2;">GO BACK</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="vanessaLoreScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title" id="quizQuestionNum">Question 1/10</h2>
+        
+        <div class="quiz-pic-frame">
+            <img src="" id="quizQuestionImage" class="quiz-pic" style="display: none;" alt="Visual Stimulus">
+            <div id="quizImagePlaceholder" class="quiz-pic-placeholder">📖</div>
+        </div>
+
+        <p id="quizQuestionText" style="font-size: 9px; line-height: 1.6; margin-bottom: 25px; text-align: center; color: #1a1a1a; width: 100%; box-sizing: border-box;"></p>
+        
+        <div id="quizOptionsContainer" style="width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;"></div>
+
+        <div class="exit-quiz-btn-container">
+            <button class="ella-btn" onclick="exitQuiz()" style="background-color: #e2e2e2;">EXIT QUIZ</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="quizCorrectScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title" style="color: #4caf50;">CORRECT! 🌟</h2>
+        
+        <div class="quiz-pic-frame" style="border-color: #4caf50;">
+            <img src="quizcorrect.png" class="quiz-pic" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="quiz-pic-placeholder" style="display: none; color: #4caf50;">🌟</div>
+        </div>
+
+        <p id="intermissionScore" style="font-size: 10px; margin-bottom: 10px; text-align: center; color: #1a1a1a;"></p>
+        <p id="intermissionProgress" style="font-size: 8px; margin-bottom: 10px; text-align: center; color: #8a7b8c;"></p>
+    </div>
+
+    <div class="window-frame" id="quizResultsScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title">QUIZ COMPLETE! <span style="color: #ff6b8b;">🏆</span></h2>
+        
+        <div class="quiz-pic-frame">
+            <img src="quizfinal.png" class="quiz-pic" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="quiz-pic-placeholder" style="display: none; color: #ffa6c9;">🏆</div>
+        </div>
+
+        <p id="finalScoreDisplay" style="font-size: 13px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #ff6b8b;"></p>
+        <p style="font-size: 9px; line-height: 1.6; margin-bottom: 25px; text-align: center; color: #1a1a1a;">
+            Great job! If you got 9 or 10/10 I am proud of you!! If you got less gulp... just kidding nothing will happen i wont even know 
+        </p>
+
+        <div class="menu-footer-actions">
+            <button class="ella-btn" onclick="finishQuiz()" style="background-color: #ffb3c6;">BACK TO MENU</button>
+        </div>
+    </div>
+
+    <!-- WHO SAID IT SCREENS -->
+    <div class="window-frame" id="whoSaidItScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title" id="wsiQuestionNum">Quote 1/10</h2>
+        
+        <div class="quiz-pic-frame" style="height: auto; min-height: 120px; padding: 25px 20px; background-color: #ffffff;">
+            <p id="wsiPrompt" style="font-size: 11px; font-style: italic; font-weight: bold; line-height: 1.8; color: #1a1a1a; text-align: center; margin: 0;"></p>
+        </div>
+
+        <p style="font-size: 10px; font-weight: bold; line-height: 1.6; margin-bottom: 25px; text-align: center; color: #1a1a1a;">
+            Who said it?
+        </p>
+        
+        <div id="wsiOptionsContainer" style="width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;"></div>
+
+        <div class="exit-quiz-btn-container">
+            <button class="ella-btn" onclick="exitWhoSaidIt()" style="background-color: #e2e2e2;">EXIT GAME</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="whoSaidItRevealScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title" style="color: #4caf50;">CORRECT! 💬</h2>
+        
+        <div class="quiz-pic-frame wsi-reveal-frame" style="border-color: #000000;">
+            <img src="" id="wsiRevealImage" class="quiz-pic" style="display: none;" alt="Quote Screenshot">
+            <div id="wsiRevealPlaceholder" class="quiz-pic-placeholder" style="color: #4caf50;">📸</div>
+        </div>
+    </div>
+
+    <div class="window-frame" id="whoSaidItResultsScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title">QUOTE MASTER! <span style="color: #ff6b8b;">💬</span></h2>
+        
+        <div class="quiz-pic-frame">
+            <div class="quiz-pic-placeholder" style="color: #ffb3c6;">✨</div>
+        </div>
+
+        <p id="wsiFinalScoreDisplay" style="font-size: 11px; font-weight: bold; line-height: 1.6; margin-bottom: 15px; text-align: center; color: #ff6b8b;"></p>
+        <p style="font-size: 9px; line-height: 1.8; margin-bottom: 25px; text-align: center; color: #1a1a1a;">
+            I have no idea if this was hard or not. these people are so freaky!!! omgggg
+        </p>
+
+        <div class="menu-footer-actions">
+            <button class="ella-btn" onclick="finishWhoSaidIt()" style="background-color: #ffb3c6;">BACK TO MENU</button>
+        </div>
+    </div>
+    <!-- END WHO SAID IT SCREENS -->
+
+    <div class="window-frame" id="animalGameScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title" id="animalQuestionNum">Animal 1/10</h2>
+        
+        <div class="quiz-pic-frame animal-pic-frame">
+            <img src="" id="animalImage" class="quiz-pic" style="display: none;" alt="Animal">
+            <div id="animalImagePlaceholder" class="quiz-pic-placeholder">🐾</div>
+        </div>
+
+        <p style="font-size: 10px; font-weight: bold; line-height: 1.6; margin-bottom: 25px; text-align: center; color: #1a1a1a;">
+            What animal is this?
+        </p>
+        
+        <div id="animalOptionsContainer" style="width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;"></div>
+
+        <div class="exit-quiz-btn-container">
+            <button class="ella-btn" onclick="exitAnimalGame()" style="background-color: #e2e2e2;">EXIT GAME</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="animalResultsScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title">SAFARI COMPLETE! <span style="color: #ff6b8b;">🐾</span></h2>
+        
+        <div class="quiz-pic-frame animal-pic-frame">
+            <div class="quiz-pic-placeholder" style="color: #ffb3c6;">🦁</div>
+        </div>
+
+        <p id="animalFinalScoreDisplay" style="font-size: 11px; font-weight: bold; line-height: 1.6; margin-bottom: 15px; text-align: center; color: #ff6b8b;"></p>
+        <p style="font-size: 9px; line-height: 1.8; margin-bottom: 25px; text-align: center; color: #1a1a1a;">
+            Amazing, crying and shitting! How many did u get first try? I made it and didn't even get 10/10 somehow :)
+        </p>
+
+        <div class="menu-footer-actions">
+            <button class="ella-btn" onclick="finishAnimalGame()" style="background-color: #ffb3c6;">BACK TO MENU</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="wyrScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title" id="wyrQuestionNum">Question 1/15</h2>
+        
+        <div class="quiz-pic-frame" style="height: 120px;">
+            <div class="quiz-pic-placeholder" style="color: #ffb3c6;">⚖️</div>
+        </div>
+
+        <p id="wyrPrompt" style="font-size: 10px; font-weight: bold; line-height: 1.6; margin-bottom: 25px; text-align: center; color: #1a1a1a; width: 100%; box-sizing: border-box;">
+            Would you rather...
+        </p>
+        
+        <div id="wyrOptionsContainer" style="width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
+            <!-- Buttons injected by JavaScript -->
+        </div>
+
+        <div class="exit-quiz-btn-container" style="margin-top: 30px;">
+            <button class="ella-btn" onclick="exitWyr()" style="background-color: #e2e2e2;">EXIT GAME</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="wyrResultsScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title">BONDING COMPLETE! <span style="color: #ff6b8b;">💞</span></h2>
+        
+        <div class="quiz-pic-frame">
+            <div class="quiz-pic-placeholder" style="color: #ffb3c6;">👯‍♀️</div>
+        </div>
+
+        <p id="wyrFinalScoreDisplay" style="font-size: 11px; font-weight: bold; line-height: 1.6; margin-bottom: 15px; text-align: center; color: #ff6b8b;"></p>
+        <p style="font-size: 9px; line-height: 1.8; margin-bottom: 25px; text-align: center; color: #1a1a1a;">
+            There are no wrong answers ofc! How many did we get the same??<br><br> Good job you completed this game!
+        </p>
+
+        <div class="menu-footer-actions">
+            <button class="ella-btn" onclick="finishWyr()" style="background-color: #ffb3c6;">BACK TO MENU</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="feedMicrowaveScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title">FEED MICROWAVE <span style="color: #ff6b8b;">🐈</span></h2>
+        
+        <p id="microwaveScoreDisplay" style="font-size: 10px; font-weight: bold; margin-top: -10px; margin-bottom: 20px; text-align: center; color: #8a7b8c;">
+            Treats Eaten: 0/5
+        </p>
+
+        <div id="microwaveGameArea" class="microwave-area">
+            <img src="microwave.png" id="microwaveCat" alt="Microwave" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="quiz-pic-placeholder" style="display: none; color: #ffb3c6; font-size: 64px;">🐈</div>
+        </div>
+
+        <p style="font-size: 8px; line-height: 1.6; margin-bottom: 25px; text-align: center; color: #8a7b8c;">
+            Tap the treats before they vanish!
+        </p>
+
+        <div class="exit-quiz-btn-container" style="margin-top: 10px;">
+            <button class="ella-btn" onclick="exitFeedMicrowave()" style="background-color: #e2e2e2;">EXIT GAME</button>
+        </div>
+    </div>
+
+    <div class="window-frame" id="microwaveResultsScreen" style="display: none; opacity: 0;">
+        <h2 class="selection-title">MICROWAVE IS FULL! <span style="color: #ff6b8b;">💣</span></h2>
+        
+        <div class="quiz-pic-frame">
+            <div class="quiz-pic-placeholder" style="color: #ffb3c6; font-size: 48px;">🐈💣</div>
+        </div>
+
+        <p style="font-size: 11px; font-weight: bold; line-height: 1.6; margin-bottom: 15px; text-align: center; color: #ff6b8b;">
+            He ate 5 treats!
+        </p>
+        <p style="font-size: 9px; line-height: 1.8; margin-bottom: 25px; text-align: center; color: #1a1a1a;">
+            And then he exploded and died.<br>He deserved it, thanks for taking care my cat!
+        </p>
+
+        <div class="menu-footer-actions">
+            <button class="ella-btn" onclick="finishFeedMicrowave()" style="background-color: #ffb3c6;">BACK TO MENU</button>
+        </div>
+    </div>
+
+    <div id="note-modal" class="custom-modal" onclick="closeNote()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <h2>A Little Note... 💌</h2>
+            <p>Hi Ella,</p>
+            <p>I know some days are really tough, so I worked on this extra page (for way too long ngl...) so you can distract yourself for a few minutes hopefully.</p>
+            <p>Whenever you're ready, tap <strong>Begin</strong> to find some silly shit I made!! There is no rush or need to do everything! There may or may not be a hidden letter tho? 😏</p>
+            <p class="signature"></p>
+            
+            <button class="ella-btn begin-modal-btn" id="beginBtn">BEGIN</button>
+            <br>
+            <span class="modal-close-link" onclick="closeNote()">Close Note</span>
+        </div>
+    </div>
+
+    <div id="secret-note-modal" class="custom-modal" onclick="closeSecretLetter()">
+        <div class="modal-card" style="border: 6px double #ffd700;" onclick="event.stopPropagation()">
+            <h2 style="color: #d4af37;">✨ Unlocked Letter ✨</h2>
+            <p>HI TWIN 😛,</p>
+            <p>If you're reading this, it means u did everything :brazy: thank u for taking the time to play this. i think this is the first and last website thing i will ever make xdd this took like unironically 24hrs. but it was not a side quest, I WANTED TO DO IT FOR YOU! so i do not regret it for a single moment 🤗 and if it distracted u for even 2mins then i think that's a success?!</p>
+            <p>if i could bring u flowers or food or something irl i would have done that instead obviously, but i hope this is good enough. </p>
+            <p>Anyway, no matter how heavy things feel, u will always have me in your corner, in a special way ofc cuz i don't live in canada :(( a friend once asked me why i love her so much, and idk maybe i love my friends too deeply but if that is a crime ARREST ME RIGHT NOW!!! 😡 i dont do it for anything in return, i just do it cuz its natural for me.</p>
+            <p>And I hope you never forget how loved u are Ella, even on the exhausting or uncertain days people always will be rooting for u, and one of those people is me &lt;3 thank u for being my friend, u are great, u are amazing. what ur going through does not define who u are, and it will never change how much i care about u!! anyway sorry, ur probably bored of seeing me say the same thing all the time so i won't yap any more, ily</p>
+            <p class="signature" style="color: #d4af37;">Vanessa 🩷</p>
+            <button class="ella-btn" onclick="closeSecretLetter()" style="background-color: #ffd700; color: #1a1a1a;">YIPPEE! 💖</button>
+        </div>
+    </div>
+
+    <div id="achievements-modal" class="custom-modal" onclick="closeAchievementsModal()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <h2>🏆 ELLA'S ACHIEVEMENTS 🏆</h2>
+            <div class="achievement-list" id="achievementsList"></div>
+            <button class="ella-btn" onclick="closeAchievementsModal()">CLOSE</button>
+        </div>
+    </div>
+
+    <div id="alert-modal" class="custom-modal" onclick="closeAlertModal()">
+        <div class="modal-card" style="border-color: #ffb3c6;" onclick="event.stopPropagation()">
+            <h2>✨ GAME KITCHEN ✨</h2>
+            <p id="alert-message">This game is currently baking in the oven! Stay tuned!</p>
+            <button class="ella-btn close-btn" onclick="closeAlertModal()">OKAY! 💖</button>
+        </div>
+    </div>
+
+    <div class="achievement-banner" id="achievementBanner">
+        <div class="achievement-icon" id="achievementToastIcon">🏆</div>
+        <div class="achievement-text">
+            <div class="achievement-title">ACHIEVEMENT UNLOCKED!</div>
+            <div class="achievement-desc" id="achievementToastDesc">You unlocked a badge!</div>
+        </div>
+    </div>
+
+    <script>
+        // Screen Navigation Variables
+        const welcomeRoom = document.getElementById('welcomeRoom');
+        const selectionScreen = document.getElementById('selectionScreen');
+        const matchTwoScreen = document.getElementById('matchTwoScreen');
+        const vanessaLoreScreen = document.getElementById('vanessaLoreScreen');
+        const quizCorrectScreen = document.getElementById('quizCorrectScreen');
+        const quizResultsScreen = document.getElementById('quizResultsScreen'); 
+        
+        const animalGameScreen = document.getElementById('animalGameScreen');
+        const animalResultsScreen = document.getElementById('animalResultsScreen');
+
+        const wyrScreen = document.getElementById('wyrScreen');
+        const wyrResultsScreen = document.getElementById('wyrResultsScreen');
+
+        const beginBtn = document.getElementById('beginBtn');
+        const backToRoomBtn = document.getElementById('backToRoomBtn');
+
+        // --- AUDIO MANAGER CONFIGURATION ---
+        const bgMusic = new Audio('distraction-music.mp3'); bgMusic.loop = true; bgMusic.volume = 0.2;
+        const shakeSound = new Audio('letter-shake.mp3'); shakeSound.volume = 0.1;
+        const openSound = new Audio('letter-open.mp3'); openSound.volume = 0.1;
+        const beginSound = new Audio('begin.mp3'); beginSound.volume = 0.2;
+        const cardFlipSound = new Audio('cardflip.mp3'); cardFlipSound.volume = 0.1;
+        const matchSuccessSound = new Audio('matchsuccess.mp3'); matchSuccessSound.volume = 0.1;
+        const unlockedSound = new Audio('unlocked.mp3'); unlockedSound.volume = 0.2; 
+        const secretLetterSound = new Audio('secretletter.mp3'); secretLetterSound.volume = 0.3;
+        const quizCorrectSound = new Audio('quizcorrect.mp3'); quizCorrectSound.volume = 0.2;
+        const quizIncorrectSound = new Audio('quizincorrect.mp3'); quizIncorrectSound.volume = 0.1;
+
+        const nomSound = new Audio('nom.mp3'); nomSound.volume = 0.1;
+        const fartSound = new Audio('fart.mp3'); fartSound.volume = 0.1;
+        
+        // Increased volume to 0.2 for microwave sounds
+        const meowSound = new Audio('meow.mp3'); meowSound.volume = 0.2;
+        const purrSound = new Audio('purr.mp3'); purrSound.volume = 0.2;
+        const trillSound = new Audio('trill.mp3'); trillSound.volume = 0.2;
+
+        // --- ASSET PRELOADER ---
+        function preloadAssets() {
+            const imagesToPreload = [
+                'flower1.png', 'flower2.png', 'flower3.png', 'flower4.png',
+                'flower5.png', 'flower6.png', 'flower7.png', 'flower8.png',
+                'quizpic1.png', 'quizpic2.png', 'quizpic3.png', 'quizpic4.png', 'quizpic5.png', 
+                'quizpic6.png', 'quizpic7.png', 'quizpic8.png', 'quizpic9.png', 'quizpic10.png',
+                'quote1.png', 'quote2.png', 'quote3.png', 'quote4.png', 'quote5.png',
+                'quote6.png', 'quote7.png', 'quote8.png', 'quote9.png', 'quote10.png',
+                'quizcorrect.png', 'quizfinal.png',
+                'animal1.png', 'animal1-zoomed.png', 'animal2.png', 'animal2-zoomed.png',
+                'animal3.png', 'animal3-zoomed.png', 'animal4.png', 'animal4-zoomed.png',
+                'animal5.png', 'animal5-zoomed.png', 'animal6.png', 'animal6-zoomed.png',
+                'animal7.png', 'animal7-zoomed.png', 'animal8.png', 'animal8-zoomed.png',
+                'animal9.png', 'animal9-zoomed.png', 'animal10.png', 'animal10-zoomed.png',
+                'microwave.png', 'microwave-eat.png', 'treat.png'
+            ];
+            imagesToPreload.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
+        window.addEventListener('DOMContentLoaded', preloadAssets);
+
+        let audioStarted = false;
+
+        function startInteractiveAudio() {
+            if (audioStarted) return;
+            audioStarted = true;
+
+            const allAudio = [shakeSound, openSound, beginSound, cardFlipSound, matchSuccessSound, unlockedSound, secretLetterSound, quizCorrectSound, quizIncorrectSound, nomSound, fartSound, meowSound, purrSound, trillSound];
+            allAudio.forEach(a => {
+                a.preload = 'auto';
+                a.load();
+            });
+
+            bgMusic.play().catch(err => console.log("Music blocked:", err));
+        }
+
+        function playBeginSound() {
+            beginSound.currentTime = 0;
+            beginSound.play().catch(() => {});
+        }
+
+        function playShakeSound() {
+            if (!audioStarted) return;
+            const isModalOpen = document.getElementById('note-modal').classList.contains('show-modal');
+            const isWelcomeRoomVisible = welcomeRoom.style.display !== 'none' && welcomeRoom.style.opacity !== '0';
+            
+            if (isWelcomeRoomVisible && !isModalOpen) {
+                shakeSound.currentTime = 0;
+                shakeSound.play().catch(() => {});
+            }
+        }
+
+        const pixelLetterEl = document.getElementById('pixelLetter');
+        pixelLetterEl.addEventListener('animationstart', playShakeSound);
+        pixelLetterEl.addEventListener('animationiteration', playShakeSound);
+        document.body.addEventListener('click', startInteractiveAudio, { once: true });
+
+
+        // --- COZY 7-ACHIEVEMENT CONFIGURATION ---
+        const ACHIEVEMENT_DEFS = {
+            intro_read: { name: "Cozy Welcome", desc: "Read the introductory letter.", icon: "💌" },
+            gardener: { name: "Master Gardener", desc: "Successfully match all 8 flower pairs.", icon: "🌸" },
+            vanessa_lore_completed: { name: "Lore Master", desc: "Complete the Vanessa Lore quiz.", icon: "📖" },
+            wyr_completed: { name: "Twins", desc: "Complete the Would You Rather game.", icon: "👯‍♀️" },
+            animal_expert: { name: "Zoologist", desc: "Complete the Animal Guessing game.", icon: "🐾" },
+            microwave_fed: { name: "Full Kitty", desc: "Feed Microwave 5 treats so he explodes.", icon: "🐈" },
+            who_said_it: { name: "Quote Master", desc: "Complete the Who Said It? game.", icon: "💬" }
+        };
+
+        let unlockedAchievements = [];
+        let secretSoundPlayed = false;
+
+        function unlockAchievement(id) {
+            if (unlockedAchievements.includes(id)) return;
+            
+            unlockedAchievements.push(id);
+            
+            const def = ACHIEVEMENT_DEFS[id];
+            if (def) {
+                const toast = document.getElementById('achievementBanner');
+                document.getElementById('achievementToastIcon').textContent = def.icon;
+                document.getElementById('achievementToastDesc').innerHTML = `<strong>${def.name}</strong>: ${def.desc}`;
+                
+                unlockedSound.currentTime = 0;
+                unlockedSound.play().catch(() => {});
+
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 5000);
+            }
+            checkSecretLetterVisibility();
+        }
+
+        function checkSecretLetterVisibility() {
+            const secretBox = document.getElementById('secretLetterBox');
+            // Check for 7 achievements
+            if (unlockedAchievements.length >= 7) {
+                if (secretBox.style.display === 'none' || secretBox.style.display === '') {
+                    secretBox.style.display = 'block';
+                }
+            } else {
+                secretBox.style.display = 'none';
+            }
+        }
+
+        function playSecretUnlockSoundIfNeeded() {
+            if (unlockedAchievements.length >= 7 && !secretSoundPlayed) {
+                secretSoundPlayed = true;
+                secretLetterSound.currentTime = 0;
+                secretLetterSound.play().catch(err => console.log("Audio play blocked:", err));
+            }
+        }
+
+        // --- MATCH TWO MINI GAME ---
+        const flowers = [
+            { id: 1, file: 'flower1.png', fallback: '🌸' }, { id: 2, file: 'flower2.png', fallback: '🌹' },
+            { id: 3, file: 'flower3.png', fallback: '🌷' }, { id: 4, file: 'flower4.png', fallback: '🌻' },
+            { id: 5, file: 'flower5.png', fallback: '🌼' }, { id: 6, file: 'flower6.png', fallback: '🪻' },
+            { id: 7, file: 'flower7.png', fallback: '🌺' }, { id: 8, file: 'flower8.png', fallback: '🏵️' }
+        ];
+
+        let boardCards = [];
+        let activeFlipped = [];
+        let matchesFound = 0;
+        let totalFlips = 0;
+        let canInteract = true;
+
+        function startMatchTwo() {
+            playBeginSound(); 
+            matchesFound = 0; totalFlips = 0; activeFlipped = []; canInteract = true;
+            document.getElementById('matchFlipsCounter').textContent = `Flips: ${totalFlips}`;
+            const cardDeck = [...flowers, ...flowers];
+
+            for (let i = cardDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cardDeck[i], cardDeck[j]] = [cardDeck[j], cardDeck[i]];
+            }
+
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+
+            cardDeck.forEach((flower, index) => {
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.dataset.id = flower.id;
+                tile.dataset.index = index;
+                tile.onclick = () => onTileSelect(tile);
+
+                tile.innerHTML = `
+                    <div class="tile-front"></div>
+                    <div class="tile-back">
+                        <img src="${flower.file}" class="tile-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="tile-fallback" style="display:none;">${flower.fallback}</span>
+                    </div>
+                `;
+                grid.appendChild(tile);
+            });
+
+            selectionScreen.style.opacity = '0';
+            setTimeout(() => {
+                selectionScreen.style.display = 'none';
+                matchTwoScreen.style.display = 'flex';
+                matchTwoScreen.offsetHeight;
+                matchTwoScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        function onTileSelect(tile) {
+            if (!canInteract || tile.classList.contains('flipped') || tile.classList.contains('matched')) return;
+
+            cardFlipSound.currentTime = 0;
+            cardFlipSound.play().catch(() => {});
+            tile.classList.add('flipped');
+            activeFlipped.push(tile);
+            totalFlips++;
+            document.getElementById('matchFlipsCounter').textContent = `Flips: ${totalFlips}`;
+
+            if (activeFlipped.length === 2) {
+                canInteract = false;
+                processCardMatchCheck();
+            }
+        }
+
+        function processCardMatchCheck() {
+            const [card1, card2] = activeFlipped;
+            if (card1.dataset.id === card2.dataset.id) {
+                setTimeout(() => {
+                    matchSuccessSound.currentTime = 0;
+                    matchSuccessSound.play().catch(() => {});
+                }, 150);
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchesFound++;
+                activeFlipped = [];
+                canInteract = true;
+                if (matchesFound === 8) setTimeout(() => { unlockAchievement('gardener'); }, 500);
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flipped'); card2.classList.remove('flipped');
+                    activeFlipped = []; canInteract = true;
+                }, 1000);
+            }
+        }
+
+        function exitMatchTwo() {
+            playBeginSound(); 
+            matchTwoScreen.style.opacity = '0';
+            setTimeout(() => {
+                matchTwoScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        // --- VANESSA LORE ---
+        const quizQuestions = [
+            { q: "What is my fav game ever?", a: ["NieR:Automata", "League of Legends", "Bloodborne"], correct: 0 },
+            { q: "What is my fav colour?", a: ["Red", "Pink", "Purple"], correct: 1 },
+            { q: "Which photocard do you think I would pick?", a: ["1", "2", "3"], correct: 0 },
+            { q: "Who do I main in league?", a: ["Ahri", "Samira", "Evelynn"], correct: 2 },
+            { q: "What's the first movie we watched together?", a: ["Dream (2023)", "Broker (2022)", "Saving Face (2004)"], correct: 0 },
+            { q: "What is one weird food combination I like?", a: ["Bread + Water", "Pineapple + Pizza", "Banana + Ketchup"], correct: 0 },
+            { q: "Who is my fav kpop group?", a: ["Twice", "Aespa", "Loona"], correct: 1 },
+            { q: "What sport did I do in the past?", a: ["Belly Dancing", "Track and Field", "Gymnastics"], correct: 2 },
+            { q: "My mother and her side of the family is what?", a: ["Indian", "Italian", "Irish"], correct: 1 },
+            { q: "How tall am I?", a: ["5'5 (165cm)", "5'4 (162.5cm)", "5'3 (160cm)"], correct: 2 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let isFirstTry = true;
+
+        function startVanessaLore() {
+            playBeginSound(); 
+            currentQuestionIndex = 0; quizScore = 0; isFirstTry = true;
+            selectionScreen.style.opacity = '0';
+            setTimeout(() => {
+                selectionScreen.style.display = 'none';
+                vanessaLoreScreen.style.display = 'flex';
+                vanessaLoreScreen.offsetHeight;
+                vanessaLoreScreen.style.opacity = '1';
+                loadQuizQuestion();
+            }, 300);
+        }
+
+        function loadQuizQuestion() {
+            isFirstTry = true;
+            const qData = quizQuestions[currentQuestionIndex];
+            document.getElementById('quizQuestionNum').textContent = `Question ${currentQuestionIndex + 1}/10`;
+            document.getElementById('quizQuestionText').textContent = qData.q;
+
+            const imgElement = document.getElementById('quizQuestionImage');
+            const placeholderElement = document.getElementById('quizImagePlaceholder');
+            const imgPath = `quizpic${currentQuestionIndex + 1}.png`;
+
+            imgElement.style.display = 'none';
+            placeholderElement.style.display = 'block';
+
+            const tempImg = new Image();
+            tempImg.onload = function() {
+                imgElement.src = imgPath;
+                imgElement.style.display = 'block';
+                placeholderElement.style.display = 'none';
+            };
+            tempImg.onerror = function() {
+                imgElement.style.display = 'none';
+                placeholderElement.style.display = 'block';
+            };
+            tempImg.src = imgPath;
+
+            const container = document.getElementById('quizOptionsContainer');
+            container.innerHTML = '';
+
+            qData.a.forEach((optionText, idx) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'quiz-option-wrapper';
+                wrapper.innerHTML = `
+                    <div class="try-again-label" style="display: none;">try again!</div>
+                    <button class="ella-btn quiz-option-btn" onclick="selectQuizOption(this, ${idx})">${optionText}</button>
+                `;
+                container.appendChild(wrapper);
+            });
+        }
+
+        function selectQuizOption(btn, clickedIndex) {
+            const qData = quizQuestions[currentQuestionIndex];
+
+            if (clickedIndex === qData.correct) {
+                quizCorrectSound.currentTime = 0; quizCorrectSound.play().catch(() => {});
+                if (isFirstTry) quizScore++;
+
+                vanessaLoreScreen.style.opacity = '0';
+                setTimeout(() => {
+                    vanessaLoreScreen.style.display = 'none';
+                    document.getElementById('intermissionScore').textContent = `Current Score: ${quizScore}/10`;
+                    document.getElementById('intermissionProgress').textContent = `Question ${currentQuestionIndex + 1} of 10`;
+
+                    quizCorrectScreen.style.display = 'flex';
+                    quizCorrectScreen.offsetHeight;
+                    quizCorrectScreen.style.opacity = '1';
+
+                    setTimeout(() => { proceedQuizAutomated(); }, 800);
+                }, 300);
+
+            } else {
+                quizIncorrectSound.currentTime = 0; quizIncorrectSound.play().catch(() => {});
+                isFirstTry = false;
+                btn.classList.add('disabled'); btn.disabled = true;
+
+                const wrapper = btn.closest('.quiz-option-wrapper');
+                const label = wrapper.querySelector('.try-again-label');
+                label.style.display = 'block'; label.style.opacity = '1';
+
+                setTimeout(() => {
+                    label.style.transition = 'opacity 0.4s ease'; label.style.opacity = '0';
+                    setTimeout(() => { label.style.display = 'none'; label.style.transition = ''; }, 400);
+                }, 1000);
+            }
+        }
+
+        function proceedQuizAutomated() {
+            quizCorrectScreen.style.opacity = '0';
+            setTimeout(() => {
+                quizCorrectScreen.style.display = 'none';
+
+                if (currentQuestionIndex < 9) {
+                    currentQuestionIndex++;
+                    vanessaLoreScreen.style.display = 'flex';
+                    vanessaLoreScreen.offsetHeight;
+                    vanessaLoreScreen.style.opacity = '1';
+                    loadQuizQuestion();
+                } else {
+                    unlockAchievement('vanessa_lore_completed');
+                    
+                    document.getElementById('finalScoreDisplay').textContent = `Final Score: ${quizScore}/10`;
+                    quizResultsScreen.style.display = 'flex';
+                    quizResultsScreen.offsetHeight;
+                    quizResultsScreen.style.opacity = '1';
+                }
+            }, 300);
+        }
+
+        function finishQuiz() {
+            playBeginSound(); 
+            quizResultsScreen.style.opacity = '0';
+            setTimeout(() => {
+                quizResultsScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        function exitQuiz() {
+            playBeginSound(); 
+            vanessaLoreScreen.style.opacity = '0';
+            setTimeout(() => {
+                vanessaLoreScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        // --- WHO SAID IT? MINI GAME ---
+        const wsiQuestions = [
+            { quote: "no cause he stinks and he's black", a: ["Lauren", "Crawlie", "Ramy"], correct: 0 },
+            { quote: "little sex drive for little people", a: ["Mari", "Ramy", "Ella"], correct: 1 },
+            { quote: "gonna swirl that tongue all over the clit while the fingering happens.", a: ["Vanessa", "Jeri", "Kiia"], correct: 1 },
+            { quote: "is it bad to say the monkey reminds me of india?", a: ["Ella", "Pomp", "Vanessa"], correct: 2 },
+            { quote: "I did it behind the couch, my grandma", a: ["Pomp", "Noz", "Daniel"], correct: 0 },
+            { quote: "most guys are autistic tho and have no idea. every penis shot they take is like just the top of a penis over an open toilet", a: ["Kiia", "Cody", "Tae"], correct: 1 },
+            { quote: "my dick curves in allllll the mf ways", a: ["Tae", "Cody", "Kiia"], correct: 2 },
+            { quote: "once and it killed my ass", a: ["Lauren", "Ella", "Star"], correct: 1 },
+            { quote: "oh wait does the T in MIT stand for engineering.", a: ["Vanessa", "Lauren", "Ramy"], correct: 0 },
+            { quote: "where's my paul when i need him... ", a: ["Cody", "Noz", "Kiia"], correct: 2 }
+        ];
+
+        let currentWsiIndex = 0;
+        let wsiFirstTryScore = 0;
+        let isWsiFirstTry = true;
+        let wsiInteractionLocked = false;
+
+        function startWhoSaidIt() {
+            playBeginSound();
+            currentWsiIndex = 0;
+            wsiFirstTryScore = 0;
+
+            selectionScreen.style.opacity = '0';
+            setTimeout(() => {
+                selectionScreen.style.display = 'none';
+                document.getElementById('whoSaidItScreen').style.display = 'flex';
+                document.getElementById('whoSaidItScreen').offsetHeight;
+                document.getElementById('whoSaidItScreen').style.opacity = '1';
+                loadWsiQuestion();
+            }, 300);
+        }
+
+        function loadWsiQuestion() {
+            isWsiFirstTry = true;
+            wsiInteractionLocked = false;
+            document.getElementById('wsiQuestionNum').textContent = `Quote ${currentWsiIndex + 1}/10`;
+            document.getElementById('wsiPrompt').textContent = `"${wsiQuestions[currentWsiIndex].quote}"`;
+
+            const container = document.getElementById('wsiOptionsContainer');
+            container.innerHTML = '';
+
+            const qData = wsiQuestions[currentWsiIndex];
+            qData.a.forEach((optionText, idx) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'quiz-option-wrapper';
+                wrapper.style.marginBottom = '28px';
+                wrapper.innerHTML = `
+                    <div class="try-again-label" style="display: none;">try again!</div>
+                    <button class="ella-btn quiz-option-btn" onclick="selectWsiOption(this, ${idx})">${optionText}</button>
+                `;
+                container.appendChild(wrapper);
+            });
+        }
+
+        function selectWsiOption(btn, clickedIndex) {
+            if (wsiInteractionLocked) return;
+            const qData = wsiQuestions[currentWsiIndex];
+
+            if (clickedIndex === qData.correct) {
+                wsiInteractionLocked = true;
+                quizCorrectSound.currentTime = 0; quizCorrectSound.play().catch(() => {});
+                if (isWsiFirstTry) wsiFirstTryScore++;
+
+                btn.style.backgroundColor = '#baffc9';
+
+                const wsiScreen = document.getElementById('whoSaidItScreen');
+                const revealScreen = document.getElementById('whoSaidItRevealScreen');
+                const revealImg = document.getElementById('wsiRevealImage');
+                const revealPlaceholder = document.getElementById('wsiRevealPlaceholder');
+
+                const imgPath = `quote${currentWsiIndex + 1}.png`;
+                revealImg.style.display = 'none';
+                revealPlaceholder.style.display = 'block';
+
+                const tempImg = new Image();
+                tempImg.onload = function() {
+                    revealImg.src = imgPath;
+                    revealImg.style.display = 'block';
+                    revealPlaceholder.style.display = 'none';
+                };
+                tempImg.onerror = function() {
+                    revealImg.style.display = 'none';
+                    revealPlaceholder.style.display = 'block';
+                };
+                tempImg.src = imgPath;
+
+                wsiScreen.style.opacity = '0';
+                setTimeout(() => {
+                    wsiScreen.style.display = 'none';
+                    revealScreen.style.display = 'flex';
+                    revealScreen.offsetHeight;
+                    revealScreen.style.opacity = '1';
+
+                    setTimeout(() => { proceedWhoSaidIt(); }, 2500);
+                }, 300);
+
+            } else {
+                quizIncorrectSound.currentTime = 0; quizIncorrectSound.play().catch(() => {});
+                isWsiFirstTry = false;
+                btn.classList.add('disabled'); btn.disabled = true;
+
+                const wrapper = btn.closest('.quiz-option-wrapper');
+                const label = wrapper.querySelector('.try-again-label');
+                label.style.display = 'block'; label.style.opacity = '1';
+
+                setTimeout(() => {
+                    label.style.transition = 'opacity 0.4s ease'; label.style.opacity = '0';
+                    setTimeout(() => { label.style.display = 'none'; label.style.transition = ''; }, 400);
+                }, 1000);
+            }
+        }
+
+        function proceedWhoSaidIt() {
+            const revealScreen = document.getElementById('whoSaidItRevealScreen');
+            revealScreen.style.opacity = '0';
+            setTimeout(() => {
+                revealScreen.style.display = 'none';
+                currentWsiIndex++;
+                if (currentWsiIndex < wsiQuestions.length) {
+                    const wsiScreen = document.getElementById('whoSaidItScreen');
+                    wsiScreen.style.display = 'flex';
+                    wsiScreen.offsetHeight;
+                    wsiScreen.style.opacity = '1';
+                    loadWsiQuestion();
+                } else {
+                    showWsiResults();
+                }
+            }, 300);
+        }
+
+        function showWsiResults() {
+            document.getElementById('wsiFinalScoreDisplay').innerHTML = `First Try Score: <br><br><span style="font-size:16px;">${wsiFirstTryScore} / 10</span>`;
+            unlockAchievement('who_said_it');
+
+            const resultsScreen = document.getElementById('whoSaidItResultsScreen');
+            resultsScreen.style.display = 'flex';
+            resultsScreen.offsetHeight;
+            resultsScreen.style.opacity = '1';
+        }
+
+        function finishWhoSaidIt() {
+            playBeginSound(); 
+            const resultsScreen = document.getElementById('whoSaidItResultsScreen');
+            resultsScreen.style.opacity = '0';
+            setTimeout(() => {
+                resultsScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        function exitWhoSaidIt() {
+            playBeginSound();
+            const wsiScreen = document.getElementById('whoSaidItScreen');
+            wsiScreen.style.opacity = '0';
+            setTimeout(() => {
+                wsiScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        // --- WOULD YOU RATHER ---
+        const wyrQuestions = [
+            { prompt: "Would you rather have an obsessive insane person...", opt1: "Love you", opt2: "Hate you", vChoice: 1 },
+            { prompt: "If you had to live in a cage for the rest of your life, would you rather the bars be...", opt1: "Vertical", opt2: "Horizontal", vChoice: 2 },
+            { prompt: "Would you rather ...", opt1: "Be able to converse with animals", opt2: "Fluent in every human language", vChoice: 2 },
+            { prompt: "You will be locked in a room full of spiders for some amount of time. Would you rather have the lights be...", opt1: "Turned on", opt2: "Turned off", vChoice: 1 },
+            { prompt: "Would you rather...", opt1: "Never have your fav food again", opt2: "Only ever have your fav food", vChoice: 1 },
+            { prompt: "If you had to choose between...", opt1: "Only oral sex", opt2: "Never oral sex", vChoice: 2 },
+            { prompt: "Would you rather...", opt1: "Be liked by many", opt2: "Deeply understood by few", vChoice: 2 },
+            { prompt: "Would you rather...", opt1: "Every song in the world be sung by Future", opt2: "Only Future songs exist, but other artists can cover them", vChoice: 2 },
+            { prompt: "Which one of these would you give up forever?", opt1: "Spotify", opt2: "Youtube", vChoice: 1 },
+            { prompt: "Would you rather always...", opt1: "Undersleep", opt2: "Oversleep", vChoice: 1 },
+            { prompt: "Would you rather lose the ability to...", opt1: "Read", opt2: "Speak", vChoice: 2 },
+            { prompt: "Would you rather...", opt1: "Leak your entire search history", opt2: "Leak every photo on your phone", vChoice: 1 },
+            { prompt: "In your sleep would you rather...", opt1: "Snore loud af", opt2: "Narrate your dreams out loud", vChoice: 2 },
+            { prompt: "Would you rather only be able to wear...", opt1: "Designer clothes that don't fit", opt2: "Comfortable clothes that are unfashionable", vChoice: 2 },
+            { prompt: "Would you rather be...", opt1: "Topless all the time", opt2: "Without pants all the time", vChoice: 1 }
+        ];
+
+        let currentWyrIndex = 0;
+        let wyrMatches = 0;
+
+        function startWouldYouRather() {
+            playBeginSound(); 
+            currentWyrIndex = 0; 
+            wyrMatches = 0;
+            
+            selectionScreen.style.opacity = '0';
+            setTimeout(() => {
+                selectionScreen.style.display = 'none';
+                wyrScreen.style.display = 'flex';
+                wyrScreen.offsetHeight;
+                wyrScreen.style.opacity = '1';
+                loadWyrQuestion();
+            }, 300);
+        }
+
+        function loadWyrQuestion() {
+            const qData = wyrQuestions[currentWyrIndex];
+            document.getElementById('wyrQuestionNum').textContent = `Question ${currentWyrIndex + 1}/15`;
+            document.getElementById('wyrPrompt').textContent = qData.prompt;
+            
+            const container = document.getElementById('wyrOptionsContainer');
+            container.innerHTML = '';
+
+            const wrap1 = document.createElement('div');
+            wrap1.className = 'quiz-option-wrapper';
+            wrap1.innerHTML = `<button class="ella-btn quiz-option-btn" onclick="selectWyrOption(1)">${qData.opt1}</button>`;
+            container.appendChild(wrap1);
+
+            const orText = document.createElement('div');
+            orText.style.fontSize = '8px';
+            orText.style.color = '#8a7b8c';
+            orText.style.margin = '0px 0 28px 0'; 
+            orText.style.fontWeight = 'bold';
+            orText.textContent = 'OR';
+            container.appendChild(orText);
+
+            const wrap2 = document.createElement('div');
+            wrap2.className = 'quiz-option-wrapper';
+            wrap2.innerHTML = `<button class="ella-btn quiz-option-btn" onclick="selectWyrOption(2)">${qData.opt2}</button>`;
+            container.appendChild(wrap2);
+        }
+
+        function selectWyrOption(chosenIndex) {
+            cardFlipSound.currentTime = 0;
+            cardFlipSound.play().catch(() => {});
+
+            const qData = wyrQuestions[currentWyrIndex];
+            
+            if (chosenIndex === qData.vChoice) {
+                wyrMatches++;
+            }
+
+            wyrScreen.style.opacity = '0';
+            setTimeout(() => {
+                currentWyrIndex++;
+                if (currentWyrIndex < 15) {
+                    loadWyrQuestion();
+                    wyrScreen.style.opacity = '1';
+                } else {
+                    wyrScreen.style.display = 'none';
+                    showWyrResults();
+                }
+            }, 250);
+        }
+
+        function showWyrResults() {
+            document.getElementById('wyrFinalScoreDisplay').innerHTML = `We picked the exact same answer<br><br><span style="font-size:16px;">${wyrMatches} out of 15</span><br><br>times!`;
+            unlockAchievement('wyr_completed');
+            
+            wyrResultsScreen.style.display = 'flex';
+            wyrResultsScreen.offsetHeight;
+            wyrResultsScreen.style.opacity = '1';
+        }
+
+        function finishWyr() {
+            playBeginSound(); 
+            wyrResultsScreen.style.opacity = '0';
+            setTimeout(() => {
+                wyrResultsScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        function exitWyr() {
+            playBeginSound();
+            wyrScreen.style.opacity = '0';
+            setTimeout(() => {
+                wyrScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        // --- ANIMAL GUESS MINI GAME ---
+        const animalQuestions = [
+            { a: ["Capybara", "Beaver", "Groundhog"], correct: 0 },
+            { a: ["Red Panda", "Raccoon", "Lemur"], correct: 1 },
+            { a: ["Axolotl", "Salamander", "Lizard"], correct: 1 },
+            { a: ["Quokka", "Kangaroo", "Wallaby"], correct: 0 },
+            { a: ["Fennec Fox", "Chihuahua", "Meerkat"], correct: 2 },
+            { a: ["Sloth", "Koala", "Anteater"], correct: 1 },
+            { a: ["Platypus", "Duck", "Otter"], correct: 2 },
+            { a: ["Hedgehog", "Porcupine", "Echidna"], correct: 0 },
+            { a: ["Pufferfish", "Blowfish", "Lionfish"], correct: 1 },
+            { a: ["Opossum", "Skunk", "Badger"], correct: 2 }
+        ];
+
+        let currentAnimalIndex = 0;
+        let animalFirstTryScore = 0;
+        let isAnimalFirstTry = true;
+        let animalInteractionLocked = false;
+
+        function startAnimalGame() {
+            playBeginSound(); 
+            currentAnimalIndex = 0; 
+            animalFirstTryScore = 0;
+            
+            selectionScreen.style.opacity = '0';
+            setTimeout(() => {
+                selectionScreen.style.display = 'none';
+                animalGameScreen.style.display = 'flex';
+                animalGameScreen.offsetHeight;
+                animalGameScreen.style.opacity = '1';
+                loadAnimalQuestion();
+            }, 300);
+        }
+
+        function loadAnimalQuestion() {
+            isAnimalFirstTry = true;
+            animalInteractionLocked = false;
+            document.getElementById('animalQuestionNum').textContent = `Animal ${currentAnimalIndex + 1}/10`;
+            
+            const imgElement = document.getElementById('animalImage');
+            const placeholderElement = document.getElementById('animalImagePlaceholder');
+            const zoomedImgPath = `animal${currentAnimalIndex + 1}-zoomed.png`;
+
+            imgElement.style.display = 'none';
+            placeholderElement.style.display = 'block';
+
+            const tempImg = new Image();
+            tempImg.onload = function() {
+                imgElement.src = zoomedImgPath;
+                imgElement.style.display = 'block';
+                placeholderElement.style.display = 'none';
+            };
+            tempImg.onerror = function() {
+                imgElement.style.display = 'none';
+                placeholderElement.style.display = 'block';
+            };
+            tempImg.src = zoomedImgPath;
+
+            const container = document.getElementById('animalOptionsContainer');
+            container.innerHTML = '';
+            
+            const qData = animalQuestions[currentAnimalIndex];
+            qData.a.forEach((optionText, idx) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'quiz-option-wrapper';
+                wrapper.style.marginBottom = '28px'; 
+                wrapper.innerHTML = `
+                    <div class="try-again-label" style="display: none;">try again!</div>
+                    <button class="ella-btn quiz-option-btn" onclick="selectAnimalOption(this, ${idx})">${optionText}</button>
+                `;
+                container.appendChild(wrapper);
+            });
+        }
+
+        function selectAnimalOption(btn, clickedIndex) {
+            if (animalInteractionLocked) return;
+            const qData = animalQuestions[currentAnimalIndex];
+
+            if (clickedIndex === qData.correct) {
+                animalInteractionLocked = true; 
+                quizCorrectSound.currentTime = 0; quizCorrectSound.play().catch(() => {});
+                if (isAnimalFirstTry) animalFirstTryScore++;
+                
+                const imgElement = document.getElementById('animalImage');
+                imgElement.src = `animal${currentAnimalIndex + 1}.png`;
+                
+                btn.style.backgroundColor = '#baffc9';
+
+                setTimeout(() => { proceedAnimalGame(); }, 1500);
+
+            } else {
+                quizIncorrectSound.currentTime = 0; quizIncorrectSound.play().catch(() => {});
+                isAnimalFirstTry = false;
+                btn.classList.add('disabled'); btn.disabled = true;
+
+                const wrapper = btn.closest('.quiz-option-wrapper');
+                const label = wrapper.querySelector('.try-again-label');
+                label.style.display = 'block'; label.style.opacity = '1';
+
+                setTimeout(() => {
+                    label.style.transition = 'opacity 0.4s ease'; label.style.opacity = '0';
+                    setTimeout(() => { label.style.display = 'none'; label.style.transition = ''; }, 400);
+                }, 1000);
+            }
+        }
+
+        function proceedAnimalGame() {
+            animalGameScreen.style.opacity = '0';
+            setTimeout(() => {
+                currentAnimalIndex++;
+                if (currentAnimalIndex < 10) {
+                    loadAnimalQuestion();
+                    animalGameScreen.style.opacity = '1';
+                } else {
+                    animalGameScreen.style.display = 'none';
+                    showAnimalResults();
+                }
+            }, 300);
+        }
+
+        function showAnimalResults() {
+            document.getElementById('animalFinalScoreDisplay').innerHTML = `First Try Score: <br><br><span style="font-size:16px;">${animalFirstTryScore} / 10</span>`;
+            unlockAchievement('animal_expert');
+            
+            animalResultsScreen.style.display = 'flex';
+            animalResultsScreen.offsetHeight;
+            animalResultsScreen.style.opacity = '1';
+        }
+
+        function finishAnimalGame() {
+            playBeginSound(); 
+            animalResultsScreen.style.opacity = '0';
+            setTimeout(() => {
+                animalResultsScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        function exitAnimalGame() {
+            playBeginSound();
+            animalGameScreen.style.opacity = '0';
+            setTimeout(() => {
+                animalGameScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        // --- FEED MICROWAVE MINI GAME ---
+        const feedMicrowaveScreen = document.getElementById('feedMicrowaveScreen');
+        const microwaveResultsScreen = document.getElementById('microwaveResultsScreen');
+        
+        let treatsFed = 0;
+        let treatSpawnTimer = null;
+        let treatVanishTimer = null;
+        let microwaveAmbientTimer = null;
+        let activeTreat = null;
+        let microwaveIsPlaying = false;
+
+        function startFeedMicrowave() {
+            playBeginSound(); 
+            treatsFed = 0; 
+            microwaveIsPlaying = true;
+            document.getElementById('microwaveScoreDisplay').textContent = `Treats Eaten: 0/5`;
+            
+            if (activeTreat && activeTreat.parentNode) activeTreat.parentNode.removeChild(activeTreat);
+            activeTreat = null;
+            clearAllMicrowaveTimers();
+
+            selectionScreen.style.opacity = '0';
+            setTimeout(() => {
+                selectionScreen.style.display = 'none';
+                feedMicrowaveScreen.style.display = 'flex';
+                feedMicrowaveScreen.offsetHeight;
+                feedMicrowaveScreen.style.opacity = '1';
+                
+                scheduleNextTreat();
+                scheduleAmbientMicrowave();
+            }, 300);
+        }
+
+        function scheduleNextTreat() {
+            if (!microwaveIsPlaying || treatsFed >= 5) return;
+            const delay = Math.random() * (6000 - 3000) + 3000;
+            treatSpawnTimer = setTimeout(spawnTreat, delay);
+        }
+
+        function spawnTreat() {
+            if (!microwaveIsPlaying || treatsFed >= 5) return;
+            
+            const area = document.getElementById('microwaveGameArea');
+            if (activeTreat && activeTreat.parentNode) area.removeChild(activeTreat);
+
+            const rx = Math.floor(Math.random() * 80) + 10;
+            const ry = Math.floor(Math.random() * 70) + 10;
+
+            activeTreat = document.createElement('img');
+            activeTreat.src = 'treat.png';
+            activeTreat.className = 'cat-treat';
+            activeTreat.alt = 'Treat';
+            activeTreat.style.left = rx + '%';
+            activeTreat.style.top = ry + '%';
+            activeTreat.onclick = function() { feedTreat(this); };
+            
+            activeTreat.onerror = function() {
+                const fallbackDiv = document.createElement('div');
+                fallbackDiv.className = 'cat-treat';
+                fallbackDiv.style.left = rx + '%';
+                fallbackDiv.style.top = ry + '%';
+                fallbackDiv.style.fontSize = '32px';
+                fallbackDiv.style.display = 'flex';
+                fallbackDiv.style.alignItems = 'center';
+                fallbackDiv.style.justifyContent = 'center';
+                fallbackDiv.innerHTML = '🐟';
+                fallbackDiv.onclick = function() { feedTreat(this); };
+                
+                if (this.parentNode) {
+                    this.parentNode.replaceChild(fallbackDiv, this);
+                }
+                activeTreat = fallbackDiv;
+            };
+
+            area.appendChild(activeTreat);
+
+            treatVanishTimer = setTimeout(() => {
+                if (activeTreat && activeTreat.parentNode) {
+                    activeTreat.parentNode.removeChild(activeTreat);
+                    activeTreat = null;
+                }
+                scheduleNextTreat();
+            }, 1500); 
+        }
+
+        function feedTreat(element) {
+            if (!microwaveIsPlaying) return;
+            
+            clearTimeout(treatVanishTimer);
+            if (element && element.parentNode) element.parentNode.removeChild(element);
+            activeTreat = null;
+
+            nomSound.currentTime = 0; 
+            nomSound.play().catch(() => {});
+
+            const catImg = document.getElementById('microwaveCat');
+            catImg.src = 'microwave-eat.png';
+            catImg.style.animation = 'none';
+            catImg.style.transform = 'scale(1.05) translateY(-3px)';
+            
+            setTimeout(() => { 
+                catImg.src = 'microwave.png';
+                catImg.style.transform = ''; 
+                catImg.style.animation = '';
+            }, 500);
+
+            treatsFed++;
+            document.getElementById('microwaveScoreDisplay').textContent = `Treats Eaten: ${treatsFed}/5`;
+
+            if (treatsFed >= 5) {
+                endFeedMicrowave();
+            } else {
+                scheduleNextTreat();
+            }
+        }
+
+        function scheduleAmbientMicrowave() {
+            if (!microwaveIsPlaying || treatsFed >= 5) return;
+            
+            // Increased frequency: 2000ms (2s) to 5000ms (5s) delay
+            const delay = Math.random() * (5000 - 2000) + 2000;
+            
+            microwaveAmbientTimer = setTimeout(() => {
+                if (microwaveIsPlaying) {
+                    const ambientSounds = [meowSound, purrSound, trillSound];
+                    const randomSnd = ambientSounds[Math.floor(Math.random() * ambientSounds.length)];
+                    
+                    randomSnd.currentTime = 0;
+                    
+                    // To guarantee ZERO overlap, only schedule the next sound when this one FINISHES
+                    randomSnd.onended = () => {
+                        randomSnd.onended = null;
+                        if (microwaveIsPlaying) {
+                            scheduleAmbientMicrowave();
+                        }
+                    };
+                    
+                    randomSnd.play().catch(() => {
+                        // If browser blocks playback for some reason, just queue the next attempt
+                        if (microwaveIsPlaying) {
+                            scheduleAmbientMicrowave();
+                        }
+                    });
+                }
+            }, delay);
+        }
+
+        function endFeedMicrowave() {
+            microwaveIsPlaying = false;
+            clearAllMicrowaveTimers();
+            
+            setTimeout(() => {
+                fartSound.currentTime = 0;
+                fartSound.play().catch(() => {});
+                
+                feedMicrowaveScreen.style.opacity = '0';
+                setTimeout(() => {
+                    feedMicrowaveScreen.style.display = 'none';
+                    unlockAchievement('microwave_fed');
+                    
+                    microwaveResultsScreen.style.display = 'flex';
+                    microwaveResultsScreen.offsetHeight;
+                    microwaveResultsScreen.style.opacity = '1';
+                }, 300);
+            }, 600);
+        }
+
+        function clearAllMicrowaveTimers() {
+            clearTimeout(treatSpawnTimer);
+            clearTimeout(treatVanishTimer);
+            clearTimeout(microwaveAmbientTimer);
+            
+            // Explicitly pause and clean up any playing ambient sounds so they don't carry over into the menus
+            [meowSound, purrSound, trillSound].forEach(snd => {
+                snd.pause();
+                snd.currentTime = 0;
+                snd.onended = null; 
+            });
+        }
+
+        function finishFeedMicrowave() {
+            playBeginSound(); 
+            microwaveResultsScreen.style.opacity = '0';
+            setTimeout(() => {
+                microwaveResultsScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        function exitFeedMicrowave() {
+            playBeginSound();
+            microwaveIsPlaying = false;
+            clearAllMicrowaveTimers();
+            if (activeTreat && activeTreat.parentNode) activeTreat.parentNode.removeChild(activeTreat);
+            
+            feedMicrowaveScreen.style.opacity = '0';
+            setTimeout(() => {
+                feedMicrowaveScreen.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        }
+
+        // --- UI DIALOG HANDLING ---
+        function openNote() {
+            startInteractiveAudio();
+            openSound.currentTime = 0; openSound.play().catch(() => {});
+            document.getElementById('note-modal').classList.add('show-modal');
+        }
+        
+        function closeNote() {
+            document.getElementById('note-modal').classList.remove('show-modal');
+        }
+
+        beginBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            beginSound.currentTime = 0; beginSound.play().catch(() => {});
+            unlockAchievement('intro_read');
+            closeNote();
+            
+            welcomeRoom.style.opacity = '0';
+            setTimeout(() => {
+                welcomeRoom.style.display = 'none';
+                selectionScreen.style.display = 'flex';
+                selectionScreen.offsetHeight;
+                checkSecretLetterVisibility();
+                playSecretUnlockSoundIfNeeded();
+                selectionScreen.style.opacity = '1';
+            }, 300);
+        });
+
+        backToRoomBtn.addEventListener('click', () => {
+            playBeginSound(); 
+            selectionScreen.style.opacity = '0';
+            setTimeout(() => {
+                selectionScreen.style.display = 'none';
+                welcomeRoom.style.display = 'flex';
+                welcomeRoom.offsetHeight;
+                welcomeRoom.style.opacity = '1';
+            }, 300);
+        });
+
+        function openAchievementsModal() {
+            playBeginSound(); 
+            const listEl = document.getElementById('achievementsList');
+            listEl.innerHTML = '';
+            Object.keys(ACHIEVEMENT_DEFS).forEach(id => {
+                const def = ACHIEVEMENT_DEFS[id];
+                const isUnlocked = unlockedAchievements.includes(id);
+                const item = document.createElement('div');
+                item.className = `achievement-item ${isUnlocked ? '' : 'locked'}`;
+                item.innerHTML = `
+                    <div class="achievement-item-icon">${isUnlocked ? def.icon : "🔒"}</div>
+                    <div class="achievement-item-info">
+                        <div class="achievement-item-name">${def.name}</div>
+                        <div class="achievement-item-req">${def.desc}</div>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+            document.getElementById('achievements-modal').classList.add('show-modal');
+        }
+
+        function closeAchievementsModal() { document.getElementById('achievements-modal').classList.remove('show-modal'); }
+
+        function showGameAlert(gameName) {
+            playBeginSound(); 
+            const msg = `<strong>${gameName}</strong> is currently brewing in the cozy kitchen!<br><br>I am custom-designing some super fun pixel games for this space. Check back soon! 🌸✨`;
+            document.getElementById('alert-message').innerHTML = msg;
+            document.getElementById('alert-modal').classList.add('show-modal');
+        }
+        
+        function closeAlertModal() { document.getElementById('alert-modal').classList.remove('show-modal'); }
+
+        function openSecretLetter(event) {
+            const starEmojis = ['⭐', '✨', '🌟', '💖', '🌸', '🎉', '🎊', '🎀', '💌'];
+            const burstCount = 100; 
+            const x = event ? event.clientX : window.innerWidth / 2;
+            const y = event ? event.clientY : window.innerHeight / 2;
+
+            for (let i = 0; i < burstCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'burst-star';
+                star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+                
+                const randomSize = 16 + Math.floor(Math.random() * 48);
+                star.style.fontSize = `${randomSize}px`;
+                star.style.left = `${x}px`; star.style.top = `${y}px`;
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 350;
+                const mx = Math.cos(angle) * distance;
+                const my = Math.sin(angle) * distance;
+                const rotation = -360 + Math.random() * 720;
+
+                star.style.setProperty('--mx', `${mx}px`);
+                star.style.setProperty('--my', `${my}px`);
+                star.style.setProperty('--rot', `${rotation}deg`);
+
+                const duration = 0.8 + Math.random() * 0.8;
+                star.style.animation = `starFloat ${duration}s cubic-bezier(0.1, 0.8, 0.3, 1) forwards`;
+
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), duration * 1000);
+            }
+
+            openSound.currentTime = 0; openSound.play().catch(() => {});
+            document.getElementById('secret-note-modal').classList.add('show-modal');
+        }
+
+        function closeSecretLetter() { document.getElementById('secret-note-modal').classList.remove('show-modal'); }
+
+        checkSecretLetterVisibility();
+    </script>
+</body>
+</html>

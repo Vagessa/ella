@@ -154,6 +154,31 @@
             box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
         }
 
+        /* NEW BUTTON FOR DISTRACTIONS */
+        #distractions-button {
+            background: #ffb3c6;
+            color: #1a1a1a;
+            border: none;
+            padding: 16px 24px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s ease-out;
+            width: 100%;
+            position: relative;
+            z-index: 100000;
+            margin-top: 14px;
+            display: inline-block;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        #distractions-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
         /* PIXEL ART SPEECH BUBBLE */
         .message-box {
             position: absolute;
@@ -740,6 +765,7 @@
         <p class="fade-text">there is a secret somewhere...</p>
         <p class="byline">FROM VANESSA :)</p>
         <button id="enter-button" onclick="dismissSplash()">TAP CAPRIELLE!</button>
+        <a id="distractions-button" href="https://vagessa.github.io/EllaTESTING/distraction">DISTRACTIONS</a>
     </div>
 </div>
 
@@ -779,11 +805,6 @@
         <p>I'm really grateful our paths crossed. Who knew joining a shit themed server would lead to a friendship that means so much to me. You've brought so much kindness, laughter, comfort, and joy even though we live so far apart, and that is a beautiful thing to experience. I cherish our friendship, and i'm thankful for every conversation, movie, and moment we've shared!</p>
         <p>I know I can't make the hard days disappear, but I hope you know how important you are. And I hope this little gift can remind you how loved and valued you are. You never have to go through any of this alone &lt;3</p>
         <p>Anyway!! Thank you for visiting my silly gift. I hope, if nothing else, it at least made you smile! No matter what kind of day you are having, I will always be just a message away, and you can keep this page around if you ever need a tiny reminder that a random ho from London is cheering for you, thinking of you, and grateful to have you in her life 💖🤗</p>
-        
-        <p style="font-size: 8px !important; opacity: 0.7; margin-top: 25px; line-height: 1.5;">
-            btw, if u hold Caprielle she does something different!
-        </p>
-
         <div style="margin-top: 25px; line-height: 1.6;">
             <p style="margin: 0;">With love,</p>
             <p style="margin: 5px 0 0 0; font-weight: bold; color: #ff6b8b;">Vanessa</p>
@@ -852,7 +873,7 @@
             "YOU DESERVE ALL THE WARMTH AND COMFORT RN!! <span class='bubble-emoji'>☕</span>",
             "NEVER FORGET HOW VALUED YOU ARE ELLA... <span class='bubble-emoji'>🌟</span>",
             "I AM CHEERING YOU ON EVERY SINGLE STEP OF THE WAY!! <span class='bubble-emoji'>✨</span>",
-            "AND ROOTING FOR YOU, ILY - VANESSA <span class='bubble-emoji'>🌸</span>"
+            "ILY - VANESSA <span class='bubble-emoji'>🌸</span>"
         ];
 
         const floatingPool = ["🤍", "💖", "🌸", "☁️", "✨", "🌹", "🪷", "🌷"];
